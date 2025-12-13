@@ -2,11 +2,11 @@ let aTab = 0;
 let tabCounter = 1;
 let bTabs = [];
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
-const wispUrl = localStorage.getItem("cherri_wispUrl") || "wss://wisp.rhw.one/";
+const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://wisp.rhw.one/";
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;
-const se = localStorage.getItem("cherri_searchEngine") || "DuckDuckGo";
+const se = localStorage.getItem("verdis_searchEngine") || "DuckDuckGo";
 
 if (se === "DuckDuckGo") {
   searchE = "https://duckduckgo.com/search?q=";
@@ -155,12 +155,12 @@ function nav(i) {
   cTab.url = url;
 
   if (
-    localStorage.getItem("cherri_backend") === "Scramjet" ||
-    localStorage.getItem("cherri_backend") === "scramjet" ||
-    !localStorage.getItem("cherri_backend")
+    localStorage.getItem("verdis_backend") === "Scramjet" ||
+    localStorage.getItem("verdis_backend") === "scramjet" ||
+    !localStorage.getItem("verdis_backend")
   ) {
     fUrl = scramjet.encodeUrl(url);
-  } else if (localStorage.getItem("cherri_backend") === "Ultraviolet") {
+  } else if (localStorage.getItem("verdis_backend") === "Ultraviolet") {
     fUrl = "/uv/service/" + __uv$config.encodeUrl(url);
   } else {
     fUrl = scramjet.encodeUrl(url);
@@ -177,7 +177,7 @@ function updateUrlFromIframe(viewframe) {
     let decodedUrl;
     const currentSrc = viewframe.src;
 
-    if (localStorage.getItem("cherri_backend") === "Ultraviolet") {
+    if (localStorage.getItem("verdis_backend") === "Ultraviolet") {
       if (currentSrc.includes("/uv/service/")) {
         decodedUrl = __uv$config.decodeUrl(currentSrc.split("/uv/service/")[1]);
       }
@@ -272,7 +272,7 @@ function b() {
   const u = cTab.history[cTab.historyIndex];
   cTab.url = u;
   let furl;
-  const ba = localStorage.getItem("cherri_backend");
+  const ba = localStorage.getItem("verdis_backend");
   if (ba.toLowerCase() === "scramjet") {
     furl = scramjet.encodeUrl(u);
   } else if (ba.toLowerCase() === "ultraviolet") {
@@ -291,7 +291,7 @@ function f() {
   const u = cTab.history[cTab.historyIndex];
   cTab.url = u;
   let furl;
-  const ba = localStorage.getItem("cherri_backend");
+  const ba = localStorage.getItem("verdis_backend");
   if (ba.toLowerCase() === "scramjet") {
     furl = scramjet.encodeUrl(u);
   } else if (ba.toLowerCase() === "ultraviolet") {

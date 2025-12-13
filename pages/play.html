@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cherri | play</title>
+    <title>verdis | play</title>
     <link rel="shortcut icon" href="/assets/img/fav.png" type="image/x-icon" id="tabIcon">
     <link rel="stylesheet" href="/assets/css/colors.css" id="css-theme-link">
     <link rel="stylesheet" href="/assets/css/elements.css">
@@ -196,7 +196,7 @@
     </div>
 
     <div id="gameOverlay" class="">
-        <div class="cherri-info">
+        <div class="verdis-info">
             <span id="currentTime">Loading time...</span>
             <span class="divider"></span>
             <span id="temperature">Loading temp...</span>
@@ -321,7 +321,7 @@
             gameframe.focus();
         }
 
-        const useOverlay = localStorage.getItem("cherri_useOverlay") ?? "yes"
+        const useOverlay = localStorage.getItem("verdis_useOverlay") ?? "yes"
 
         if (useOverlay === "yes") {
             initOverlay()

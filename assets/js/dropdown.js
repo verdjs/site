@@ -1,11 +1,11 @@
 // thanks to https://waves.lat for custom dropdowns || https://gitlab.com/waveslab/waves
 const appSettings = {
-  backend: localStorage.getItem("cherri_backend") || "Scramjet",
-  searchEngine: localStorage.getItem("cherri_searchEngine") || "DuckDuckGo",
+  backend: localStorage.getItem("verdis_backend") || "Scramjet",
+  searchEngine: localStorage.getItem("verdis_searchEngine") || "DuckDuckGo",
   decoy: localStorage.getItem("decoy") || "None",
-  wisp: localStorage.getItem("cherri_wispUrlSelected") || "rhw",
-  theme: localStorage.getItem("cherri_theme") || "default",
-  store: localStorage.getItem("cherri_gameStore") || "Classplay",
+  wisp: localStorage.getItem("verdis_wispUrlSelected") || "rhw",
+  theme: localStorage.getItem("verdis_theme") || "default",
+  store: localStorage.getItem("verdis_gameStore") || "Classplay",
 };
 
 const searchEngineSelector = document.querySelector(".search-engine-selector");
@@ -320,7 +320,7 @@ function applyDecoy(s) {
         s +
         " was selected"
     );
-    document.title = "cherri";
+    document.title = "verdis";
     favicon.href = "/assets/img/fav.png";
     return;
   } else {
@@ -336,7 +336,7 @@ createSelector(
   searchEngineOptions,
   allSearchEngineOptions,
   appSettings.searchEngine,
-  "cherri_searchEngine",
+  "verdis_searchEngine",
   null,
   "Successfully updated Search Engine!"
 );
@@ -358,7 +358,7 @@ createSelector(
   wispOptions,
   allWispOptions,
   appSettings.wisp,
-  "cherri_wispUrlSelected",
+  "verdis_wispUrlSelected",
   "wispUpdated",
   "Successfully updated Wisp server!"
 );
@@ -369,7 +369,7 @@ createSelector(
   backendOptions,
   allBackendOptions,
   appSettings.backend,
-  "cherri_backend",
+  "verdis_backend",
   "backendUpdated",
   "Successfully updated backend!"
 );
@@ -380,7 +380,7 @@ createSelector(
   themeOptions,
   allThemeOptions,
   appSettings.theme,
-  "cherri_theme",
+  "verdis_theme",
   "themeUpdated",
   "Successfully updated theme! Refresh to see background change."
 );
@@ -391,7 +391,7 @@ createSelector(
   storeOptions,
   allStoreOptions,
   appSettings.store,
-  "cherri_gameStore",
+  "verdis_gameStore",
   "storeUpdated",
   "Successfully updated game library!"
 );
@@ -410,7 +410,7 @@ document.addEventListener("themeUpdated", (e) => {
 document.addEventListener("wispUpdated", (e) => {
   const wisp = wispPresets[e.detail];
 
-  localStorage.setItem("cherri_wispUrl", wisp.url);
+  localStorage.setItem("verdis_wispUrl", wisp.url);
   console.log(wisp.url);
 });
 window.addEventListener("load", () => {

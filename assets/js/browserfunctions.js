@@ -4,11 +4,11 @@ let bTabs = [];
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 const wispUrl =
   localStorage.getItem("verdis_wispUrl") ||
-  "wss://mexicoon.top/";
+  "wss://swordartii.online/";
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;
-const se = localStorage.getItem("verdis_searchEngine") || "DuckDuckGo";
+const se = localStorage.getItem("verdis_searchEngine") || "Brave";
 
 if (se === "DuckDuckGo") {
   searchE = "https://duckduckgo.com/search?q=";
@@ -20,6 +20,8 @@ if (se === "DuckDuckGo") {
   searchE = "https://startpage.com/search?q=";
 } else if (se === "Qwant") {
   searchE = "https://qwant.com/search?q=";
+} else if (se === "Brave") {
+  searchE = "https://search.brave.com/search?q=";
 } else {
   searchE = "https://search.brave.com/search?q=";
 }

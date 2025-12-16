@@ -3,7 +3,8 @@
 <head>
     <script src="/assets/js/constants.js"></script>
     <script>
-        sessionStorage.setItem(START_FLAG_KEY, '1');
+        const startFlagKey = typeof START_FLAG_KEY === 'string' ? START_FLAG_KEY : 'startPageNavigation';
+        sessionStorage.setItem(startFlagKey, '1');
         window.location.replace('/?launch=1');
     </script>
     <script

@@ -2,15 +2,16 @@
 <html lang="en">
 
 <head>
-    <script src="/assets/js/constants.js"></script>
     <meta charset="UTF-8">
+    <script src="/assets/js/constants.js"></script>
     <script>
         const params = new URLSearchParams(window.location.search)
-        const cameFromStart = sessionStorage.getItem(START_FLAG_KEY) === '1';
+        const startFlagKey = typeof START_FLAG_KEY === 'string' ? START_FLAG_KEY : 'startPageNavigation';
+        const cameFromStart = sessionStorage.getItem(startFlagKey) === '1';
         if (!params.get("launch") && !cameFromStart) {
             window.location.replace('/start.html');
         } else if (cameFromStart) {
-            sessionStorage.removeItem(START_FLAG_KEY);
+            sessionStorage.removeItem(startFlagKey);
         }
     </script>
     <meta name="viewport" content="width=device-width">

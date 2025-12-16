@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
+    <script src="/assets/js/constants.js"></script>
     <meta charset="UTF-8">
     <script>
         const params = new URLSearchParams(window.location.search)
-        const START_FLAG_KEY = 'startPageNavigation';
         const cameFromStart = sessionStorage.getItem(START_FLAG_KEY) === '1';
         if (!params.get("launch") && !cameFromStart) {
             window.location.replace('/start.html');

@@ -97,18 +97,11 @@ function withBody(fn) {
   }
 }
 
-ensureRootPath();
-
 function showClassroomOverlay() {
   withBody(() => {
     const overlay = ensureClassroomOverlay();
     overlay.style.display = "block";
   });
-}
-
-function hideClassroomOverlay() {
-  const overlay = document.getElementById(CLASSROOM_OVERLAY_ID);
-  if (overlay) overlay.style.display = "none";
 }
 
 document.addEventListener("visibilitychange", () => {
@@ -118,4 +111,3 @@ document.addEventListener("visibilitychange", () => {
 });
 
 window.addEventListener("blur", showClassroomOverlay);
-window.addEventListener("focus", hideClassroomOverlay);

@@ -4,7 +4,7 @@ let bTabs = [];
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 const wispUrl =
   localStorage.getItem("verdis_wispUrl") ||
-  "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/";
+  "wss://mexicoon.top/";
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;
@@ -134,11 +134,40 @@ function closeTab(tId) {
   }
 }
 
-function nav(i) {
-  console.log("e");
+async function nav(i) {
   if (!i.trim()) return;
 
   let url = i.trim();
+  const lowerInput = url.toLowerCase();
+  const nowggDomain = ["nowgg.lol", "nowgg.fun"].find((d) =>
+    lowerInput.includes(d)
+  );
+
+  if (nowggDomain) {
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      if (!res.ok) {
+        throw new Error(`IP lookup failed with status ${res.status}`);
+      }
+      let data = null;
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        console.error("Unable to parse IP response", parseErr);
+      }
+      const ip = data?.ip || "";
+      const isIpv4 =
+        /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(ip);
+      const prefix = isIpv4 ? ip.split(".")[0] : "";
+
+      if (prefix) {
+        const shardTld = nowggDomain.endsWith(".fun") ? "fun" : "lol";
+        url = `https://${prefix}.ip.nowgg.${shardTld}/`;
+      }
+    } catch (e) {
+      console.error("Unable to resolve nowgg shard", e);
+    }
+  }
 
   if (!url.includes(".") || url.includes(" ")) {
     url = searchE + encodeURIComponent(url);
@@ -155,18 +184,12 @@ function nav(i) {
   cTab.historyIndex++;
 
   cTab.url = url;
-
-  if (
-    localStorage.getItem("verdis_backend") === "Scramjet" ||
-    localStorage.getItem("verdis_backend") === "scramjet" ||
-    !localStorage.getItem("verdis_backend")
-  ) {
-    fUrl = scramjet.encodeUrl(url);
-  } else if (localStorage.getItem("verdis_backend") === "Ultraviolet") {
-    fUrl = "/uv/service/" + __uv$config.encodeUrl(url);
-  } else {
-    fUrl = scramjet.encodeUrl(url);
-  }
+  const backendRaw = localStorage.getItem("verdis_backend");
+  const backend = (backendRaw ?? "scramjet").toLowerCase();
+  const useUv = backend === "ultraviolet";
+  const fUrl = useUv
+    ? "/uv/service/" + __uv$config.encodeUrl(url)
+    : scramjet.encodeUrl(url);
 
   go(fUrl);
 }

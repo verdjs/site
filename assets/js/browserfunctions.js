@@ -4,7 +4,7 @@ let bTabs = [];
 const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 const wispUrl =
   localStorage.getItem("verdis_wispUrl") ||
-  "wss://mexicoon.top/";
+  "wss://swordartii.online/";
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;

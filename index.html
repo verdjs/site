@@ -1129,9 +1129,9 @@
         })
 
         window.addEventListener("DOMContentLoaded", () => {
-            const safeSearch =
+            const urlSearch =
                 typeof getClassroomSearch === "function" ? getClassroomSearch() : window.location.search
-            const params = new URLSearchParams(safeSearch)
+            const params = new URLSearchParams(urlSearch)
             if (!params.get("launch")) {
                 ensureRootPath()
             }

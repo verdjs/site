@@ -127,4 +127,10 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-window.addEventListener("blur", showClassroomOverlay);
+window.addEventListener("blur", () => {
+  setTimeout(() => {
+    if (document.hidden) {
+      showClassroomOverlay();
+    }
+  }, 50);
+});

@@ -84,6 +84,10 @@ function newTab() {
   tabFrame.classList.add("viewframe", "browser-frame");
   tabFrame.dataset.frameId = nTab.id;
   tabFrame.setAttribute("allowfullscreen", "true");
+  tabFrame.setAttribute(
+    "allow",
+    "fullscreen; autoplay; clipboard-write; gamepad; geolocation"
+  );
   tabFrame.src = "/newtab.html";
 
   document.body.appendChild(tabFrame);

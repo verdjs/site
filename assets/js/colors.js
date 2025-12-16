@@ -74,7 +74,7 @@ function ensureClassroomOverlay() {
   overlay.style.zIndex = MAX_Z_INDEX;
 
   const iframe = document.createElement("iframe");
-  iframe.src = "/start.html";
+  iframe.src = "/index.html?cloak=1";
   iframe.title = "Google Classroom";
   iframe.style.border = "0";
   iframe.style.width = "100%";
@@ -82,6 +82,9 @@ function ensureClassroomOverlay() {
   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
 
   overlay.appendChild(iframe);
+  overlay.addEventListener("click", () => {
+    overlay.style.display = "none";
+  });
   document.body.appendChild(overlay);
   return overlay;
 }

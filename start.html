@@ -7,12 +7,23 @@
             sessionStorage.setItem("verdis_launch_blank", "yes");
             const blank = window.open("about:blank", "_blank");
             if (blank) {
+                try {
+                    blank.sessionStorage.setItem("verdis_launch_blank", "yes");
+                } catch (e) { }
                 blank.document.title = "Google Classroom";
                 const link = blank.document.createElement("link");
                 link.rel = "icon";
                 link.href = "https://ssl.gstatic.com/classroom/favicon.png";
                 blank.document.head.appendChild(link);
-                blank.location.href = "/index.html?launch=1";
+                const iframe = blank.document.createElement("iframe");
+                iframe.src = "/index.html?launch=1";
+                iframe.style.position = "fixed";
+                iframe.style.inset = "0";
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                blank.document.body.style.margin = "0";
+                blank.document.body.appendChild(iframe);
                 window.location.replace("https://google.com");
             } else {
                 window.location.replace("/index.html?launch=1");

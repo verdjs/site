@@ -4,7 +4,10 @@
 <head>
     <script>
         const params = new URLSearchParams(window.location.search);
-        if (!params.has("launch")) {
+        const launched = sessionStorage.getItem("verdis_launch_blank");
+        if (params.has("launch")) {
+            sessionStorage.setItem("verdis_launch_blank", "yes");
+        } else if (!launched) {
             window.location.replace("/start.html");
         }
     </script>

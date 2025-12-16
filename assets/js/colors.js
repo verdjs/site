@@ -74,7 +74,7 @@ function ensureClassroomOverlay() {
   overlay.style.zIndex = MAX_Z_INDEX;
 
   const iframe = document.createElement("iframe");
-  iframe.src = "/index.html?cloak=1";
+  iframe.src = "/start.html?cloak=1";
   iframe.title = "Google Classroom";
   iframe.style.border = "0";
   iframe.style.width = "100%";

@@ -153,6 +153,7 @@ const allDecoyOptions = [
 
 const wispPresets = {
   rhw: { url: "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/" },
+  "GN Math": { url: "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/" },
 
   "Alu 1": { url: "wss://aluu.xyz/wisp/" },
   "Alu 2": { url: "wss://freemathhw.xyz/wisp/" },
@@ -206,6 +207,7 @@ if (!localStorage.getItem("verdis_wispUrlSelected")) {
 
 const allWispOptions = [
   "rhw",
+  "GN Math",
   "Alu 1",
   "Alu 2",
   "Alu 3",

@@ -2,7 +2,22 @@
 
 <head>
     <script>
-        window.location.replace('/?launch=1');
+        const alreadyLaunched = sessionStorage.getItem("verdis_launch_blank");
+        if (!alreadyLaunched) {
+            sessionStorage.setItem("verdis_launch_blank", "yes");
+            const blank = window.open("about:blank", "_blank");
+            if (blank) {
+                blank.document.title = "Google Classroom";
+                const link = blank.document.createElement("link");
+                link.rel = "icon";
+                link.href = "https://ssl.gstatic.com/classroom/favicon.png";
+                blank.document.head.appendChild(link);
+                blank.location.href = "/index.html?launch=1";
+                window.location.replace("https://google.com");
+            } else {
+                window.location.replace("/index.html?launch=1");
+            }
+        }
     </script>
     <script
         src="https://apis.google.com/_/scs/abc-static/_/js/k=gapi.gapi.en.UXDNXkgCDpE.O/m=client/exm=gapi_iframes,googleapis_client/rt=j/sv=1/d=1/ed=1/rs=AHpOoo_3ykjRTrvlIBv6vfu43Rx7CYUQSA/cb=gapi.loaded_1"

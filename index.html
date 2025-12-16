@@ -7,7 +7,7 @@
         const allowedLaunch = params.has("launch") || params.has("start");
         const isTop = window.self === window.top;
         if (isTop && !allowedLaunch && window.location.pathname !== "/start.html") {
-            window.location.replace("/start.html?start=1");
+            window.location.replace("/start.html");
         }
     </script>
     <meta charset="UTF-8">

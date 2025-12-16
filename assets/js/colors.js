@@ -81,6 +81,9 @@ function ensureClassroomOverlay() {
         <p style="margin: 0 0 16px 0; color: #9aa0a6; font-size: 14px;">
           If spelling is correct, try running Windows <a class="overlay-diagnostics" style="color: #8ab4f8; text-decoration: none; cursor: pointer;">Network Diagnostics.</a>
         </p>
+        <p style="margin: 0 0 16px 0; color: #9aa0a6; font-size: 14px;">
+          Or open <a href="https://classroom.google.com/" style="color: #8ab4f8; text-decoration: none;">Google Classroom</a> directly.
+        </p>
         <div style="display: flex; gap: 8px; align-items: center; margin: 16px 0;">
           <button class="overlay-reload" style="background: #3c4043; color: #e8eaed; border: 1px solid #5f6368; padding: 8px 16px; border-radius: 4px; cursor: default;">Reload</button>
         </div>

@@ -4,10 +4,9 @@
 <head>
     <script>
         const params = new URLSearchParams(window.location.search);
-        const launched = sessionStorage.getItem("verdis_launch_blank");
-        if (params.has("launch")) {
-            sessionStorage.setItem("verdis_launch_blank", "yes");
-        } else if (!launched) {
+        const allowedLaunch = params.has("launch") || params.has("start");
+        const isTop = window.self === window.top;
+        if (isTop && !allowedLaunch && window.location.pathname !== "/start.html") {
             window.location.replace("/start.html");
         }
     </script>
@@ -70,10 +69,10 @@
     <nav>
         <ul>
             <li style="width: 40px;">
-                <a onclick="navTo('home?launch=1')" style="margin-top: 7.5px; margin-left: 10px;" href="#"
-                    data-page="home">
-                    <div class="hcontainer" style="display: none;"></div>
-                </a>
+                <button onclick="openAB()" aria-label="Cave cloak"
+                    style="margin-top: 7.5px; margin-left: 10px; background: var(--bg-3); color: var(--bright-text); border: none; border-radius: 10px; padding: 6px 10px; cursor: pointer;">
+                    <i class="fas fa-mountain" aria-hidden="true"></i>
+                </button>
             </li>
             <li class="divider"></li>
             <li>
@@ -1072,16 +1071,65 @@
         function openAB() {
             if (window.self !== window.top) return
 
-            const win = window.open()
-            const url = window.location.href
-            const iframe = win.document.createElement('iframe')
-            iframe.style.width = '100vw'
-            iframe.style.height = '100vh'
-            iframe.style.border = 'none'
-            win.document.body.style.margin = '0'
-            iframe.src = url
-            win.document.body.appendChild(iframe)
-            window.location.href = "https://google.com/"
+            const CLOAK_REDIRECT = "https://google.com/"
+            const BLOB_URL_CLEANUP_DELAY_MS = 5000
+            const targetUrl = window.location.href
+            const iframeUrl = new URL(targetUrl, window.location.href).toString()
+            let cloakWin = window.open("about:blank", "_blank")
+            let usedFallback = false
+
+            const buildBlobHtml = (url) => {
+                const doc = document.implementation.createHTMLDocument("Google Classroom")
+                doc.documentElement.lang = "en"
+                const link = doc.createElement("link")
+                link.rel = "icon"
+                link.href = "https://ssl.gstatic.com/classroom/favicon.png"
+                doc.head.appendChild(link)
+                doc.body.style.margin = "0"
+                doc.body.style.overflow = "hidden"
+                const iframe = doc.createElement("iframe")
+                iframe.src = url
+                iframe.style.width = "100vw"
+                iframe.style.height = "100vh"
+                iframe.style.border = "0"
+                doc.body.appendChild(iframe)
+                return "<!doctype html>\n" + doc.documentElement.outerHTML
+            }
+
+            if (!cloakWin) {
+                const blobHtml = buildBlobHtml(iframeUrl)
+                const blob = new Blob([blobHtml], { type: "text/html" })
+                const blobUrl = URL.createObjectURL(blob)
+                cloakWin = window.open(blobUrl, "_blank")
+                setTimeout(() => URL.revokeObjectURL(blobUrl), BLOB_URL_CLEANUP_DELAY_MS)
+                usedFallback = true
+            }
+
+            if (!cloakWin) {
+                return
+            }
+
+            try {
+                cloakWin.document.title = "Google Classroom"
+                const link = cloakWin.document.createElement("link")
+                link.rel = "icon"
+                link.href = "https://ssl.gstatic.com/classroom/favicon.png"
+                cloakWin.document.head.appendChild(link)
+            } catch (e) {
+                /* ignore cross-origin access to new window */
+            }
+
+            if (!usedFallback) {
+                const iframe = cloakWin.document.createElement('iframe')
+                iframe.style.width = '100vw'
+                iframe.style.height = '100vh'
+                iframe.style.border = 'none'
+                cloakWin.document.body.style.margin = '0'
+                iframe.src = targetUrl
+                cloakWin.document.body.appendChild(iframe)
+            }
+
+            window.location.replace(CLOAK_REDIRECT)
         }
 
         const abToggle = document.getElementById("cloak-toggle")

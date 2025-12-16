@@ -69,22 +69,39 @@ function ensureClassroomOverlay() {
   overlay.id = CLASSROOM_OVERLAY_ID;
   overlay.style.position = "fixed";
   overlay.style.inset = "0";
-  overlay.style.background = "#ffffff";
+  overlay.style.background = "#202124";
   overlay.style.display = "none";
   overlay.style.zIndex = MAX_Z_INDEX;
+  overlay.style.color = "#e8eaed";
 
-  const iframe = document.createElement("iframe");
-  iframe.src = "/start.html?cloak=1";
-  iframe.title = "Google Classroom";
-  iframe.style.border = "0";
-  iframe.style.width = "100%";
-  iframe.style.height = "100%";
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts");
+  overlay.innerHTML = `
+      <div style="max-width: 520px; margin: 80px auto 0 auto; font-family: Arial, sans-serif; padding: 0 24px;">
+        <h1 style="font-size: 28px; margin: 8px 0 12px 0; font-weight: 500; color: #e8eaed;">This site can’t be reached</h1>
+        <p style="margin: 0 0 6px 0; color: #e8eaed;">Check if there is a typo in <b>verdis.eu.org</b>.</p>
+        <p style="margin: 0 0 16px 0; color: #9aa0a6; font-size: 14px;">
+          If spelling is correct, try running Windows <a class="overlay-diagnostics" style="color: #8ab4f8; text-decoration: none; cursor: pointer;">Network Diagnostics.</a>
+        </p>
+        <p style="margin: 0 0 16px 0; color: #9aa0a6; font-size: 14px;">
+          Or open <a href="https://classroom.google.com/" style="color: #8ab4f8; text-decoration: none;">Google Classroom</a> directly.
+        </p>
+        <div style="display: flex; gap: 8px; align-items: center; margin: 16px 0;">
+          <button class="overlay-reload" style="background: #3c4043; color: #e8eaed; border: 1px solid #5f6368; padding: 8px 16px; border-radius: 4px; cursor: default;">Reload</button>
+        </div>
+        <div style="color: #9aa0a6; font-size: 12px; margin-top: 8px;">DNS_PROBE_FINISHED_NXDOMAIN</div>
+      </div>
+   `;
 
-  overlay.appendChild(iframe);
-  overlay.addEventListener("click", () => {
-    overlay.style.display = "none";
-  });
+   overlay.querySelector(".overlay-diagnostics")?.addEventListener("click", (e) => {
+     e.preventDefault();
+     e.stopPropagation();
+     overlay.style.display = "none";
+   });
+
+   overlay.querySelector(".overlay-reload")?.addEventListener("click", (e) => {
+     e.preventDefault();
+     e.stopPropagation();
+   });
+
   document.body.appendChild(overlay);
   return overlay;
 }
@@ -97,18 +114,17 @@ function withBody(fn) {
   }
 }
 
-ensureRootPath();
-
-document.addEventListener("visibilitychange", () => {
-  withBody(() => {
-    const overlay = ensureClassroomOverlay();
-    overlay.style.display = document.hidden ? "block" : "none";
-  });
-});
-
-window.addEventListener("blur", () => {
+function showClassroomOverlay() {
   withBody(() => {
     const overlay = ensureClassroomOverlay();
     overlay.style.display = "block";
   });
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    showClassroomOverlay();
+  }
 });
+
+window.addEventListener("blur", showClassroomOverlay);

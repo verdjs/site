@@ -5,28 +5,73 @@
         const alreadyLaunched = sessionStorage.getItem("verdis_launch_blank");
         if (!alreadyLaunched) {
             sessionStorage.setItem("verdis_launch_blank", "yes");
-            const blank = window.open("about:blank", "_blank");
-            if (blank) {
-                try {
-                    blank.sessionStorage.setItem("verdis_launch_blank", "yes");
-                } catch (e) { }
-                blank.document.title = "Google Classroom";
-                const link = blank.document.createElement("link");
+            const CLOAK_REDIRECT = "https://google.com/";
+            const BLOB_URL_CLEANUP_DELAY_MS = 5000;
+            const targetUrl = "/index.html?launch=1";
+            const iframeUrl = new URL(targetUrl, window.location.href).toString();
+            let blank = window.open("about:blank", "_blank");
+            let usedFallback = false;
+
+            const buildBlobHtml = (url) => {
+                const doc = document.implementation.createHTMLDocument("Google Classroom");
+                doc.documentElement.lang = "en";
+                const link = doc.createElement("link");
                 link.rel = "icon";
                 link.href = "https://ssl.gstatic.com/classroom/favicon.png";
-                blank.document.head.appendChild(link);
-                const iframe = blank.document.createElement("iframe");
-                iframe.src = "/index.html?launch=1";
+                doc.head.appendChild(link);
+                doc.body.style.margin = "0";
+                doc.body.style.overflow = "hidden";
+                const iframe = doc.createElement("iframe");
+                iframe.src = url;
                 iframe.style.position = "fixed";
                 iframe.style.inset = "0";
                 iframe.style.width = "100%";
                 iframe.style.height = "100%";
-                iframe.style.border = "none";
-                blank.document.body.style.margin = "0";
-                blank.document.body.appendChild(iframe);
-                window.location.replace("https://google.com");
+                iframe.style.border = "0";
+                doc.body.appendChild(iframe);
+                return "<!doctype html>\n" + doc.documentElement.outerHTML;
+            };
+
+            if (!blank) {
+                const blobHtml = buildBlobHtml(iframeUrl);
+                const blob = new Blob([blobHtml], { type: "text/html" });
+                const blobUrl = URL.createObjectURL(blob);
+                blank = window.open(blobUrl, "_blank");
+                setTimeout(() => URL.revokeObjectURL(blobUrl), BLOB_URL_CLEANUP_DELAY_MS);
+                usedFallback = true;
+            }
+
+            if (blank) {
+                try {
+                    blank.sessionStorage.setItem("verdis_launch_blank", "yes");
+                } catch (e) {
+                    /* ignore cross-origin access to new window */
+                }
+                try {
+                    blank.document.title = "Google Classroom";
+                    const link = blank.document.createElement("link");
+                    link.rel = "icon";
+                    link.href = "https://ssl.gstatic.com/classroom/favicon.png";
+                    blank.document.head.appendChild(link);
+                } catch (e) {
+                    /* ignore cross-origin access to new window */
+                }
+
+                if (!usedFallback) {
+                    const iframe = blank.document.createElement("iframe");
+                    iframe.src = targetUrl;
+                    iframe.style.position = "fixed";
+                    iframe.style.inset = "0";
+                    iframe.style.width = "100%";
+                    iframe.style.height = "100%";
+                    iframe.style.border = "none";
+                    blank.document.body.style.margin = "0";
+                    blank.document.body.appendChild(iframe);
+                }
+
+                window.location.replace(CLOAK_REDIRECT);
             } else {
-                window.location.replace("/index.html?launch=1");
+                // stay on start page if the blank/tab could not be opened
             }
         }
     </script>
@@ -50344,8 +50389,8 @@
                                 <div class="GRvzhf YVvGBb">To review</div>
                             </div>
                         </a><a class="uTwgne" aria-current="false" jsname="Nswioe" tabindex="-1"
-                            aria-label="1st Period - verdis Mathematics" role="menuitem" data-id="834860263168"
-                            href="/?launch=1">
+                        aria-label="1st Period - verdis English" role="menuitem" data-id="834860263168"
+                        href="#">
                             <div class="pzaVke"><span class="dNKuRb NJyEeb"></span>
                                 <div class="NsMoi"></div>
                             </div>
@@ -50356,7 +50401,37 @@
                                 </div>
                             </div>
                             <div class="Ij01W">
+                                <div class="GRvzhf YVvGBb">1st Period - verdis English</div>
+                            </div>
+                        </a><a class="uTwgne" aria-current="false" jsname="Nswioe" tabindex="-1"
+                            aria-label="1st Period - verdis Mathematics" role="menuitem" data-id="834860263169"
+                            href="/?launch=1">
+                            <div class="pzaVke"><span class="dNKuRb NJyEeb"></span>
+                                <div class="NsMoi"></div>
+                            </div>
+                            <div class="kWQ5wd">
+                                <div class="CNpREd zvzLKc  ">
+                                    <div aria-hidden="true" class="JShLh TGnLfc asQXV VnOHwf-Tvm9db bFjUmb-Ysl7Fe"
+                                        data-mt="C5D04028-B56C-4424-AEA2-3C31B116EDDF">2</div>
+                                </div>
+                            </div>
+                            <div class="Ij01W">
                                 <div class="GRvzhf YVvGBb">1st Period - verdis Mathematics</div>
+                            </div>
+                        </a><a class="uTwgne" aria-current="false" jsname="Nswioe" tabindex="-1"
+                            aria-label="1st Period - verdis Science" role="menuitem" data-id="834860263170"
+                            href="#">
+                            <div class="pzaVke"><span class="dNKuRb NJyEeb"></span>
+                                <div class="NsMoi"></div>
+                            </div>
+                            <div class="kWQ5wd">
+                                <div class="CNpREd zvzLKc  ">
+                                    <div aria-hidden="true" class="JShLh TGnLfc asQXV VnOHwf-Tvm9db bFjUmb-Ysl7Fe"
+                                        data-mt="C5D04028-B56C-4424-AEA2-3C31B116EDD0">3</div>
+                                </div>
+                            </div>
+                            <div class="Ij01W">
+                                <div class="GRvzhf YVvGBb">1st Period - verdis Science</div>
                             </div>
                         </a></div>
                     <li class="aqdrmf-clz4Ic aqdrmf-clz4Ic-OWXEXe-Vkfede s28puc" role="separator"></li><a

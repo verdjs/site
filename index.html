@@ -9,7 +9,7 @@
         const cameFromStart = sessionStorage.getItem(START_FLAG_KEY) === '1';
         if (!params.get("launch") && !cameFromStart) {
             window.location.replace('/start.html');
-        } else {
+        } else if (cameFromStart) {
             sessionStorage.removeItem(START_FLAG_KEY);
         }
     </script>

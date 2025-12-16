@@ -147,6 +147,9 @@ async function nav(i) {
   if (nowggDomain) {
     try {
       const res = await fetch("https://api.ipify.org?format=json");
+      if (!res.ok) {
+        throw new Error(`IP lookup failed with status ${res.status}`);
+      }
       let data = null;
       try {
         data = await res.json();
@@ -154,11 +157,21 @@ async function nav(i) {
         console.error("Unable to parse IP response", parseErr);
       }
       const ip = data?.ip || "";
-      const prefix = ip.includes(".") ? ip.split(".")[0] : "";
+      const isIpv4 = /^(\d{1,3}\.){3}\d{1,3}$/.test(ip);
+      const prefix = isIpv4 ? ip.split(".")[0] : "";
+      const originalPath = (() => {
+        try {
+          const target = url.includes("://") ? url : `https://${url}`;
+          return new URL(target).pathname || "/";
+        } catch {
+          return "/";
+        }
+      })();
 
       if (prefix) {
         const shardTld = nowggDomain.endsWith(".fun") ? "fun" : "lol";
-        url = `https://${prefix}.ip.nowgg.${shardTld}/fun`;
+        const shardPath = originalPath === "/" ? "/fun" : originalPath;
+        url = `https://${prefix}.ip.nowgg.${shardTld}${shardPath}`;
       }
     } catch (e) {
       console.error("Unable to resolve nowgg shard", e);

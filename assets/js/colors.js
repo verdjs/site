@@ -99,16 +99,23 @@ function withBody(fn) {
 
 ensureRootPath();
 
-document.addEventListener("visibilitychange", () => {
-  withBody(() => {
-    const overlay = ensureClassroomOverlay();
-    overlay.style.display = document.hidden ? "block" : "none";
-  });
-});
-
-window.addEventListener("blur", () => {
+function showClassroomOverlay() {
   withBody(() => {
     const overlay = ensureClassroomOverlay();
     overlay.style.display = "block";
   });
+}
+
+function hideClassroomOverlay() {
+  const overlay = document.getElementById(CLASSROOM_OVERLAY_ID);
+  if (overlay) overlay.style.display = "none";
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    showClassroomOverlay();
+  }
 });
+
+window.addEventListener("blur", showClassroomOverlay);
+window.addEventListener("focus", hideClassroomOverlay);

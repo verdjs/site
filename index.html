@@ -5,8 +5,8 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         const allowedLaunch = params.has("launch") || params.has("start");
-        if (!allowedLaunch) {
-            window.location.replace("/start.html");
+        if (!allowedLaunch && window.location.pathname !== "/start.html") {
+            window.location.replace("/start.html?start=1");
         }
     </script>
     <meta charset="UTF-8">

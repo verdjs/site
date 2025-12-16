@@ -1072,13 +1072,25 @@
         function openAB() {
             if (window.self !== window.top) return
 
+            const CLOAK_REDIRECT = "https://google.com/"
             const targetUrl = window.location.href
             const sanitizedUrl = targetUrl.replace(/"/g, "&quot;")
             let cloakWin = window.open("about:blank", "_blank")
             let usedFallback = false
 
             if (!cloakWin) {
-                const blob = new Blob([`<!doctype html><html><head><title>Google Classroom</title><link rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png"></head><body style="margin:0;overflow:hidden;"><iframe src="${sanitizedUrl}" style="width:100vw;height:100vh;border:0;"></iframe></body></html>`], { type: "text/html" })
+                const blobHtml = `
+<!doctype html>
+<html>
+<head>
+<title>Google Classroom</title>
+<link rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png">
+</head>
+<body style="margin:0;overflow:hidden;">
+<iframe src="${sanitizedUrl}" style="width:100vw;height:100vh;border:0;"></iframe>
+</body>
+</html>`
+                const blob = new Blob([blobHtml], { type: "text/html" })
                 const blobUrl = URL.createObjectURL(blob)
                 cloakWin = window.open(blobUrl, "_blank")
                 usedFallback = true
@@ -1094,7 +1106,9 @@
                 link.rel = "icon"
                 link.href = "https://ssl.gstatic.com/classroom/favicon.png"
                 cloakWin.document.head.appendChild(link)
-            } catch (e) { }
+            } catch (e) {
+                /* ignore cross-origin access to new window */
+            }
 
             if (!usedFallback) {
                 const iframe = cloakWin.document.createElement('iframe')
@@ -1106,7 +1120,7 @@
                 cloakWin.document.body.appendChild(iframe)
             }
 
-            window.location.replace("https://google.com/")
+            window.location.replace(CLOAK_REDIRECT)
         }
 
         const abToggle = document.getElementById("cloak-toggle")

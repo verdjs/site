@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local P2P Chat</title>
+    <link rel="shortcut icon" href="/assets/img/fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/css/colors.css" id="css-theme-link">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/elements.css">
+    <link rel="stylesheet" href="/assets/icons/fonts/remixicon.css">
+    <style>
+        :root {
+            --glass: color-mix(in srgb, var(--bg-2) 60%, transparent 40%);
+            --glass-strong: color-mix(in srgb, var(--bg-3) 70%, transparent 30%);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05), transparent 35%),
+                radial-gradient(circle at 80% 0%, rgba(79, 70, 229, 0.08), transparent 30%),
+                var(--bg, #0b1220);
+            color: var(--bright-text, #fff);
+            font-family: "Inter", Arial, sans-serif;
+            padding: 28px;
+            overflow: hidden;
+        }
+
+        .glass-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .title-block h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .title-block p {
+            margin: 4px 0 0 0;
+            opacity: 0.8;
+        }
+
+        .pill {
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+            font-size: 14px;
+            color: inherit;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 18px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .name-card {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .name-card label {
+            font-weight: 600;
+        }
+
+        .name-card input {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: inherit;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 14px;
+            outline: none;
+            backdrop-filter: blur(10px);
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: color-mix(in srgb, var(--bg-2) 60%, transparent 40%);
+        }
+
+        button {
+            background: linear-gradient(120deg, var(--accent, #4f46e5), #7c3aed);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 28px rgba(0, 0, 0, 0.28);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .chat-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #message-feed {
+            background: color-mix(in srgb, var(--bg) 65%, transparent 35%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 12px;
+            height: 480px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message-row {
+            max-width: 70%;
+            padding: 12px;
+            border-radius: 16px;
+            background: var(--glass-strong);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(10px);
+            align-self: flex-start;
+        }
+
+        .message-row.local {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.35), rgba(124, 58, 237, 0.35));
+            border-color: rgba(124, 58, 237, 0.45);
+            align-self: flex-end;
+        }
+
+        .message-header {
+            font-size: 12px;
+            opacity: 0.78;
+            margin-bottom: 6px;
+        }
+
+        .message-body {
+            word-break: break-word;
+            line-height: 1.45;
+        }
+
+        .message-body img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 6px;
+        }
+
+        .composer {
+            display: grid;
+            grid-template-columns: 50px 1fr 120px;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .composer button#imageBtn {
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: var(--glass-strong);
+        }
+
+        .composer textarea {
+            height: 64px;
+        }
+
+        .note {
+            font-size: 13px;
+            opacity: 0.8;
+            margin: 4px 0 0 0;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 18px;
+            }
+
+            #message-feed {
+                height: 360px;
+            }
+
+            .composer {
+                grid-template-columns: 50px 1fr;
+                grid-template-rows: auto auto;
+            }
+
+            .composer button#send-chat {
+                grid-column: span 2;
+            }
+
+            .message-row {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glass-wrap">
+        <div class="header-row">
+            <div class="title-block">
+                <h1>Local P2P Chat</h1>
+                <p>Shared room, no invites. Host tab stays open to relay. Images supported.</p>
+            </div>
+            <div class="pill" id="chat-status">Connecting…</div>
+            <div class="pill">Peers: <span id="peer-count">—</span></div>
+        </div>
+
+        <div class="glass-card name-card">
+            <label for="display-name">Your name</label>
+            <input id="display-name" aria-label="Display name" placeholder="Enter a name to join the room">
+            <p class="note">Everyone shares this single room.</p>
+        </div>
+
+        <div class="glass-card chat-card">
+            <div id="message-feed"></div>
+            <div class="composer">
+                <button id="imageBtn" aria-label="Send an image">📷</button>
+                <textarea id="chat-text" rows="2" placeholder="Type a message…"></textarea>
+                <button id="send-chat">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="imageInput" accept="image/*" style="display: none" />
+    <script src="/assets/js/p2p-chat.js"></script>
+</body>
+
+</html>

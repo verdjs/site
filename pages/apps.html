@@ -288,7 +288,7 @@
                     appDiv.classList.add('app');
 
                     const launchTarget = app.direct
-                        ? app.url
+                        ? (app.url.startsWith('http') ? app.url : new URL(app.url, window.location.origin).href)
                         : `/pages/browser.html?launch=${app.url}`;
                     appDiv.innerHTML = `
                     <div class="app-img" style="background: url('${app.img}');" onclick="window.location.href = '${launchTarget}'"></div>

@@ -342,16 +342,16 @@
                 box.style.minWidth = '260px';
                 box.style.boxShadow = '0 12px 30px rgba(0,0,0,0.35)';
                 box.innerHTML = `
-                    <h3 style="margin:0 0 8px 0;color:var(--bright-text,#e8edff);font-size:18px;">Roblox launch</h3>
+                    <h3 style="margin:0 0 8px 0;color:var(--bright-text,#e8edff);font-size:18px;">Choose Roblox Option</h3>
                     <p style="margin:0 0 14px 0;color:var(--muted-text,#b6c3e6);font-size:14px;line-height:1.5;">
-                        Choose how to open Roblox.
+                        Select how you want to play Roblox:
                     </p>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;">
                         <button id="rb-normal" style="flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border-4,rgba(255,255,255,0.1));background:var(--bg-3,#121828);color:var(--bright-text,#e8edff);cursor:pointer;">
-                            Normal proxy (higher ping)
+                            Normal Proxy<br><small style="opacity:0.7;font-size:11px;">Higher ping, unlimited</small>
                         </button>
                         <button id="rb-alt" style="flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--accent,rgba(120,169,255,0.6));background:var(--accent,rgba(120,169,255,0.15));color:var(--bright-text,#e8edff);cursor:pointer;">
-                            Alternative (lower ping)
+                            Alternative<br><small style="opacity:0.7;font-size:11px;">Lower ping, capped per month</small>
                         </button>
                     </div>
                 `;
@@ -363,15 +363,13 @@
                     if (e.target === modal) modal.remove();
                 });
 
-                const rootHost = window.location.hostname.replace(/^[^.]+\.verdis\.pages\.dev$/, 'verdis.pages.dev');
-                const canonicalAlt = `${window.location.protocol}//${rootHost}/pages/roblox.html`;
                 box.querySelector('#rb-normal').addEventListener('click', () => {
                     modal.remove();
                     window.location.href = '/pages/browser.html?launch=https://nowgg.lol';
                 });
                 box.querySelector('#rb-alt').addEventListener('click', () => {
                     modal.remove();
-                    window.top.location.href = canonicalAlt;
+                    window.top.location.href = '/pages/roblox.html';
                 });
             }
         }

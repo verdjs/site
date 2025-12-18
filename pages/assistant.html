@@ -354,14 +354,11 @@
             step();
         }
 
+        const INFIP_KEY = "infip-1e69c32b";
+        const INFIP_ENDPOINT = "https://api.infip.pro/v1/images/generations";
+
         async function askAi(prompt, type) {
-            let endpoint;
-            if (type === "text") {
-                endpoint = "https://text.pollinations.ai/";
-            } else {
-                endpoint = "https://image.pollinations.ai/prompt/";
-            }
-            const text = encodeURIComponent(prompt.trim());
+            const text = prompt.trim();
 
             const cont = document.querySelector(".messages-container");
 
@@ -379,26 +376,47 @@
 
             cont.scrollTop = cont.scrollHeight;
 
-            const res = await fetch(endpoint + text);
-            if (!res.ok) {
-                div.innerHTML = "Error: There was a problem with the AI.";
-                return;
-            }
-
             if (responseType === "text") {
+                const res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(text));
+                if (!res.ok) {
+                    div.innerHTML = "Error: There was a problem with the AI.";
+                    return;
+                }
                 const data = await res.text();
                 console.log("AI RESPONSE:" + data);
 
                 div.innerHTML = ``;
                 anim(div, data, 10);
             } else {
-                const img = document.createElement("img");
-                img.src = endpoint + text;
-                img.alt = prompt;
-                img.style.maxWidth = "100%";
-                img.style.borderRadius = "25px";
-                div.innerHTML = ``;
-                div.append(img);
+                try {
+                    const res = await fetch(INFIP_ENDPOINT, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${INFIP_KEY}`
+                        },
+                        body: JSON.stringify({
+                            model: "img3",
+                            prompt: text,
+                            n: 1,
+                            size: "1024x1024"
+                        })
+                    });
+                    if (!res.ok) throw new Error("API error");
+                    const data = await res.json();
+                    const url = data?.images?.[0];
+                    if (!url) throw new Error("No image returned");
+                    const img = document.createElement("img");
+                    img.src = url;
+                    img.alt = prompt;
+                    img.style.maxWidth = "100%";
+                    img.style.borderRadius = "25px";
+                    div.innerHTML = ``;
+                    div.append(img);
+                } catch (err) {
+                    div.innerHTML = "Error: Could not generate image.";
+                    console.error(err);
+                }
             }
 
             cont.scrollTop = cont.scrollHeight;

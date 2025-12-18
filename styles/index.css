@@ -244,6 +244,12 @@ nav ul li.disabled {
     background: color-mix(in srgb, var(--bg-2) 50%, transparent 50%);
 }
 
+.proxy-warning {
+    margin-top: 8px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
 .hcontainer {
     display: flex;
     flex-direction: row;

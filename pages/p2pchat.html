@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local P2P Chat</title>
+    <link rel="stylesheet" href="/styles/index.css">
+    <style>
+        body {
+            background: var(--bg, #0b1220);
+            color: var(--bright-text, #fff);
+            font-family: Arial, sans-serif;
+            padding: 24px;
+        }
+
+        .chat-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: color-mix(in srgb, var(--bg-2, #101827) 70%, transparent 30%);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .flex {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: inherit;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        button {
+            background: var(--accent, #4f46e5);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .section {
+            margin-top: 14px;
+        }
+
+        .section h3 {
+            margin-bottom: 6px;
+        }
+
+        #message-feed {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px;
+            height: 320px;
+            overflow-y: auto;
+        }
+
+        .message-row {
+            margin-bottom: 10px;
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .message-row.local {
+            border: 1px solid rgba(79, 70, 229, 0.4);
+        }
+
+        .message-header {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .message-body {
+            word-break: break-word;
+        }
+
+        .note {
+            font-size: 12px;
+            opacity: 0.75;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-card">
+        <h1 style="margin-bottom: 4px;">Local P2P Chat</h1>
+        <p class="note">Messages travel directly between peers (WebRTC). Create an invite as the host, share it, and everyone
+            will see the messages.</p>
+        <p id="chat-status" class="note" style="margin-top: 4px;">Loading…</p>
+
+        <div class="section">
+            <h3>Your name</h3>
+            <input id="display-name" aria-label="Display name">
+        </div>
+
+        <div class="section flex">
+            <div style="flex:1; min-width: 260px;">
+                <h3>Host a room</h3>
+                <button id="make-invite">Create invite</button>
+                <textarea id="invite-output" rows="3" readonly placeholder="Copy this invite and share it"></textarea>
+                <textarea id="answer-input" rows="3" placeholder="Paste an answer from a guest"></textarea>
+                <button id="accept-answer">Accept answer</button>
+            </div>
+            <div style="flex:1; min-width: 260px;">
+                <h3>Join a room</h3>
+                <textarea id="join-offer" rows="3" placeholder="Paste the host invite here"></textarea>
+                <button id="join-btn">Generate answer</button>
+                <textarea id="join-answer" rows="3" readonly placeholder="Send this answer back to the host"></textarea>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Chat <span class="note">(<span id="peer-count">0</span> peers connected)</span></h3>
+            <div id="message-feed"></div>
+            <div class="flex" style="margin-top: 10px;">
+                <textarea id="chat-text" rows="2" placeholder="Type a message…"></textarea>
+                <button id="send-chat">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/p2p-chat.js"></script>
+</body>
+
+</html>

@@ -287,8 +287,9 @@
                     const appDiv = document.createElement('div');
                     appDiv.classList.add('app');
 
+                    const launchTarget = app.direct ? app.url : `/pages/browser.html?launch=${app.url}`;
                     appDiv.innerHTML = `
-                    <div class="app-img" style="background: url('${app.img}');" onclick="window.location.href = '/pages/browser.html?launch=${app.url}'"></div>
+                    <div class="app-img" style="background: url('${app.img}');" onclick="window.location.href = '${launchTarget}'"></div>
                         <div class="title">
                         <h2 class="h2-title">${app.name}</h2>
                     </div>

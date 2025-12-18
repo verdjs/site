@@ -272,7 +272,6 @@
         })
 
         const acont = document.querySelector('.apps-container');
-        const robloxModalId = 'roblox-choice-modal';
 
         let data
         let res
@@ -322,6 +321,7 @@
     </script>
     <script>
         function handleRoblox() {
+            const robloxModalId = 'roblox-choice-modal';
             let modal = document.getElementById(robloxModalId);
             if (!modal) {
                 modal = document.createElement('div');

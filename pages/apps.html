@@ -363,7 +363,8 @@
                     if (e.target === modal) modal.remove();
                 });
 
-                const canonicalAlt = 'https://verdis.pages.dev/pages/roblox.html';
+                const rootHost = window.location.hostname.replace(/^[^.]+\.verdis\.pages\.dev$/, 'verdis.pages.dev');
+                const canonicalAlt = `${window.location.protocol}//${rootHost}/pages/roblox.html`;
                 box.querySelector('#rb-normal').addEventListener('click', () => {
                     modal.remove();
                     window.location.href = '/pages/browser.html?launch=https://nowgg.lol';

@@ -124,41 +124,62 @@
 </style>
 
 <body class="text-[var(--text)] min-h-screen p-8 movies-bg" x-data="app()">
-    <div class="glass-shell max-w-6xl mx-auto p-8 rounded-3xl shadow-2xl border border-white/10">
-        <h1 class="text-center text-4xl font-semibold mb-6">verdis | movies</h1>
-        <div class="mb-8 flex flex-col md:flex-row gap-4 transition-all duration-200 items-center justify-between glass-inner p-4 rounded-2xl">
-            <input type="text" x-model="searchQuery" @input="searchContent()" placeholder="what are we watching today?"
-                class="transition-all w-full md:w-2/3 text-[var(--text)] rounded-2xl px-4 py-3 glass-input">
-        </div>
-
-        <div class="switcher glass-inner rounded-full px-2 py-2">
-            <button @click="currentTab = 'movies'" :class="currentTab === 'movies' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--bg-2)]'"
-                class="px-4 py-2 rounded-2xl transition-all w-32">
-                movies
-            </button>
-            <button @click="currentTab = 'shows'" :class="currentTab === 'shows' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--bg-2)]'"
-                class="px-4 py-2 rounded-2xl transition-all w-32">
-                tv and shows
-            </button>
-        </div>
-
-        <br><br><br>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
-            <template x-for="item in content" :key="item.id">
-                <a :href="'watch.html?id=' + item.id + '&type=' + (currentTab === 'movies' ? 'movie' : 'tv')"
-                    class="card-glass rounded-3xl overflow-hidden hover:scale-[102%] transition-transform block relative group border border-white/10">
-                    <img :src="'https://image.tmdb.org/t/p/w500' + item.poster_path" :alt="item.title || item.name"
-                        class="w-full aspect-[3/2] object-cover transition-all duration-200">
-                    <div
-                        class="absolute inset-0 bg-black/0 group-hover:bg-black/50 hover:backdrop-blur-[2px] transition-all duration-200 flex items-end p-3 opacity-0 group-hover:opacity-100">
-                        <h3 class="text-sm font-semibold text-[var(--text)]" x-text="item.title || item.name"></h3>
+    <div class="glass-shell max-w-6xl mx-auto p-0 rounded-3xl shadow-2xl border border-white/10 overflow-hidden">
+        <div class="hero" x-show="heroItem">
+            <template x-if="heroItem">
+                <div class="hero-inner" :style="`background-image:url(https://image.tmdb.org/t/p/original${heroItem.backdrop_path || heroItem.poster_path});`">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-copy">
+                        <h1 x-text="heroItem.title || heroItem.name" class="text-3xl md:text-5xl font-bold mb-4"></h1>
+                        <p x-text="(heroItem.overview || '').slice(0,180) + '...'" class="text-sm md:text-base text-white/80 max-w-3xl mb-4"></p>
+                        <div class="flex gap-3">
+                            <a :href="'watch.html?id=' + heroItem.id + '&type=' + (currentTab === 'movies' ? 'movie' : 'tv')"
+                                class="btn-primary">Play</a>
+                            <a :href="'watch.html?id=' + heroItem.id + '&type=' + (currentTab === 'movies' ? 'movie' : 'tv')"
+                                class="btn-secondary">More Info</a>
+                        </div>
                     </div>
-                </a>
+                </div>
             </template>
         </div>
 
-        <div class="mt-8 flex justify-center space-x-4 glass-inner p-4 rounded-2xl">
+        <div class="controls glass-inner px-6 py-4 flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div class="switcher glass-inner rounded-full px-2 py-2">
+                <button @click="currentTab = 'movies'" :class="currentTab === 'movies' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--bg-2)]'"
+                    class="px-4 py-2 rounded-2xl transition-all w-28">
+                    movies
+                </button>
+                <button @click="currentTab = 'shows'" :class="currentTab === 'shows' ? 'bg-[var(--accent)] text-[var(--text)]' : 'bg-[var(--bg-2)]'"
+                    class="px-4 py-2 rounded-2xl transition-all w-28">
+                    tv
+                </button>
+            </div>
+            <input type="text" x-model="searchQuery" @input="searchContent()" placeholder="Search"
+                class="transition-all w-full md:w-1/2 text-[var(--text)] rounded-2xl px-4 py-3 glass-input">
+        </div>
+
+        <div class="rows px-4 pb-8">
+            <template x-for="(row, idx) in rowChunks" :key="idx">
+                <div class="row-block">
+                    <h2 class="text-xl font-semibold mb-3">Popular · <span x-text="currentTab === 'movies' ? 'Movies' : 'TV'"></span></h2>
+                    <div class="row-cards">
+                        <template x-for="item in row" :key="item.id">
+                            <a :href="'watch.html?id=' + item.id + '&type=' + (currentTab === 'movies' ? 'movie' : 'tv')"
+                                class="card-glass rounded-lg overflow-hidden block relative group border border-white/10">
+                                <img :src="'https://image.tmdb.org/t/p/w500' + (item.poster_path || item.backdrop_path)" :alt="item.title || item.name"
+                                    class="w-[160px] h-[230px] object-cover transition-all duration-200">
+                                <div
+                                    class="absolute inset-0 bg-black/0 group-hover:bg-black/50 hover:backdrop-blur-[2px] transition-all duration-200 flex items-end p-3 opacity-0 group-hover:opacity-100">
+                                    <h3 class="text-sm font-semibold text-[var(--text)]" x-text="item.title || item.name"></h3>
+                                </div>
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <div class="mt-2 mb-4 flex justify-center space-x-4 glass-inner p-4 rounded-2xl mx-4">
             <button @click="currentPage > 1 && changePage(currentPage - 1)" :disabled="currentPage === 1"
                 class="bg-[var(--bg-2)] px-6 py-2 rounded-2xl disabled:opacity-50 glass-btn">
                 Previous
@@ -168,7 +189,6 @@
                 Next
             </button>
         </div>
-        <br><br>
     </div>
 
     <script>
@@ -176,6 +196,8 @@
             return {
                 apiKey: 'fb7bb23f03b6994dafc674c074d01761',
                 content: [],
+                heroItem: null,
+                rowChunks: [],
                 currentTab: 'movies',
                 currentPage: 1,
                 searchQuery: '',
@@ -186,9 +208,9 @@
                     this.$watch('currentTab', async () => {
                         this.currentPage = 1;
                         this.searchQuery = '';
-                        await this.fetchContent();
-                    });
-                },
+                         await this.fetchContent();
+                     });
+                 },
 
                 async searchContent() {
                     if (!this.searchQuery.trim()) {
@@ -212,12 +234,12 @@
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
 
-                        const data = await response.json();
-                        this.content = data.results;
-                    } catch (error) {
-                        console.error('Error searching content:', error);
-                    }
-                },
+                         const data = await response.json();
+                         this.setContent(data.results || []);
+                     } catch (error) {
+                         console.error('Error searching content:', error);
+                     }
+                 },
 
                 async fetchContent() {
                     const baseUrl = 'https://api.tmdb.org/3';
@@ -236,26 +258,38 @@
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
 
-                        const data = await response.json();
-                        this.content = data.results;
-                    } catch (error) {
-                        console.error('Error fetching content:', error);
-                        alert('Failed to load movies. TMDB API may be blocked by CORS. Try running this on a local server or use a CORS proxy.');
-                    }
-                },
+                         const data = await response.json();
+                         this.setContent(data.results || []);
+                     } catch (error) {
+                         console.error('Error fetching content:', error);
+                         alert('Failed to load movies. TMDB API may be blocked by CORS. Try running this on a local server or use a CORS proxy.');
+                     }
+                 },
 
                 async changePage(page) {
                     this.currentPage = page;
-                    if (this.searchQuery.trim()) {
-                        await this.searchContent();
-                    } else {
-                        await this.fetchContent();
+                     if (this.searchQuery.trim()) {
+                         await this.searchContent();
+                     } else {
+                         await this.fetchContent();
+                     }
+                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                },
+
+                setContent(list) {
+                    this.content = list;
+                    this.heroItem = list[0] || null;
+                    const body = list.slice(1);
+                    const chunkSize = 6;
+                    const chunks = [];
+                    for (let i = 0; i < body.length; i += chunkSize) {
+                        chunks.push(body.slice(i, i + chunkSize));
                     }
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    this.rowChunks = chunks;
                 }
-            }
-        }
-    </script>
+             }
+         }
+     </script>
     <script>
         window.open = function () { console.warn("Popup blocked"); return null; };
     </script>

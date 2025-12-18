@@ -354,9 +354,6 @@
             step();
         }
 
-        const INFIP_KEY = "infip-1e69c32b";
-        const INFIP_ENDPOINT = "https://api.infip.pro/v1/images/generations";
-
         async function askAi(prompt, type) {
             const text = prompt.trim();
 
@@ -389,24 +386,35 @@
                 anim(div, data, 10);
             } else {
                 try {
-                    const res = await fetch("/infip-proxy", {
+                    const apiKey = window.API_KEY || localStorage.getItem("API_KEY") || "";
+                    if (!apiKey) throw new Error("API key missing");
+                    const res = await fetch("https://image.pollinations.ai/generate", {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/json"
+                            "Content-Type": "application/json",
+                            "Authorization": apiKey
                         },
                         body: JSON.stringify({
-                            model: "img3",
+                            model: "zimage",
                             prompt: text,
-                            n: 1,
-                            size: "1024x1024"
+                            size: "1024x1024",
+                            n: 1
                         })
                     });
                     if (!res.ok) throw new Error("API error");
-                    const data = await res.json();
-                    const url = data?.images?.[0];
-                    if (!url) throw new Error("No image returned");
+
+                    const contentType = res.headers.get("content-type") || "";
+                    let imgUrl = "";
+                    if (contentType.includes("application/json")) {
+                        const data = await res.json();
+                        imgUrl = data?.images?.[0] || "";
+                    } else {
+                        const blob = await res.blob();
+                        imgUrl = URL.createObjectURL(blob);
+                    }
+                    if (!imgUrl) throw new Error("No image returned");
                     const img = document.createElement("img");
-                    img.src = url;
+                    img.src = imgUrl;
                     img.alt = prompt;
                     img.style.maxWidth = "100%";
                     img.style.borderRadius = "25px";

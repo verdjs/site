@@ -90,12 +90,6 @@
             min-width: 220px;
         }
 
-        .connect-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 12px;
-        }
-
         input,
         textarea {
             width: 100%;
@@ -156,7 +150,7 @@
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             padding: 12px;
-            height: 380px;
+            height: 480px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -191,6 +185,12 @@
             line-height: 1.45;
         }
 
+        .message-body img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 6px;
+        }
+
         .composer {
             display: grid;
             grid-template-columns: 50px 1fr 120px;
@@ -223,7 +223,7 @@
             }
 
             #message-feed {
-                height: 320px;
+                height: 360px;
             }
 
             .composer {
@@ -247,38 +247,16 @@
         <div class="header-row">
             <div class="title-block">
                 <h1>Local P2P Chat</h1>
-                <p>Host relays messages; keep the tab open. Images are supported.</p>
+                <p>Shared room, no invites. Host tab stays open to relay. Images supported.</p>
             </div>
-            <div class="pill" id="chat-status">Loading…</div>
-            <div class="pill">Peers: <span id="peer-count">0</span></div>
+            <div class="pill" id="chat-status">Connecting…</div>
+            <div class="pill">Peers: <span id="peer-count">—</span></div>
         </div>
 
         <div class="glass-card name-card">
             <label for="display-name">Your name</label>
             <input id="display-name" aria-label="Display name" placeholder="Enter a name to join the room">
             <p class="note">Everyone shares this single room.</p>
-        </div>
-
-        <div class="connect-grid">
-            <div class="glass-card">
-                <h3 style="margin-top:0;">Host this room</h3>
-                <p class="note">Create an invite and share the code. Stay online to relay messages.</p>
-                <button id="make-invite">Create invite</button>
-                <textarea id="invite-output" rows="3" readonly placeholder="Copy this invite and share it"
-                    aria-label="Generated invite code"></textarea>
-                <textarea id="answer-input" rows="3" placeholder="Paste an answer from a guest"
-                    aria-label="Answer from guest"></textarea>
-                <button id="accept-answer">Accept answer</button>
-            </div>
-            <div class="glass-card">
-                <h3 style="margin-top:0;">Join with an invite</h3>
-                <p class="note">Paste the host invite and send your answer back.</p>
-                <textarea id="join-offer" rows="3" placeholder="Paste the host invite here"
-                    aria-label="Host invite code"></textarea>
-                <button id="join-btn">Generate answer</button>
-                <textarea id="join-answer" rows="3" readonly placeholder="Send this answer back to the host"
-                    aria-label="Generated answer code"></textarea>
-            </div>
         </div>
 
         <div class="glass-card chat-card">

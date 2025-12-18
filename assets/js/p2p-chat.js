@@ -6,23 +6,18 @@
     sendBtn: document.getElementById("send-chat"),
     messages: document.getElementById("message-feed"),
     peerCount: document.getElementById("peer-count"),
-    inviteBtn: document.getElementById("make-invite"),
-    inviteOutput: document.getElementById("invite-output"),
-    answerInput: document.getElementById("answer-input"),
-    acceptAnswerBtn: document.getElementById("accept-answer"),
-    joinOfferInput: document.getElementById("join-offer"),
-    joinAnswerOutput: document.getElementById("join-answer"),
-    joinBtn: document.getElementById("join-btn"),
+    imageBtn: document.getElementById("imageBtn"),
+    imageInput: document.getElementById("imageInput"),
   };
 
-  const peers = new Map();
+  const peers = new Map(); // peerId -> { pc, channel }
   const seenMessages = new Set();
-  let pendingHostPeer = null;
-  let actingAsHost = false;
+  const selfId = `peer-${crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(16).slice(2)}`;
+  const signal = new BroadcastChannel("p2p-chat-signal");
 
   const randomId = () => {
     if (typeof crypto === "undefined") {
-      throw new Error("Secure randomness unavailable");
+      return `msg-${Date.now()}-${Math.random().toString(16).slice(2)}`;
     }
     if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
     if (typeof crypto.getRandomValues === "function") {
@@ -32,7 +27,7 @@
         .map((n) => n.toString(16).padStart(8, "0"))
         .join("")}`;
     }
-    throw new Error("Secure randomness unavailable");
+    return `msg-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   };
 
   const setStatus = (text) => {
@@ -65,7 +60,7 @@
     ui.peerCount.textContent = peers.size;
   };
 
-  const addMessage = ({ from, text, timestamp }, isLocal) => {
+  const addMessage = ({ from, text, timestamp, imageData }, isLocal) => {
     const row = document.createElement("div");
     row.className = `message-row${isLocal ? " local" : ""}`;
 
@@ -75,7 +70,17 @@
 
     const body = document.createElement("div");
     body.className = "message-body";
-    body.textContent = text;
+    if (text) {
+      const textNode = document.createElement("div");
+      textNode.textContent = text;
+      body.appendChild(textNode);
+    }
+    if (imageData) {
+      const img = document.createElement("img");
+      img.src = imageData;
+      img.alt = "Shared image";
+      body.appendChild(img);
+    }
 
     row.appendChild(header);
     row.appendChild(body);
@@ -83,33 +88,9 @@
     ui.messages.scrollTop = ui.messages.scrollHeight;
   };
 
-  const encodeSignal = (desc) => btoa(JSON.stringify(desc));
-  const decodeSignal = (text) => {
-    try {
-      return JSON.parse(atob(text));
-    } catch (err) {
-      console.error("P2P chat: failed to decode signal", err);
-      return null;
-    }
-  };
-
-  const waitForIce = (pc) =>
-    pc.iceGatheringState === "complete"
-      ? Promise.resolve()
-      : new Promise((resolve) => {
-          const check = () => {
-            if (pc.iceGatheringState === "complete") {
-              pc.removeEventListener("icegatheringstatechange", check);
-              resolve();
-            }
-          };
-          pc.addEventListener("icegatheringstatechange", check);
-        });
-
-  const broadcast = (payload, ignorePeer) => {
+  const broadcastMessage = (payload) => {
     const serialized = JSON.stringify(payload);
-    peers.forEach((info, peerId) => {
-      if (peerId === ignorePeer) return;
+    peers.forEach((info) => {
       const channel = info.channel;
       if (channel && channel.readyState === "open") {
         try {
@@ -121,14 +102,10 @@
     });
   };
 
-  const handleIncoming = (payload, sourceId) => {
+  const handleIncoming = (payload) => {
     if (!payload || seenMessages.has(payload.id)) return;
     seenMessages.add(payload.id);
     addMessage(payload, payload.from === displayName());
-
-    if (actingAsHost) {
-      broadcast(payload, sourceId);
-    }
   };
 
   const setupChannel = (peerId, channel) => {
@@ -148,7 +125,7 @@
     channel.onmessage = (event) => {
       try {
         const payload = JSON.parse(event.data);
-        handleIncoming(payload, peerId);
+        handleIncoming(payload);
       } catch {
         /* ignore bad payloads */
       }
@@ -156,12 +133,15 @@
   };
 
   const createPeer = (peerId, isInitiator) => {
+    if (peers.has(peerId)) return peers.get(peerId).pc;
+
     const pc = new RTCPeerConnection({
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
         { urls: "stun:stun1.l.google.com:19302" },
       ],
     });
+
     peers.set(peerId, { pc, channel: null });
 
     if (isInitiator) {
@@ -171,8 +151,19 @@
       pc.ondatachannel = (event) => setupChannel(peerId, event.channel);
     }
 
+    pc.onicecandidate = (event) => {
+      if (event.candidate) {
+        signal.postMessage({
+          type: "ice",
+          from: selfId,
+          to: peerId,
+          candidate: event.candidate,
+        });
+      }
+    };
+
     pc.onconnectionstatechange = () => {
-      if (["failed", "disconnected"].includes(pc.connectionState)) {
+      if (["failed", "disconnected", "closed"].includes(pc.connectionState)) {
         peers.delete(peerId);
         updatePeerCount();
       }
@@ -181,64 +172,35 @@
     return pc;
   };
 
-  const createInvite = async () => {
-    actingAsHost = true;
-    const peerId = `peer-${randomId().slice(0, 8)}`;
+  const makeOffer = async (peerId) => {
     const pc = createPeer(peerId, true);
-    pendingHostPeer = pc;
-
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
-    await waitForIce(pc);
-
-    ui.inviteOutput.value = encodeSignal(pc.localDescription);
-    setStatus("Invite ready. Share it and wait for an answer.");
+    signal.postMessage({ type: "offer", from: selfId, to: peerId, sdp: offer });
   };
 
-  const acceptAnswer = async () => {
-    if (!pendingHostPeer) {
-      setStatus("Make an invite before attaching an answer.");
-      return;
-    }
-    const answerText = ui.answerInput.value.trim();
-    if (!answerText) {
-      setStatus("Paste an answer to finish connecting.");
-      return;
-    }
-    const answer = decodeSignal(answerText);
-    if (!answer || !answer.type || !answer.sdp) {
-      setStatus("Could not read that answer. Double-check and try again.");
-      return;
-    }
-    try {
-      await pendingHostPeer.setRemoteDescription(answer);
-      setStatus("Connected! Create another invite to add more peers.");
-      pendingHostPeer = null;
-    } catch (err) {
-      console.error("P2P chat: failed to apply answer", err);
-      setStatus("Could not apply that answer. Try again.");
-    }
-  };
-
-  const joinFromOffer = async () => {
-    const offerText = ui.joinOfferInput.value.trim();
-    if (!offerText) {
-      setStatus("Paste a host invite to generate an answer.");
-      return;
-    }
-    const offer = decodeSignal(offerText);
-    if (!offer || !offer.type || !offer.sdp) {
-      setStatus("That invite didn't look right. Try again.");
-      return;
-    }
-    const peerId = `host-${randomId().slice(0, 8)}`;
-    const pc = createPeer(peerId, false);
-    await pc.setRemoteDescription(offer);
+  const handleOffer = async ({ from, sdp }) => {
+    const pc = createPeer(from, false);
+    await pc.setRemoteDescription(new RTCSessionDescription(sdp));
     const answer = await pc.createAnswer();
     await pc.setLocalDescription(answer);
-    await waitForIce(pc);
-    ui.joinAnswerOutput.value = encodeSignal(pc.localDescription);
-    setStatus("Send your answer back to the host, then start chatting.");
+    signal.postMessage({ type: "answer", from: selfId, to: from, sdp: answer });
+  };
+
+  const handleAnswer = async ({ from, sdp }) => {
+    const info = peers.get(from);
+    if (!info) return;
+    await info.pc.setRemoteDescription(new RTCSessionDescription(sdp));
+  };
+
+  const handleIce = async ({ from, candidate }) => {
+    const info = peers.get(from);
+    if (!info || !candidate) return;
+    try {
+      await info.pc.addIceCandidate(new RTCIceCandidate(candidate));
+    } catch (err) {
+      console.error("P2P chat: failed to add ICE", err);
+    }
   };
 
   const sendChat = () => {
@@ -253,13 +215,55 @@
     };
     seenMessages.add(payload.id);
     addMessage(payload, true);
-    broadcast(payload);
+    broadcastMessage(payload);
     ui.messageInput.value = "";
+  };
+
+  const handleImageUpload = (file) => {
+    if (!file || !file.type.startsWith("image/")) return;
+    if (file.size > 150 * 1024) {
+      setStatus("Image too large. Max 150KB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let { width, height } = img;
+        const maxSize = 800;
+        if (width > height && width > maxSize) {
+          height = (height * maxSize) / width;
+          width = maxSize;
+        } else if (height > maxSize) {
+          width = (width * maxSize) / height;
+          height = maxSize;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        const imageData = canvas.toDataURL("image/jpeg", 0.8);
+        const payload = {
+          id: randomId(),
+          from: displayName(),
+          text: ui.messageInput.value.trim(),
+          imageData,
+          timestamp: Date.now(),
+        };
+        seenMessages.add(payload.id);
+        addMessage(payload, true);
+        broadcastMessage(payload);
+        ui.messageInput.value = "";
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
   };
 
   const init = () => {
     loadName();
-    setStatus("Start by creating an invite or joining one.");
+    setStatus("Connecting to shared room…");
     updatePeerCount();
 
     ui.nameInput.addEventListener("input", persistName);
@@ -270,9 +274,47 @@
         sendChat();
       }
     });
-    ui.inviteBtn.addEventListener("click", createInvite);
-    ui.acceptAnswerBtn.addEventListener("click", acceptAnswer);
-    ui.joinBtn.addEventListener("click", joinFromOffer);
+    if (ui.imageBtn && ui.imageInput) {
+      ui.imageBtn.addEventListener("click", () => ui.imageInput.click());
+      ui.imageInput.addEventListener("change", (e) => {
+        const file = e.target.files?.[0];
+        if (file) handleImageUpload(file);
+        ui.imageInput.value = "";
+      });
+    }
+
+    document.addEventListener("paste", (e) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") !== -1) {
+          const file = items[i].getAsFile();
+          handleImageUpload(file);
+          break;
+        }
+      }
+    });
+
+    signal.onmessage = async (event) => {
+      const data = event.data;
+      if (!data || data.from === selfId) return;
+      if (data.type === "hello") {
+        if (!peers.has(data.from) && selfId > data.from) {
+          await makeOffer(data.from);
+        }
+      } else if (data.to && data.to !== selfId) {
+        return;
+      } else if (data.type === "offer") {
+        await handleOffer(data);
+      } else if (data.type === "answer") {
+        await handleAnswer(data);
+      } else if (data.type === "ice") {
+        await handleIce(data);
+      }
+    };
+
+    signal.postMessage({ type: "hello", from: selfId });
+    setStatus("Connected to shared room.");
   };
 
   init();

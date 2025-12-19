@@ -329,9 +329,18 @@
         const params = new URLSearchParams(window.location.search)
         
         async function waitThenSearch() {
-            await connection.setTransport("/libcurl/index.mjs", [{ websocket: localStorage.getItem("verdis_wispUrl") ?? "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/" }])
+            const launchUrl = params.get("launch");
+            let wispUrl = localStorage.getItem("verdis_wispUrl") ?? "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/";
+            
+            // Use Terbium 2 Wisp server specifically for cineby.gd for better performance
+            if (launchUrl && (launchUrl.includes("cineby.gd") || launchUrl.includes("www.cineby.gd"))) {
+                wispUrl = "wss://wisp.terbiumon.top/wisp/";
+                console.log("Using Terbium 2 Wisp server for cineby.gd");
+            }
+            
+            await connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }])
 
-            rSearch(params.get("launch"))
+            rSearch(launchUrl)
         }
 
         waitThenSearch()

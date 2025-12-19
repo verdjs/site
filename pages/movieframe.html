@@ -130,6 +130,12 @@
                 }
             }
         })
+
+        // Block all popups on the movies page
+        window.open = function () { 
+            console.warn("Popup blocked on movies page"); 
+            return null; 
+        };
     </script>
 
     <div class="nav-logo">

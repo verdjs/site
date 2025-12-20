@@ -34,19 +34,19 @@
     <link rel="stylesheet" href="/fa/css/all-pro.css">
     <link rel="stylesheet" href="/assets/css/t.css">
     <link rel="stylesheet" href="/assets/css/dropdown.css">
+    <link rel="stylesheet" href="/assets/css/favorites.css">
     <script src="/assets/js/cursor.js" defer></script>
     <script src="/assets/js/colors.js"></script>
     <script src="/assets/js/splash.js" defer></script>
+    <script src="/assets/js/favorites.js"></script>
     <script src="/assets/js/browserfunctions.js"></script>
     <script src="/assets/js/lib/three.min.js"></script>
     <script src="/assets/js/lib/vanta.fog.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda@3.4.3/eruda.min.js"></script>
     <script src="/assets/js/lib/particles.js"></script>
     <meta name="title" content="Google Classroom">
-    <meta name="description"
-        content="Google Classroom helps classes communicate, save time, and stay organized.">
-    <meta name="keywords"
-        content="Google Classroom, classroom, education, assignments, google, school">
+    <meta name="description" content="Google Classroom helps classes communicate, save time, and stay organized.">
+    <meta name="keywords" content="Google Classroom, classroom, education, assignments, google, school">
     <meta name="robots" content="index, nofollow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta property="og:image" content="/assets/img/cover.png">
@@ -153,6 +153,13 @@
         </div>
         <div class="search-warning" style="margin: 6px 0 0 6px;">This is a proxy; you could get in trouble.</div>
         <br><br>
+    </div>
+
+    <!-- Quick Access Favorites Section (separate from homeContent to not push layout) -->
+    <div class="quick-access-section" id="quickAccessSection" style="display: none;">
+        <h3><i class="fas fa-star"></i> Quick Access</h3>
+        <div class="quick-access-container" id="quickAccessContainer">
+        </div>
     </div>
 
     <div class="toast-container fixed right-4 top-4 w-1/4">
@@ -605,15 +612,25 @@
                     const newAppContainer = document.createElement("div")
 
                     newAppContainer.classList.add("app")
-                    
+                    newAppContainer.setAttribute("data-name", item.name)
+                    newAppContainer.setAttribute("data-type", type)
+                    newAppContainer.setAttribute("data-url", item.url)
+                    newAppContainer.setAttribute("data-img", item.img)
+
+                    // Check if favorited
+                    const isFav = VerdiFavorites.isFavorite(type, item.name)
+
                     // Special handling for Roblox
                     if (item.name === 'Roblox') {
                         newAppContainer.setAttribute("onclick", `handleRoblox()`)
                     } else {
                         newAppContainer.setAttribute("onclick", `toggle${functionName}();${toRun}('${additions}${item.url}'); console.log("asdflkjgasdfkljhgasdfkhgasfjkhgasfjkhgsdfgjh")`)
                     }
-                    
+
                     newAppContainer.innerHTML = `
+                        <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavoriteCard(this, '${type}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                            <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                        </button>
                         <div class="bg-img" data-bg="${item.img}"></div>
                         <div class="app-title-cont">
                             <h2 class="app-title-h2">${item.name}</h2>
@@ -625,6 +642,89 @@
             }).then(() => {
                 observe()
             })
+        }
+
+        // Toggle favorite from card button
+        function toggleFavoriteCard(btn, type, item) {
+            const isFav = VerdiFavorites.toggleFavorite(type, {
+                id: item.name,
+                name: item.name,
+                img: item.img,
+                url: item.url
+            })
+
+            const icon = btn.querySelector('i')
+            if (isFav) {
+                btn.classList.add('active')
+                icon.classList.remove('far')
+                icon.classList.add('fas')
+                showToast('success', `Added "${item.name}" to favorites!`, 'fas fa-heart')
+            } else {
+                btn.classList.remove('active')
+                icon.classList.remove('fas')
+                icon.classList.add('far')
+                showToast('success', `Removed "${item.name}" from favorites`, 'far fa-heart')
+            }
+
+            renderQuickAccess()
+        }
+
+        // Render Quick Access section
+        function renderQuickAccess() {
+            const section = document.getElementById('quickAccessSection')
+            const container = document.getElementById('quickAccessContainer')
+            const favorites = VerdiFavorites.getAllFavorites(8)
+
+            if (favorites.length === 0) {
+                section.style.display = 'none'
+                return
+            }
+
+            section.style.display = 'block'
+            container.innerHTML = ''
+
+            favorites.forEach(fav => {
+                const item = document.createElement('div')
+                item.className = 'quick-access-item'
+                item.innerHTML = `
+                    <span class="type-badge">${fav.type === 'games' ? '🎮' : fav.type === 'apps' ? '📱' : '🎬'}</span>
+                    <div class="bg-img" style="background-image: url('${fav.img}')"></div>
+                    <span class="item-title">${fav.name}</span>
+                    <button class="remove-fav" onclick="event.stopPropagation(); removeFavoriteQuick('${fav.type}', '${fav.name}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `
+
+                // Click to open
+                item.addEventListener('click', () => {
+                    if (fav.type === 'games') {
+                        navTo('play.html?launch=' + fav.url)
+                    } else if (fav.type === 'apps') {
+                        rSearch(fav.url)
+                    } else if (fav.type === 'movies') {
+                        navTo('movies')
+                    }
+                })
+
+                container.appendChild(item)
+            })
+        }
+
+        // Remove from Quick Access
+        function removeFavoriteQuick(type, name) {
+            VerdiFavorites.removeFavorite(type, name)
+            showToast('success', `Removed "${name}" from favorites`, 'far fa-heart')
+            renderQuickAccess()
+
+            // Also update card button if visible
+            const card = document.querySelector(`.app[data-name="${name}"][data-type="${type}"]`)
+            if (card) {
+                const btn = card.querySelector('.favorite-btn')
+                if (btn) {
+                    btn.classList.remove('active')
+                    btn.querySelector('i').classList.replace('fas', 'far')
+                }
+            }
         }
 
         const bgO = new IntersectionObserver(cards => {
@@ -644,7 +744,16 @@
         load("apps", "apps", "Apps", "rSearch", "")
         load(selectedStore.toLowerCase(), "games", "Games", "navTo", "play.html?launch=")
 
-        document.addEventListener("DOMContentLoaded", observe)
+        document.addEventListener("DOMContentLoaded", () => {
+            observe()
+            // Render Quick Access on page load
+            setTimeout(renderQuickAccess, 100)
+        })
+
+        // Handle favorites limit
+        window.addEventListener('favoritesLimitReached', (e) => {
+            showToast('warning', `Max ${e.detail.limit} favorites allowed! Remove one first.`, 'fas fa-exclamation-triangle')
+        })
 
         document.addEventListener("storeUpdated", (e) => {
             const newStore = e.detail.toLowerCase()
@@ -944,7 +1053,7 @@
         }
 
         // Make handleRoblox globally accessible
-        window.handleRoblox = function() {
+        window.handleRoblox = function () {
             try {
                 console.log('handleRoblox called');
                 const robloxModalId = 'roblox-choice-modal';

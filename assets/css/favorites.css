@@ -1,0 +1,207 @@
+/* Favorites System Styles */
+
+/* Quick Access Section - Fixed position below home content */
+.quick-access-section {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    text-align: left;
+    z-index: 2;
+}
+
+.quick-access-section h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    opacity: 0.7;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quick-access-section h3 i {
+    color: var(--accent);
+}
+
+.quick-access-container {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+}
+
+.quick-access-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.quick-access-container::-webkit-scrollbar-thumb {
+    background: var(--bg-3);
+    border-radius: 10px;
+}
+
+.quick-access-item {
+    flex-shrink: 0;
+    width: 90px;
+    height: 90px;
+    background: var(--bg-2);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 1px solid var(--border-4);
+}
+
+.quick-access-item:hover {
+    transform: scale(1.05);
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.quick-access-item .bg-img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: filter 0.25s;
+}
+
+.quick-access-item:hover .bg-img {
+    filter: brightness(0.6);
+}
+
+.quick-access-item .item-title {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    right: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: all 0.25s;
+}
+
+.quick-access-item:hover .item-title {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.quick-access-item .remove-fav {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s;
+    cursor: pointer;
+    color: #ff6b6b;
+    font-size: 10px;
+    border: none;
+}
+
+.quick-access-item:hover .remove-fav {
+    opacity: 1;
+}
+
+.quick-access-item .remove-fav:hover {
+    background: #ff6b6b;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Type badge on quick access items */
+.quick-access-item .type-badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    font-size: 12px;
+    padding: 2px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+/* Heart/Favorite Button on Cards */
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transition: all 0.25s ease;
+    border: none;
+    color: white;
+    font-size: 14px;
+}
+
+.app:hover .favorite-btn,
+.favorite-btn.active {
+    opacity: 1;
+}
+
+.favorite-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.15);
+}
+
+.favorite-btn.active {
+    color: #ff6b6b;
+}
+
+.favorite-btn.active i {
+    animation: heartPop 0.4s ease;
+}
+
+@keyframes heartPop {
+    0% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.3);
+    }
+
+    50% {
+        transform: scale(0.9);
+    }
+
+    75% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Filled heart animation */
+.favorite-btn i.fas.fa-heart {
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}

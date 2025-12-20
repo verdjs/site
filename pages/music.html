@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>verdis | music</title>
+    <link rel="shortcut icon" href="/assets/img/fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/css/colors.css" id="css-theme-link">
+    <link rel="stylesheet" href="/assets/css/music.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/icons/fonts/remixicon.css">
+    <link rel="stylesheet" href="/fa/css/all.css">
+    <script src="/assets/js/colors.js"></script>
+    <script src="/assets/js/music-player.js"></script>
+</head>
+
+<body>
+    <div class="music-app">
+        <!-- Header -->
+        <header class="music-header">
+            <h1>Music</h1>
+            <div class="header-actions">
+                <button class="header-btn" onclick="showPlaylistModal()"><i class="ri-add-circle-line"></i></button>
+            </div>
+        </header>
+
+        <!-- Search -->
+        <div class="search-container">
+            <div class="search-wrapper">
+                <i class="ri-search-line"></i>
+                <input type="text" class="search-bar" id="searchInput" placeholder="Artists, Songs, Lyrics, and More"
+                    autocomplete="off">
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="browse">Browse</button>
+            <button class="tab-btn" data-tab="library">Library</button>
+            <button class="tab-btn" data-tab="search">Search</button>
+        </div>
+
+        <!-- Content -->
+        <div class="music-content">
+            <!-- Browse Tab -->
+            <div id="browseTab" class="tab-content">
+                <!-- Recently Played -->
+                <div id="recentSection" style="display:none;">
+                    <h2 class="section-title">Recently Played</h2>
+                    <div class="horizontal-scroll" id="recentScroll"></div>
+                </div>
+
+                <!-- Liked Songs -->
+                <div id="likedSection" style="display:none;">
+                    <h2 class="section-title">Liked Songs</h2>
+                    <div class="horizontal-scroll" id="likedScroll"></div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyBrowse">
+                    <i class="ri-music-2-line"></i>
+                    <h3>Start Listening</h3>
+                    <p>Search for your favorite music to get started</p>
+                </div>
+            </div>
+
+            <!-- Library Tab -->
+            <div id="libraryTab" class="tab-content" style="display:none;">
+                <h2 class="section-title">Liked Songs</h2>
+                <div class="track-list" id="likedList"></div>
+
+                <h2 class="section-title">Playlists</h2>
+                <div class="track-list" id="playlistsList"></div>
+            </div>
+
+            <!-- Search Tab -->
+            <div id="searchTab" class="tab-content" style="display:none;">
+                <div class="loading-spinner" id="searchLoading" style="display:none;">Searching...</div>
+                <div class="track-list" id="searchResults"></div>
+                <div class="empty-state" id="searchEmpty">
+                    <i class="ri-search-line"></i>
+                    <h3>Search for Music</h3>
+                    <p>Find songs, artists, and more</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Now Playing Bar -->
+        <div class="now-playing-bar" id="nowPlayingBar" style="display:none;" onclick="openFullPlayer()">
+            <div class="now-playing-mini">
+                <div class="cover">
+                    <img id="miniCover" src="/assets/img/fav.png" alt="">
+                </div>
+                <div class="info">
+                    <div class="title" id="miniTitle">Not Playing</div>
+                    <div class="artist" id="miniArtist">-</div>
+                </div>
+                <div class="controls">
+                    <button class="ctrl-btn" onclick="event.stopPropagation();VerdiMusic.togglePlay()">
+                        <i id="miniPlayIcon" class="ri-play-fill"></i>
+                    </button>
+                    <button class="ctrl-btn" onclick="event.stopPropagation();VerdiMusic.next()">
+                        <i class="ri-skip-forward-fill"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mini-progress">
+                <div class="mini-progress-fill" id="miniProgress"></div>
+            </div>
+        </div>
+
+        <!-- Fullscreen Player -->
+        <div class="fullscreen-player" id="fullPlayer">
+            <div class="fs-header">
+                <button class="close-btn" onclick="closeFullPlayer()"><i class="ri-arrow-down-s-line"></i></button>
+                <span class="source">Now Playing</span>
+                <button class="menu-btn" onclick="toggleLyrics()"><i class="ri-file-music-line"></i></button>
+            </div>
+
+            <!-- Artwork View -->
+            <div class="fs-artwork" id="artworkView">
+                <div class="cover">
+                    <img id="fsCover" src="/assets/img/fav.png" alt="">
+                </div>
+            </div>
+
+            <!-- Lyrics View -->
+            <div class="lyrics-view" id="lyricsView">
+                <div id="lyricsContent"></div>
+            </div>
+
+            <div class="fs-track-info">
+                <div class="title" id="fsTitle">Not Playing</div>
+                <div class="artist" id="fsArtist">-</div>
+            </div>
+
+            <div class="fs-progress">
+                <div class="fs-progress-bar" id="fsProgressBar" onclick="seekFromClick(event)">
+                    <div class="fs-progress-fill" id="fsProgressFill" style="width:0%"></div>
+                </div>
+                <div class="fs-time">
+                    <span id="fsCurrentTime">0:00</span>
+                    <span id="fsDuration">0:00</span>
+                </div>
+            </div>
+
+            <div class="fs-controls">
+                <button class="ctrl-btn small" id="shuffleBtn" onclick="toggleShuffle()"><i
+                        class="ri-shuffle-line"></i></button>
+                <button class="ctrl-btn medium" onclick="VerdiMusic.previous()"><i
+                        class="ri-skip-back-fill"></i></button>
+                <button class="ctrl-btn play-btn" onclick="VerdiMusic.togglePlay()"><i id="fsPlayIcon"
+                        class="ri-play-fill"></i></button>
+                <button class="ctrl-btn medium" onclick="VerdiMusic.next()"><i
+                        class="ri-skip-forward-fill"></i></button>
+                <button class="ctrl-btn small" id="repeatBtn" onclick="toggleRepeat()"><i
+                        class="ri-repeat-line"></i></button>
+            </div>
+
+            <div class="fs-bottom">
+                <button class="action-btn"><i class="ri-volume-up-line"></i></button>
+                <button class="action-btn" id="fsLikeBtn" onclick="toggleLikeCurrent()"><i
+                        class="ri-heart-line"></i></button>
+                <button class="action-btn"><i class="ri-play-list-line"></i></button>
+                <button class="action-btn"><i class="ri-share-line"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = {
+            browse: document.getElementById('browseTab'),
+            library: document.getElementById('libraryTab'),
+            search: document.getElementById('searchTab')
+        };
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                Object.keys(tabContents).forEach(key => {
+                    tabContents[key].style.display = key === tab ? 'block' : 'none';
+                });
+
+                if (tab === 'library') loadLibrary();
+                if (tab === 'browse') loadBrowse();
+            });
+        });
+
+        // Search
+        const searchInput = document.getElementById('searchInput');
+        let searchTimeout;
+
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+
+            if (query.length < 2) return;
+
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 500);
+        });
+
+        searchInput.addEventListener('focus', () => {
+            // Switch to search tab when focused
+            tabBtns.forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-tab="search"]').classList.add('active');
+            Object.keys(tabContents).forEach(key => {
+                tabContents[key].style.display = key === 'search' ? 'block' : 'none';
+            });
+        });
+
+        async function performSearch(query) {
+            document.getElementById('searchLoading').style.display = 'flex';
+            document.getElementById('searchEmpty').style.display = 'none';
+            document.getElementById('searchResults').innerHTML = '';
+
+            try {
+                const results = await VerdiMusic.search(query);
+                document.getElementById('searchLoading').style.display = 'none';
+
+                if (results.length === 0) {
+                    document.getElementById('searchEmpty').innerHTML = `
+                        <i class="ri-search-line"></i>
+                        <h3>No Results</h3>
+                        <p>No songs found for "${escapeHtml(query)}"</p>
+                    `;
+                    document.getElementById('searchEmpty').style.display = 'block';
+                    return;
+                }
+
+                renderTrackList('searchResults', results);
+            } catch (err) {
+                document.getElementById('searchLoading').style.display = 'none';
+                document.getElementById('searchEmpty').innerHTML = `
+                    <i class="ri-error-warning-line"></i>
+                    <h3>Search Failed</h3>
+                    <p>Please try again</p>
+                `;
+                document.getElementById('searchEmpty').style.display = 'block';
+            }
+        }
+
+        // Render functions
+        function renderTrackList(containerId, tracks) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            tracks.forEach((track, i) => {
+                const current = VerdiMusic.getCurrentTrack();
+                const isPlaying = current && current.id === track.id;
+                const isLiked = VerdiMusic.isLiked(track.id);
+
+                const item = document.createElement('div');
+                item.className = 'track-item' + (isPlaying ? ' playing' : '');
+                item.innerHTML = `
+                    <div class="thumb">
+                        <img src="${track.thumbnail || '/assets/img/fav.png'}" alt="" onerror="this.src='/assets/img/fav.png'">
+                    </div>
+                    <div class="info">
+                        <div class="name">${escapeHtml(track.title)}</div>
+                        <div class="artist">${escapeHtml(track.artist)}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation();toggleLike(${i})">
+                            <i class="${isLiked ? 'ri-heart-fill' : 'ri-heart-line'}"></i>
+                        </button>
+                    </div>
+                `;
+
+                item.addEventListener('click', () => playTrack(track, tracks, i));
+                container.appendChild(item);
+            });
+
+            // Store tracks for reference
+            container._tracks = tracks;
+        }
+
+        function renderHorizontalCards(containerId, tracks) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            tracks.slice(0, 10).forEach((track, i) => {
+                const card = document.createElement('div');
+                card.className = 'scroll-card';
+                card.innerHTML = `
+                    <div class="cover">
+                        <img src="${track.thumbnail || '/assets/img/fav.png'}" alt="" onerror="this.src='/assets/img/fav.png'">
+                    </div>
+                    <div class="title">${escapeHtml(track.title)}</div>
+                    <div class="subtitle">${escapeHtml(track.artist)}</div>
+                `;
+                card.addEventListener('click', () => playTrack(track, tracks, i));
+                container.appendChild(card);
+            });
+        }
+
+        // Load content
+        function loadBrowse() {
+            const recent = VerdiMusic.getRecentlyPlayed();
+            const liked = VerdiMusic.getLikedSongs();
+
+            if (recent.length > 0) {
+                document.getElementById('recentSection').style.display = 'block';
+                renderHorizontalCards('recentScroll', recent);
+            } else {
+                document.getElementById('recentSection').style.display = 'none';
+            }
+
+            if (liked.length > 0) {
+                document.getElementById('likedSection').style.display = 'block';
+                renderHorizontalCards('likedScroll', liked);
+            } else {
+                document.getElementById('likedSection').style.display = 'none';
+            }
+
+            document.getElementById('emptyBrowse').style.display =
+                (recent.length === 0 && liked.length === 0) ? 'block' : 'none';
+        }
+
+        function loadLibrary() {
+            const liked = VerdiMusic.getLikedSongs();
+            renderTrackList('likedList', liked);
+
+            const playlists = VerdiMusic.getPlaylists();
+            const container = document.getElementById('playlistsList');
+            container.innerHTML = '';
+            playlists.forEach(pl => {
+                const item = document.createElement('div');
+                item.className = 'track-item';
+                item.innerHTML = `
+                    <div class="thumb" style="background:linear-gradient(135deg,var(--music-accent),#8b5cf6);display:flex;align-items:center;justify-content:center;">
+                        <i class="ri-music-2-line" style="font-size:24px;color:white;"></i>
+                    </div>
+                    <div class="info">
+                        <div class="name">${escapeHtml(pl.name)}</div>
+                        <div class="artist">${pl.tracks.length} songs</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Playback
+        async function playTrack(track, allTracks, index) {
+            if (allTracks && allTracks.length > 0) {
+                VerdiMusic.setQueue(allTracks, index);
+            }
+            await VerdiMusic.play(track);
+        }
+
+        function toggleLike(index) {
+            const container = document.getElementById('searchResults');
+            if (container._tracks && container._tracks[index]) {
+                VerdiMusic.toggleLike(container._tracks[index]);
+                performSearch(searchInput.value.trim());
+            }
+        }
+
+        function toggleLikeCurrent() {
+            const track = VerdiMusic.getCurrentTrack();
+            if (track) {
+                const liked = VerdiMusic.toggleLike(track);
+                const btn = document.getElementById('fsLikeBtn');
+                const icon = btn.querySelector('i');
+                btn.classList.toggle('active', liked);
+                icon.className = liked ? 'ri-heart-fill' : 'ri-heart-line';
+            }
+        }
+
+        function toggleShuffle() {
+            const shuffle = VerdiMusic.toggleShuffle();
+            document.getElementById('shuffleBtn').classList.toggle('active', shuffle);
+        }
+
+        function toggleRepeat() {
+            const mode = VerdiMusic.toggleRepeat();
+            const btn = document.getElementById('repeatBtn');
+            const icon = btn.querySelector('i');
+            btn.classList.toggle('active', mode !== 'off');
+            icon.className = mode === 'one' ? 'ri-repeat-one-line' : 'ri-repeat-line';
+        }
+
+        // Fullscreen player
+        function openFullPlayer() {
+            document.getElementById('fullPlayer').classList.add('open');
+        }
+
+        function closeFullPlayer() {
+            document.getElementById('fullPlayer').classList.remove('open');
+        }
+
+        function toggleLyrics() {
+            const artwork = document.getElementById('artworkView');
+            const lyrics = document.getElementById('lyricsView');
+            artwork.style.display = artwork.style.display === 'none' ? 'flex' : 'none';
+            lyrics.classList.toggle('active', artwork.style.display === 'none');
+        }
+
+        function seekFromClick(e) {
+            const bar = e.currentTarget;
+            const rect = bar.getBoundingClientRect();
+            const percent = ((e.clientX - rect.left) / rect.width) * 100;
+            VerdiMusic.seekPercent(percent);
+        }
+
+        // Lyrics
+        async function loadLyrics() {
+            const track = VerdiMusic.getCurrentTrack();
+            if (!track) return;
+
+            const container = document.getElementById('lyricsContent');
+            container.innerHTML = '<div class="loading-spinner">Loading lyrics...</div>';
+
+            const data = await VerdiMusic.getLyrics(track.title, track.artist);
+
+            if (!data) {
+                container.innerHTML = '<div class="empty-state" style="padding:20px;"><i class="ri-music-line"></i><h3>No Lyrics</h3></div>';
+                return;
+            }
+
+            if (data.synced && data.lyrics) {
+                container.innerHTML = data.lyrics.map((line, i) =>
+                    `<div class="lyrics-line" data-time="${line.time}" data-index="${i}">${escapeHtml(line.text)}</div>`
+                ).join('');
+            } else if (data.plain) {
+                container.innerHTML = data.plain.split('\n').map(line =>
+                    `<div class="lyrics-line">${escapeHtml(line)}</div>`
+                ).join('');
+            }
+        }
+
+        // Update UI on events
+        window.addEventListener('verdimusic:trackchange', (e) => {
+            const track = e.detail.track;
+            if (track) {
+                // Show now playing bar
+                document.getElementById('nowPlayingBar').style.display = 'block';
+
+                // Mini player
+                document.getElementById('miniCover').src = track.thumbnail || '/assets/img/fav.png';
+                document.getElementById('miniTitle').textContent = track.title;
+                document.getElementById('miniArtist').textContent = track.artist;
+
+                // Full player
+                document.getElementById('fsCover').src = track.thumbnail || '/assets/img/fav.png';
+                document.getElementById('fsTitle').textContent = track.title;
+                document.getElementById('fsArtist').textContent = track.artist;
+
+                // Like button
+                const liked = VerdiMusic.isLiked(track.id);
+                const likeBtn = document.getElementById('fsLikeBtn');
+                likeBtn.classList.toggle('active', liked);
+                likeBtn.querySelector('i').className = liked ? 'ri-heart-fill' : 'ri-heart-line';
+
+                loadLyrics();
+            }
+        });
+
+        window.addEventListener('verdimusic:play', () => {
+            document.getElementById('miniPlayIcon').className = 'ri-pause-fill';
+            document.getElementById('fsPlayIcon').className = 'ri-pause-fill';
+        });
+
+        window.addEventListener('verdimusic:pause', () => {
+            document.getElementById('miniPlayIcon').className = 'ri-play-fill';
+            document.getElementById('fsPlayIcon').className = 'ri-play-fill';
+        });
+
+        window.addEventListener('verdimusic:timeupdate', (e) => {
+            const { currentTime, duration } = e.detail;
+            if (duration) {
+                const percent = (currentTime / duration) * 100;
+                document.getElementById('miniProgress').style.width = percent + '%';
+                document.getElementById('fsProgressFill').style.width = percent + '%';
+                document.getElementById('fsCurrentTime').textContent = VerdiMusic.formatDuration(currentTime);
+                document.getElementById('fsDuration').textContent = VerdiMusic.formatDuration(duration);
+
+                // Update lyrics highlight
+                const lines = document.querySelectorAll('#lyricsContent .lyrics-line[data-time]');
+                let activeIdx = -1;
+                lines.forEach((line, i) => {
+                    const time = parseFloat(line.dataset.time);
+                    if (currentTime >= time) activeIdx = i;
+                });
+                lines.forEach((line, i) => {
+                    line.classList.toggle('active', i === activeIdx);
+                    line.classList.toggle('past', i < activeIdx);
+                });
+                if (activeIdx >= 0 && lines[activeIdx]) {
+                    lines[activeIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+
+        // Utility
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBrowse();
+
+            // Restore player state
+            const track = VerdiMusic.getCurrentTrack();
+            if (track) {
+                document.getElementById('nowPlayingBar').style.display = 'block';
+                document.getElementById('miniCover').src = track.thumbnail || '/assets/img/fav.png';
+                document.getElementById('miniTitle').textContent = track.title;
+                document.getElementById('miniArtist').textContent = track.artist;
+                document.getElementById('fsCover').src = track.thumbnail || '/assets/img/fav.png';
+                document.getElementById('fsTitle').textContent = track.title;
+                document.getElementById('fsArtist').textContent = track.artist;
+            }
+
+            // Shuffle/repeat state
+            document.getElementById('shuffleBtn').classList.toggle('active', VerdiMusic.getShuffleMode());
+            const repeat = VerdiMusic.getRepeatMode();
+            document.getElementById('repeatBtn').classList.toggle('active', repeat !== 'off');
+        });
+    </script>
+</body>
+
+</html>

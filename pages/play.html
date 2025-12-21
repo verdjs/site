@@ -325,32 +325,33 @@
             return encodeURIComponent(result);
         }
 
-        // Proxy external URLs using Ultraviolet
+        // Proxy URL through Ultraviolet using minenowheheheh.pages.dev
         async function getProxiedUrl(url) {
             if (!(await connection.getTransport())) {
                 connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
             }
-            return '/uv/service/' + uvEncode(url);
+
+            // Convert relative URL to full URL using minenowheheheh.pages.dev
+            let fullUrl = url;
+            if (url.startsWith('/')) {
+                fullUrl = 'https://minenowheheheh.pages.dev' + url;
+            }
+
+            return '/uv/service/' + uvEncode(fullUrl);
         }
 
         if (gameurl) {
             const decodedUrl = decodeURIComponent(gameurl);
 
-            // Local games load directly - service worker rewrites CDN URLs in HTML
-            // External games proxy through Ultraviolet
-            if (isLocalUrl(decodedUrl)) {
+            // Proxy all games through UV using minenowheheheh.pages.dev domain
+            getProxiedUrl(decodedUrl).then(proxiedUrl => {
+                gameframe.src = proxiedUrl;
+                gameframe.focus();
+            }).catch(err => {
+                console.warn("Proxy failed:", err);
                 gameframe.src = decodedUrl;
                 gameframe.focus();
-            } else {
-                getProxiedUrl(decodedUrl).then(proxiedUrl => {
-                    gameframe.src = proxiedUrl;
-                    gameframe.focus();
-                }).catch(err => {
-                    console.warn("Proxy failed:", err);
-                    gameframe.src = decodedUrl;
-                    gameframe.focus();
-                });
-            }
+            });
 
             gameframe.onload = () => {
                 try {

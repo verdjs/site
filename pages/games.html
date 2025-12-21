@@ -281,12 +281,25 @@
         let res
 
         async function getJson() {
-            res = await fetch('/assets/json/gn-math.json');
-            data = await res.json();
+            try {
+                res = await fetch('/assets/json/gn-math.json');
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+                data = await res.json();
+                console.log("Games loaded:", data.length);
+            } catch (err) {
+                console.error("Failed to load games JSON:", err);
+                throw err;
+            }
         }
 
         function loadApps() {
             getJson().then(() => {
+                if (!data || !data.length) {
+                    console.warn("No games data found");
+                    return;
+                }
                 data.forEach(app => {
                     const appDiv = document.createElement('div');
                     appDiv.classList.add('app');
@@ -300,7 +313,11 @@
 
                     acont.appendChild(appDiv);
                 });
-            })
+            }).catch(err => {
+                console.error("Error loading apps:", err);
+                // Show error message to user
+                acont.innerHTML = '<p style="color: red; text-align: center;">Failed to load games. Check console for details.</p>';
+            });
         }
 
         loadApps()

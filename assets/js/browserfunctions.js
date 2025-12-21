@@ -40,6 +40,34 @@ const scramjet = new ScramjetController({
 });
 scramjet.init();
 
+const bypassDomains = [
+  "github.io",
+  "gitlab.io",
+  "pages.dev",
+  "vercel.app",
+  "netlify.app",
+  "territorial.io",
+  "raw.githubusercontent.com",
+  "cdn.jsdelivr.net",
+  "googleusercontent.com",
+  "3kh0.github.io",
+  "unblocked-games.github.io",
+  "bitbucket.io",
+  "idkrly1919.github.io"
+];
+
+function getEncodedUrl(url) {
+  if (bypassDomains.some(domain => url.includes(domain))) {
+    return url;
+  }
+  const backendRaw = localStorage.getItem("verdis_backend");
+  const backend = (backendRaw ?? "scramjet").toLowerCase();
+  const useUv = backend === "ultraviolet";
+  return useUv
+    ? "/uv/service/" + __uv$config.encodeUrl(url)
+    : scramjet.encodeUrl(url);
+}
+
 function newTab() {
   const tabCont = document.querySelector(".tabs");
   const nTab = {
@@ -188,14 +216,7 @@ async function nav(i) {
   cTab.historyIndex++;
 
   cTab.url = url;
-  const backendRaw = localStorage.getItem("verdis_backend");
-  const backend = (backendRaw ?? "scramjet").toLowerCase();
-  const useUv = backend === "ultraviolet";
-  const fUrl = useUv
-    ? "/uv/service/" + __uv$config.encodeUrl(url)
-    : scramjet.encodeUrl(url);
-
-  go(fUrl);
+  go(getEncodedUrl(url));
 }
 
 function updateUrlFromIframe(viewframe) {
@@ -300,36 +321,17 @@ function b() {
   cTab.historyIndex--;
   const u = cTab.history[cTab.historyIndex];
   cTab.url = u;
-  let furl;
-  const ba = localStorage.getItem("verdis_backend");
-  if (ba.toLowerCase() === "scramjet") {
-    furl = scramjet.encodeUrl(u);
-  } else if (ba.toLowerCase() === "ultraviolet") {
-    furl = __uv$config.prefix + __uv$config.encodeUrl(u);
-  } else {
-    furl = scramjet.encodeUrl(u);
-  }
-
-  go(furl);
+  go(getEncodedUrl(u));
 }
 
 function f() {
   const cTab = bTabs.find((t) => t.id === aTab);
 
   cTab.historyIndex++;
+  cTab.historyIndex++;
   const u = cTab.history[cTab.historyIndex];
   cTab.url = u;
-  let furl;
-  const ba = localStorage.getItem("verdis_backend");
-  if (ba.toLowerCase() === "scramjet") {
-    furl = scramjet.encodeUrl(u);
-  } else if (ba.toLowerCase() === "ultraviolet") {
-    furl = __uv$config.prefix + __uv$config.encodeUrl(u);
-  } else {
-    furl = scramjet.encodeUrl(u);
-  }
-
-  go(furl);
+  go(getEncodedUrl(u));
 }
 
 function r() {

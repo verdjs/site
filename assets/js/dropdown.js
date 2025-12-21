@@ -123,9 +123,8 @@ function closeAllSelectors() {
     );
 }
 
-const defaultWispUrl = `${
-  window.location.protocol === "https:" ? "wss" : "ws"
-}://${window.location.host}/w/`;
+const defaultWispUrl = `${window.location.protocol === "https:" ? "wss" : "ws"
+  }://${window.location.host}/w/`;
 const allBackendOptions = ["Ultraviolet", "Scramjet"];
 const allTransportOptions = ["Epoxy", "Libcurl"];
 const allSearchEngineOptions = [
@@ -263,7 +262,7 @@ const allThemeOptions = [
   "violet",
 ];
 
-const allStoreOptions = ["Classplay", "GN-Math"];
+const allStoreOptions = ["Classplay", "GN-Math", "Seraph"];
 
 function createSelector(
   selectorType,
@@ -329,12 +328,12 @@ function applyDecoy(s) {
   if (s === "None" || !selected) {
     console.log(
       "Stayed as " +
-        favicon.href +
-        " " +
-        document.title +
-        " and " +
-        s +
-        " was selected"
+      favicon.href +
+      " " +
+      document.title +
+      " and " +
+      s +
+      " was selected"
     );
     document.title = "Google Classroom";
     favicon.href = "https://ssl.gstatic.com/classroom/favicon.png";

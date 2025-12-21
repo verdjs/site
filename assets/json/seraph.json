@@ -1,0 +1,3008 @@
+[
+  {
+    "name": "Slope",
+    "img": "/assets/img/games/seraph/slope.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/slope/index.html",
+    "embed": true
+  },
+  {
+    "name": "Subwaysurfers",
+    "img": "/assets/img/games/seraph/subwaysurfers.png",
+    "url": "https://idkrly1919.github.io/seraph/games/subwaysurfers/index.html",
+    "embed": true
+  },
+  {
+    "name": "Flappy",
+    "img": "/assets/img/games/seraph/flappy.png",
+    "url": "https://idkrly1919.github.io/seraph/games/flappy/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papaspizzaria",
+    "img": "/assets/img/games/seraph/papaspizzeria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papaspizzaria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papasburgeria",
+    "img": "/assets/img/games/seraph/papasburgeria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papasburgeria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Super Mario 64",
+    "img": "/assets/img/games/seraph/sm64.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/sm64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Run 3",
+    "img": "/assets/img/games/seraph/run3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/run3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bitlife",
+    "img": "/assets/img/games/seraph/bitlife.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/bitlife/index.html",
+    "embed": true
+  },
+  {
+    "name": "Crossy",
+    "img": "/assets/img/games/seraph/crossy.png",
+    "url": "https://idkrly1919.github.io/seraph/games/crossy/index.html",
+    "embed": true
+  },
+  {
+    "name": "Minecraft",
+    "img": "/assets/img/games/seraph/mc.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/mc/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cookieclicker",
+    "img": "/assets/img/games/seraph/cookieclicker.png",
+    "url": "https://idkrly1919.github.io/seraph/games/cookieclicker/index.html",
+    "embed": true
+  },
+  {
+    "name": "Templerun 2",
+    "img": "/assets/img/games/seraph/templerun2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/templerun2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ducklife 4",
+    "img": "/assets/img/games/seraph/ducklife4.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Dinogame",
+    "img": "/assets/img/games/seraph/chromedino.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/dinogame/index.html",
+    "embed": true
+  },
+  {
+    "name": "Jetpackjoyride",
+    "img": "/assets/img/games/seraph/jetpackjoyride.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/jetpackjoyride/index.html",
+    "embed": true
+  },
+  {
+    "name": "Retrobowl",
+    "img": "/assets/img/games/seraph/retrobowl.png",
+    "url": "https://idkrly1919.github.io/seraph/games/retrobowl/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fruitninja",
+    "img": "/assets/img/games/seraph/fruitninja.png",
+    "url": "https://idkrly1919.github.io/seraph/games/fruitninja/index.html",
+    "embed": true
+  },
+  {
+    "name": "Doodlejump",
+    "img": "/assets/img/games/seraph/doodlejump.png",
+    "url": "https://idkrly1919.github.io/seraph/games/doodlejump/index.html",
+    "embed": true
+  },
+  {
+    "name": "2048",
+    "img": "/assets/img/games/seraph/2048.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/2048/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tetris",
+    "img": "/assets/img/games/seraph/tetris.png",
+    "url": "https://idkrly1919.github.io/seraph/games/tetris/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fancypantsadventure",
+    "img": "/assets/img/games/seraph/fancypantsadventure.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/fancypantsadventure/index.html",
+    "embed": true
+  },
+  {
+    "name": "Happywheels",
+    "img": "/assets/img/games/seraph/happywheels.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/happywheels/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papashotdoggeria",
+    "img": "/assets/img/games/seraph/papashotdoggeria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papashotdoggeria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Paper.io 2",
+    "img": "/assets/img/games/seraph/paperio2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/paperio2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Superhot",
+    "img": "/assets/img/games/seraph/superhot.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/superhot/index.html",
+    "embed": true
+  },
+  {
+    "name": "Thebindingofisaac",
+    "img": "/assets/img/games/seraph/thebindingofisaac.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/thebindingofisaac/index.html",
+    "embed": true
+  },
+  {
+    "name": "Townscaper",
+    "img": "/assets/img/games/seraph/townscaper.png",
+    "url": "https://idkrly1919.github.io/seraph/games/townscaper/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tunnelrush",
+    "img": "/assets/img/games/seraph/tunnelrush.png",
+    "url": "https://idkrly1919.github.io/seraph/games/tunnelrush/index.html",
+    "embed": true
+  },
+  {
+    "name": "Themehotel",
+    "img": "/assets/img/games/seraph/themehotel.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/themehotel/index.html",
+    "embed": true
+  },
+  {
+    "name": "Escapingtheprison",
+    "img": "/assets/img/games/seraph/escapingtheprison.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/escapingtheprison/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stealingthediamond",
+    "img": "/assets/img/games/seraph/stealingthediamond.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/stealingthediamond/index.html",
+    "embed": true
+  },
+  {
+    "name": "Infiltratingtheairship",
+    "img": "/assets/img/games/seraph/infiltratingtheairship.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/infiltratingtheairship/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fleeingthecomplex",
+    "img": "/assets/img/games/seraph/fleeingthecomplex.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/fleeingthecomplex/index.html",
+    "embed": true
+  },
+  {
+    "name": "Theimpossiblequiz",
+    "img": "/assets/img/games/seraph/theimpossiblequiz.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/theimpossiblequiz/index.html",
+    "embed": true
+  },
+  {
+    "name": "Solitaire",
+    "img": "/assets/img/games/seraph/solitaire.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/solitaire/index.html",
+    "embed": true
+  },
+  {
+    "name": "Drifthunters",
+    "img": "/assets/img/games/seraph/drifthunters.png",
+    "url": "https://idkrly1919.github.io/seraph/games/drifthunters/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vex 6",
+    "img": "/assets/img/games/seraph/vex6.png",
+    "url": "https://idkrly1919.github.io/seraph/games/vex6/index.html",
+    "embed": true
+  },
+  {
+    "name": "Amongus",
+    "img": "/assets/img/games/seraph/amongus.png",
+    "url": "https://idkrly1919.github.io/seraph/games/amongus/index.html",
+    "embed": true
+  },
+  {
+    "name": "Surf",
+    "img": "/assets/img/games/seraph/surf.png",
+    "url": "https://idkrly1919.github.io/seraph/games/surf/index.html",
+    "embed": true
+  },
+  {
+    "name": "Moto X3M",
+    "img": "/assets/img/games/seraph/motox3m.png",
+    "url": "https://idkrly1919.github.io/seraph/games/motox3m/index.html",
+    "embed": true
+  },
+  {
+    "name": "Five Nights at Freddy's",
+    "img": "/assets/img/games/seraph/fnaf.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/fnaf/index.html",
+    "embed": true
+  },
+  {
+    "name": "Five Nights at Freddy's 2",
+    "img": "/assets/img/games/seraph/fnaf2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/fnaf-2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Five Nights at Freddy's 3",
+    "img": "/assets/img/games/seraph/fnaf3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/fnaf-3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Five Nights at Freddy's 4",
+    "img": "/assets/img/games/seraph/fnaf4.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/fnaf-4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Riddle School 1",
+    "img": "/assets/img/games/seraph/riddleschool.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool1/index.html",
+    "embed": true
+  },
+  {
+    "name": "Riddle School 2",
+    "img": "/assets/img/games/seraph/riddleschool2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Riddle School 3",
+    "img": "/assets/img/games/seraph/riddleschool3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Riddle School 4",
+    "img": "/assets/img/games/seraph/riddleschool4.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Riddle School 5",
+    "img": "/assets/img/games/seraph/riddleschool5.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddleschool5/index.html",
+    "embed": true
+  },
+  {
+    "name": "Riddle Transfer",
+    "img": "/assets/img/games/seraph/riddletransfer.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddletransfer/index.html",
+    "embed": true
+  },
+  {
+    "name": "Riddle Transfer 2",
+    "img": "/assets/img/games/seraph/riddletransfer2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/riddleschool/riddletransfer2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Driftboss",
+    "img": "/assets/img/games/seraph/driftboss.png",
+    "url": "https://idkrly1919.github.io/seraph/games/driftboss/index.html",
+    "embed": true
+  },
+  {
+    "name": "Friday Night Funkin'",
+    "img": "/assets/img/games/seraph/fnf.png",
+    "url": "https://idkrly1919.github.io/seraph/games/fnf/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pacman",
+    "img": "/assets/img/games/seraph/pacman.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pacman/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papaspancakeria",
+    "img": "/assets/img/games/seraph/papaspancakeria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papaspancakeria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Rooftop",
+    "img": "/assets/img/games/seraph/rooftopsnipers.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/rooftop/index.html",
+    "embed": true
+  },
+  {
+    "name": "Baldisbasics",
+    "img": "/assets/img/games/seraph/baldisbasics.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/baldisbasics/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bobtherobber 2",
+    "img": "/assets/img/games/seraph/bobtherobber2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/bobtherobber2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Minesweeper",
+    "img": "/assets/img/games/seraph/minesweeper.png",
+    "url": "https://idkrly1919.github.io/seraph/games/minesweeper/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonemerald",
+    "img": "/assets/img/games/seraph/pokemonemerald.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonemerald/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonfirered",
+    "img": "/assets/img/games/seraph/pokemonfirered.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonfirered/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermariobros",
+    "img": "/assets/img/games/seraph/supermariobros.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermariobros/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermariokart",
+    "img": "/assets/img/games/seraph/supermariokart.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermariokart/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermarioworld",
+    "img": "/assets/img/games/seraph/supermarioworld.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermarioworld/index.html",
+    "embed": true
+  },
+  {
+    "name": "Thereisnogame",
+    "img": "/assets/img/games/seraph/thereisnogame.png",
+    "url": "https://idkrly1919.github.io/seraph/games/thereisnogame/index.html",
+    "embed": true
+  },
+  {
+    "name": "Worldshardestgame",
+    "img": "/assets/img/games/seraph/worldshardestgame.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/worldshardestgame/index.html",
+    "embed": true
+  },
+  {
+    "name": "Castlevania",
+    "img": "/assets/img/games/seraph/castlevania.png",
+    "url": "https://idkrly1919.github.io/seraph/games/castlevania/index.html",
+    "embed": true
+  },
+  {
+    "name": "Donkeykong",
+    "img": "/assets/img/games/seraph/donkeykong.png",
+    "url": "https://idkrly1919.github.io/seraph/games/donkeykong/index.html",
+    "embed": true
+  },
+  {
+    "name": "Drmario",
+    "img": "/assets/img/games/seraph/drmario.png",
+    "url": "https://idkrly1919.github.io/seraph/games/drmario/index.html",
+    "embed": true
+  },
+  {
+    "name": "Metroid",
+    "img": "/assets/img/games/seraph/metroid.png",
+    "url": "https://idkrly1919.github.io/seraph/games/metroid/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermariobros 2",
+    "img": "/assets/img/games/seraph/supermariobros2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermariobros2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermariobros 3",
+    "img": "/assets/img/games/seraph/supermariobros3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermariobros3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Thelegendofzelda",
+    "img": "/assets/img/games/seraph/thelegendofzelda.png",
+    "url": "https://idkrly1919.github.io/seraph/games/thelegendofzelda/index.html",
+    "embed": true
+  },
+  {
+    "name": "Warioware",
+    "img": "/assets/img/games/seraph/warioware.png",
+    "url": "https://idkrly1919.github.io/seraph/games/warioware/index.html",
+    "embed": true
+  },
+  {
+    "name": "Yoshisisland",
+    "img": "/assets/img/games/seraph/yoshisisland.png",
+    "url": "https://idkrly1919.github.io/seraph/games/yoshisisland/index.html",
+    "embed": true
+  },
+  {
+    "name": "Donkeykongland",
+    "img": "/assets/img/games/seraph/donkeykongland.png",
+    "url": "https://idkrly1919.github.io/seraph/games/donkeykongland/index.html",
+    "embed": true
+  },
+  {
+    "name": "Kirbysdreamland",
+    "img": "/assets/img/games/seraph/kirbysdreamland.png",
+    "url": "https://idkrly1919.github.io/seraph/games/kirbysdreamland/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermarioland",
+    "img": "/assets/img/games/seraph/supermarioland.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermarioland/index.html",
+    "embed": true
+  },
+  {
+    "name": "Dogeminer",
+    "img": "/assets/img/games/seraph/dogeminer.png",
+    "url": "https://idkrly1919.github.io/seraph/games/dogeminer/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tanukisunset",
+    "img": "/assets/img/games/seraph/tanukisunset.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/tanukisunset/index.html",
+    "embed": true
+  },
+  {
+    "name": "Aquaparkslides",
+    "img": "/assets/img/games/seraph/aquaparkslides.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/aquaparkslides/index.html",
+    "embed": true
+  },
+  {
+    "name": "Colorswitch",
+    "img": "/assets/img/games/seraph/colorswitch.png",
+    "url": "https://idkrly1919.github.io/seraph/games/colorswitch/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papasfreezeria",
+    "img": "/assets/img/games/seraph/papasfreezeria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papasfreezeria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bloons TD",
+    "img": "/assets/img/games/seraph/btd.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/btd/btd/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bloons TD 2",
+    "img": "/assets/img/games/seraph/btd2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/btd/btd2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bloons TD 3",
+    "img": "/assets/img/games/seraph/btd3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/btd/btd3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bloons TD 4",
+    "img": "/assets/img/games/seraph/btd4.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/btd/btd4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bomberman",
+    "img": "/assets/img/games/seraph/bomberman.png",
+    "url": "https://idkrly1919.github.io/seraph/games/bomberman/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fireemblem",
+    "img": "/assets/img/games/seraph/fireemblem.png",
+    "url": "https://idkrly1919.github.io/seraph/games/fireemblem/index.html",
+    "embed": true
+  },
+  {
+    "name": "Iceclimber",
+    "img": "/assets/img/games/seraph/iceclimber.png",
+    "url": "https://idkrly1919.github.io/seraph/games/iceclimber/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariokartsupercircuit",
+    "img": "/assets/img/games/seraph/mariokartsupercircuit.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariokartsupercircuit/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonleafgreen",
+    "img": "/assets/img/games/seraph/pokemonleafgreen.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonleafgreen/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonruby",
+    "img": "/assets/img/games/seraph/pokemonruby.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonruby/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonsapphire",
+    "img": "/assets/img/games/seraph/pokemonsapphire.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonsapphire/index.html",
+    "embed": true
+  },
+  {
+    "name": "Superstarsaga",
+    "img": "/assets/img/games/seraph/superstarsaga.png",
+    "url": "https://idkrly1919.github.io/seraph/games/superstarsaga/index.html",
+    "embed": true
+  },
+  {
+    "name": "A Dance of Fire and Ice",
+    "img": "/assets/img/games/seraph/adofai.png",
+    "url": "https://idkrly1919.github.io/seraph/games/adofai/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supersmashflash",
+    "img": "/assets/img/games/seraph/supersmashflash.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/supersmashflash/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermeatboy",
+    "img": "/assets/img/games/seraph/supermeatboy.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/supermeatboy/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stickmanhook",
+    "img": "/assets/img/games/seraph/stickmanhook.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/stickmanhook/index.html",
+    "embed": true
+  },
+  {
+    "name": "Defendthetank",
+    "img": "/assets/img/games/seraph/defendthetank.png",
+    "url": "https://idkrly1919.github.io/seraph/games/defendthetank/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sortthecourt",
+    "img": "/assets/img/games/seraph/sortthecourt.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sortthecourt/index.html",
+    "embed": true
+  },
+  {
+    "name": "Thisistheonlylevel",
+    "img": "/assets/img/games/seraph/thisistheonlylevel.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/thisistheonlylevel/index.html",
+    "embed": true
+  },
+  {
+    "name": "Run",
+    "img": "/assets/img/games/seraph/run.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/run/index.html",
+    "embed": true
+  },
+  {
+    "name": "Run 2",
+    "img": "/assets/img/games/seraph/run2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/run2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Battleships",
+    "img": "/assets/img/games/seraph/battleships.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/battleships/index.html",
+    "embed": true
+  },
+  {
+    "name": "Breakingthebank",
+    "img": "/assets/img/games/seraph/breakingthebank.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/breakingthebank/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ducklife",
+    "img": "/assets/img/games/seraph/ducklife.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ducklife 2",
+    "img": "/assets/img/games/seraph/ducklife2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ducklife 3",
+    "img": "/assets/img/games/seraph/ducklife3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Linerider",
+    "img": "/assets/img/games/seraph/linerider.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/linerider/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariocombat",
+    "img": "/assets/img/games/seraph/mariocombat.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/mariocombat/index.html",
+    "embed": true
+  },
+  {
+    "name": "Raftwars 2",
+    "img": "/assets/img/games/seraph/raftwars2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/raftwars2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Spaceinvaders",
+    "img": "/assets/img/games/seraph/spaceinvaders.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/spaceinvaders/index.html",
+    "embed": true
+  },
+  {
+    "name": "Animalcrossingwildworld",
+    "img": "/assets/img/games/seraph/animalcrossingwildworld.png",
+    "url": "https://idkrly1919.github.io/seraph/games/animalcrossingwildworld/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariokartds",
+    "img": "/assets/img/games/seraph/mariokartds.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariokartds/index.html",
+    "embed": true
+  },
+  {
+    "name": "Newsupermariobros",
+    "img": "/assets/img/games/seraph/newsupermariobros.png",
+    "url": "https://idkrly1919.github.io/seraph/games/newsupermariobros/index.html",
+    "embed": true
+  },
+  {
+    "name": "Nintendogs",
+    "img": "/assets/img/games/seraph/nintendogs.png",
+    "url": "https://idkrly1919.github.io/seraph/games/nintendogs/index.html",
+    "embed": true
+  },
+  {
+    "name": "Super Mario 64 DS",
+    "img": "/assets/img/games/seraph/sm64ds.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sm64ds/index.html",
+    "embed": true
+  },
+  {
+    "name": "Gunmayhem",
+    "img": "/assets/img/games/seraph/gunmayhem.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/gunmayhem/index.html",
+    "embed": true
+  },
+  {
+    "name": "Learntofly",
+    "img": "/assets/img/games/seraph/learntofly.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/learntofly/index.html",
+    "embed": true
+  },
+  {
+    "name": "Rooftop 2",
+    "img": "/assets/img/games/seraph/rooftopsnipers2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/rooftop2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fireboywatergirl",
+    "img": "/assets/img/games/seraph/fireboywatergirl.png",
+    "url": "https://idkrly1919.github.io/seraph/games/fireboywatergirl/index.html",
+    "embed": true
+  },
+  {
+    "name": "Chibiknight",
+    "img": "/assets/img/games/seraph/chibiknight.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/chibiknight/index.html",
+    "embed": true
+  },
+  {
+    "name": "Clusterrush",
+    "img": "/assets/img/games/seraph/clusterrush.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/clusterrush/index.html",
+    "embed": true
+  },
+  {
+    "name": "Doodledefender",
+    "img": "/assets/img/games/seraph/doodledefender.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/doodledefender/index.html",
+    "embed": true
+  },
+  {
+    "name": "Learntofly 2",
+    "img": "/assets/img/games/seraph/learntofly2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/learntofly2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papasscooperia",
+    "img": "/assets/img/games/seraph/papasscooperia.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papasscooperia/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papassushiria",
+    "img": "/assets/img/games/seraph/papassushiria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papassushiria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papaswingeria",
+    "img": "/assets/img/games/seraph/papaswingeria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papaswingeria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Raftwars",
+    "img": "/assets/img/games/seraph/raftwars.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/raftwars/index.html",
+    "embed": true
+  },
+  {
+    "name": "Unfairmario",
+    "img": "/assets/img/games/seraph/unfairmario.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/unfairmario/index.html",
+    "embed": true
+  },
+  {
+    "name": "Boxingphysics 2",
+    "img": "/assets/img/games/seraph/boxingphysics2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/boxingphysics2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Aceattorney",
+    "img": "/assets/img/games/seraph/aceattorney.png",
+    "url": "https://idkrly1919.github.io/seraph/games/aceattorney/index.html",
+    "embed": true
+  },
+  {
+    "name": "Metalgearsolid",
+    "img": "/assets/img/games/seraph/metalgearsolid.png",
+    "url": "https://idkrly1919.github.io/seraph/games/metalgearsolid/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mother 3",
+    "img": "/assets/img/games/seraph/mother3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mother3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemondiamond",
+    "img": "/assets/img/games/seraph/pokemondiamond.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemondiamond/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonplatinum",
+    "img": "/assets/img/games/seraph/pokemonplatinum.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonplatinum/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonsoulsilver",
+    "img": "/assets/img/games/seraph/pokemonsoulsilver.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonsoulsilver/index.html",
+    "embed": true
+  },
+  {
+    "name": "Advancewars",
+    "img": "/assets/img/games/seraph/advancewars.png",
+    "url": "https://idkrly1919.github.io/seraph/games/advancewars/index.html",
+    "embed": true
+  },
+  {
+    "name": "Banjopilot",
+    "img": "/assets/img/games/seraph/banjopilot.png",
+    "url": "https://idkrly1919.github.io/seraph/games/banjopilot/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermonkeyballjr",
+    "img": "/assets/img/games/seraph/supermonkeyballjr.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermonkeyballjr/index.html",
+    "embed": true
+  },
+  {
+    "name": "Theimpossiblequiz 2",
+    "img": "/assets/img/games/seraph/theimpossiblequiz2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/theimpossiblequiz2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papasdonuteria",
+    "img": "/assets/img/games/seraph/papasdonuteria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papasdonuteria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fancypantsadventure 2",
+    "img": "/assets/img/games/seraph/fancypantsadventure2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/fancypantsadventure2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tinyfishing",
+    "img": "/assets/img/games/seraph/tinyfishing.png",
+    "url": "https://idkrly1919.github.io/seraph/games/tinyfishing/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bigredbutton",
+    "img": "/assets/img/games/seraph/bigredbutton.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/bigredbutton/index.html",
+    "embed": true
+  },
+  {
+    "name": "Achievementunlocked",
+    "img": "/assets/img/games/seraph/achievementunlocked.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/achievementunlocked/index.html",
+    "embed": true
+  },
+  {
+    "name": "Kirbymassattack",
+    "img": "/assets/img/games/seraph/kirbymassattack.png",
+    "url": "https://idkrly1919.github.io/seraph/games/kirbymassattack/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sonicadvance",
+    "img": "/assets/img/games/seraph/sonicadvance.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sonicadvance/index.html",
+    "embed": true
+  },
+  {
+    "name": "Wormsworldparty",
+    "img": "/assets/img/games/seraph/wormsworldparty.png",
+    "url": "https://idkrly1919.github.io/seraph/games/wormsworldparty/index.html",
+    "embed": true
+  },
+  {
+    "name": "Badicecream",
+    "img": "/assets/img/games/seraph/badicecream.png",
+    "url": "https://idkrly1919.github.io/seraph/games/badicecream/index.html",
+    "embed": true
+  },
+  {
+    "name": "Badicecream 2",
+    "img": "/assets/img/games/seraph/badicecream2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/badicecream2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Badicecream 3",
+    "img": "/assets/img/games/seraph/badicecream3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/badicecream3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Adventurecapitalist",
+    "img": "/assets/img/games/seraph/adventurecapitalist.png",
+    "url": "https://idkrly1919.github.io/seraph/games/adventurecapitalist/index.html",
+    "embed": true
+  },
+  {
+    "name": "Monkeymart",
+    "img": "/assets/img/games/seraph/monkeymart.png",
+    "url": "https://idkrly1919.github.io/seraph/games/monkeymart/index.html",
+    "embed": true
+  },
+  {
+    "name": "Doom 64",
+    "img": "/assets/img/games/seraph/doom64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/doom64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Banjokazooie",
+    "img": "/assets/img/games/seraph/banjokazooie.png",
+    "url": "https://idkrly1919.github.io/seraph/games/banjokazooie/index.html",
+    "embed": true
+  },
+  {
+    "name": "Donkeykong 64",
+    "img": "/assets/img/games/seraph/donkeykong64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/donkeykong64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fzerox",
+    "img": "/assets/img/games/seraph/fzerox.png",
+    "url": "https://idkrly1919.github.io/seraph/games/fzerox/index.html",
+    "embed": true
+  },
+  {
+    "name": "Kirby 64",
+    "img": "/assets/img/games/seraph/kirby64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/kirby64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariokart 64",
+    "img": "/assets/img/games/seraph/mariokart64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariokart64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Marioparty",
+    "img": "/assets/img/games/seraph/marioparty.png",
+    "url": "https://idkrly1919.github.io/seraph/games/marioparty/index.html",
+    "embed": true
+  },
+  {
+    "name": "Marioparty 2",
+    "img": "/assets/img/games/seraph/marioparty2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/marioparty2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ocarina of Time",
+    "img": "/assets/img/games/seraph/ocarinaoftime.png",
+    "url": "https://idkrly1919.github.io/seraph/games/ocarinaoftime/index.html",
+    "embed": true
+  },
+  {
+    "name": "Starfox 64",
+    "img": "/assets/img/games/seraph/starfox64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/starfox64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supersmashbros",
+    "img": "/assets/img/games/seraph/supersmashbros.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supersmashbros/index.html",
+    "embed": true
+  },
+  {
+    "name": "Streetfighter 2",
+    "img": "/assets/img/games/seraph/streetfighter2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/streetfighter2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Getawayshootout",
+    "img": "/assets/img/games/seraph/getawayshootout.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/getawayshootout/index.html",
+    "embed": true
+  },
+  {
+    "name": "Rabbitsamurai",
+    "img": "/assets/img/games/seraph/rabbitsamurai.png",
+    "url": "https://idkrly1919.github.io/seraph/games/rabbitsamurai/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariopartyds",
+    "img": "/assets/img/games/seraph/mariopartyds.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariopartyds/index.html",
+    "embed": true
+  },
+  {
+    "name": "Professorlayton",
+    "img": "/assets/img/games/seraph/professorlayton.png",
+    "url": "https://idkrly1919.github.io/seraph/games/professorlayton/index.html",
+    "embed": true
+  },
+  {
+    "name": "Scribblenauts",
+    "img": "/assets/img/games/seraph/scribblenauts.png",
+    "url": "https://idkrly1919.github.io/seraph/games/scribblenauts/index.html",
+    "embed": true
+  },
+  {
+    "name": "Advancewars 2",
+    "img": "/assets/img/games/seraph/advancewars2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/advancewars2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Harvestmoon",
+    "img": "/assets/img/games/seraph/harvestmoon.png",
+    "url": "https://idkrly1919.github.io/seraph/games/harvestmoon/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariotennis",
+    "img": "/assets/img/games/seraph/mariotennis.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariotennis/index.html",
+    "embed": true
+  },
+  {
+    "name": "Megamanzero",
+    "img": "/assets/img/games/seraph/megamanzero.png",
+    "url": "https://idkrly1919.github.io/seraph/games/megamanzero/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonmysterydungeon",
+    "img": "/assets/img/games/seraph/pokemonmysterydungeon.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonmysterydungeon/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonunbound",
+    "img": "/assets/img/games/seraph/pokemonunbound.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonunbound/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papascheeseria",
+    "img": "/assets/img/games/seraph/papascheeseria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papascheeseria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papascupcakeria",
+    "img": "/assets/img/games/seraph/papascupcakeria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papascupcakeria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papasbakeria",
+    "img": "/assets/img/games/seraph/papasbakeria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papasbakeria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papaspastaria",
+    "img": "/assets/img/games/seraph/papaspastaria.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papaspastaria/index.html",
+    "embed": true
+  },
+  {
+    "name": "Gunmayhem 2",
+    "img": "/assets/img/games/seraph/gunmayhem2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/gunmayhem2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Gunmayhemredux",
+    "img": "/assets/img/games/seraph/gunmayhemredux.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/gunmayhemredux/index.html",
+    "embed": true
+  },
+  {
+    "name": "Achievementunlocked 2",
+    "img": "/assets/img/games/seraph/achievementunlocked2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/achievementunlocked2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Achievementunlocked 3",
+    "img": "/assets/img/games/seraph/achievementunlocked3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/achievementunlocked3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Factoryballs",
+    "img": "/assets/img/games/seraph/factoryballs.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/factoryballs/index.html",
+    "embed": true
+  },
+  {
+    "name": "Skywire",
+    "img": "/assets/img/games/seraph/skywire.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/skywire/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermarioflash",
+    "img": "/assets/img/games/seraph/supermarioflash.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/supermarioflash/index.html",
+    "embed": true
+  },
+  {
+    "name": "Goldensun",
+    "img": "/assets/img/games/seraph/goldensun.png",
+    "url": "https://idkrly1919.github.io/seraph/games/goldensun/index.html",
+    "embed": true
+  },
+  {
+    "name": "Metroidfusion",
+    "img": "/assets/img/games/seraph/metroidfusion.png",
+    "url": "https://idkrly1919.github.io/seraph/games/metroidfusion/index.html",
+    "embed": true
+  },
+  {
+    "name": "DBZ Supersonic Warriors",
+    "img": "/assets/img/games/seraph/dbzsupersonicwarriors.png",
+    "url": "https://idkrly1919.github.io/seraph/games/dbzsupersonicwarriors/index.html",
+    "embed": true
+  },
+  {
+    "name": "Warioland 4",
+    "img": "/assets/img/games/seraph/warioland4.png",
+    "url": "https://idkrly1919.github.io/seraph/games/warioland4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ducklife 5",
+    "img": "/assets/img/games/seraph/ducklife5.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife5/index.html",
+    "embed": true
+  },
+  {
+    "name": "Learntofly 3",
+    "img": "/assets/img/games/seraph/learntofly3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/learntofly3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bloxors",
+    "img": "/assets/img/games/seraph/bloxors.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/bloxors/index.html",
+    "embed": true
+  },
+  {
+    "name": "Electricman 2",
+    "img": "/assets/img/games/seraph/electricman2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/electricman2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Portal",
+    "img": "/assets/img/games/seraph/portal.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/portal/index.html",
+    "embed": true
+  },
+  {
+    "name": "Portal 2",
+    "img": "/assets/img/games/seraph/portal2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/portal2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Skywire 2",
+    "img": "/assets/img/games/seraph/skywire2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/skywire2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ducklife 6",
+    "img": "/assets/img/games/seraph/ducklife6.png",
+    "url": "https://idkrly1919.github.io/seraph/games/ducklife6/index.html",
+    "embed": true
+  },
+  {
+    "name": "Boxingrandom",
+    "img": "/assets/img/games/seraph/boxingrandom.png",
+    "url": "https://idkrly1919.github.io/seraph/games/boxingrandom/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cellmachine",
+    "img": "/assets/img/games/seraph/cellmachine.png",
+    "url": "https://idkrly1919.github.io/seraph/games/cellmachine/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stickmanboost",
+    "img": "/assets/img/games/seraph/stickmanboost.png",
+    "url": "https://idkrly1919.github.io/seraph/games/stickmanboost/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vex 3",
+    "img": "/assets/img/games/seraph/vex3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/vex3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vex 4",
+    "img": "/assets/img/games/seraph/vex4.png",
+    "url": "https://idkrly1919.github.io/seraph/games/vex4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Skibidi 1 V 100",
+    "img": "/assets/img/games/seraph/skibidi1v100.png",
+    "url": "https://idkrly1919.github.io/seraph/games/skibidi1v100/index.html",
+    "embed": true
+  },
+  {
+    "name": "Goldeneye 007",
+    "img": "/assets/img/games/seraph/goldeneye007.png",
+    "url": "https://idkrly1919.github.io/seraph/games/goldeneye007/index.html",
+    "embed": true
+  },
+  {
+    "name": "Majorasmask",
+    "img": "/assets/img/games/seraph/majorasmask.png",
+    "url": "https://idkrly1919.github.io/seraph/games/majorasmask/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papermario",
+    "img": "/assets/img/games/seraph/papermario.png",
+    "url": "https://idkrly1919.github.io/seraph/games/papermario/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariogolf",
+    "img": "/assets/img/games/seraph/mariogolf.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariogolf/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonstadium",
+    "img": "/assets/img/games/seraph/pokemonstadium.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonstadium/index.html",
+    "embed": true
+  },
+  {
+    "name": "Excitebike 64",
+    "img": "/assets/img/games/seraph/excitebike64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/excitebike64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonsnap",
+    "img": "/assets/img/games/seraph/pokemonsnap.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonsnap/index.html",
+    "embed": true
+  },
+  {
+    "name": "Marioparty 3",
+    "img": "/assets/img/games/seraph/marioparty3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/marioparty3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sonicadvance 2",
+    "img": "/assets/img/games/seraph/sonicadvance2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sonicadvance2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bowsersinsidestory",
+    "img": "/assets/img/games/seraph/bowsersinsidestory.png",
+    "url": "https://idkrly1919.github.io/seraph/games/bowsersinsidestory/index.html",
+    "embed": true
+  },
+  {
+    "name": "Spirittracks",
+    "img": "/assets/img/games/seraph/spirittracks.png",
+    "url": "https://idkrly1919.github.io/seraph/games/spirittracks/index.html",
+    "embed": true
+  },
+  {
+    "name": "Thesims 2",
+    "img": "/assets/img/games/seraph/thesims2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/thesims2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tetrisds",
+    "img": "/assets/img/games/seraph/tetrisds.png",
+    "url": "https://idkrly1919.github.io/seraph/games/tetrisds/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sonicrush",
+    "img": "/assets/img/games/seraph/sonicrush.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sonicrush/index.html",
+    "embed": true
+  },
+  {
+    "name": "Thesims 3",
+    "img": "/assets/img/games/seraph/thesims3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/thesims3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Superprincesspeach",
+    "img": "/assets/img/games/seraph/superprincesspeach.png",
+    "url": "https://idkrly1919.github.io/seraph/games/superprincesspeach/index.html",
+    "embed": true
+  },
+  {
+    "name": "Legobatman",
+    "img": "/assets/img/games/seraph/legobatman.png",
+    "url": "https://idkrly1919.github.io/seraph/games/legobatman/index.html",
+    "embed": true
+  },
+  {
+    "name": "Doom 2",
+    "img": "/assets/img/games/seraph/doom2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/doom2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Dukenukemadvance",
+    "img": "/assets/img/games/seraph/dukenukemadvance.png",
+    "url": "https://idkrly1919.github.io/seraph/games/dukenukemadvance/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariopartyadvance",
+    "img": "/assets/img/games/seraph/mariopartyadvance.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariopartyadvance/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariopinballland",
+    "img": "/assets/img/games/seraph/mariopinballland.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariopinballland/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pacmanworld",
+    "img": "/assets/img/games/seraph/pacmanworld.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pacmanworld/index.html",
+    "embed": true
+  },
+  {
+    "name": "Rayman 3",
+    "img": "/assets/img/games/seraph/rayman3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/rayman3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shrek 2",
+    "img": "/assets/img/games/seraph/shrek2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/shrek2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Simcity",
+    "img": "/assets/img/games/seraph/simcity.png",
+    "url": "https://idkrly1919.github.io/seraph/games/simcity/index.html",
+    "embed": true
+  },
+  {
+    "name": "Simpsonsroadrage",
+    "img": "/assets/img/games/seraph/simpsonsroadrage.png",
+    "url": "https://idkrly1919.github.io/seraph/games/simpsonsroadrage/index.html",
+    "embed": true
+  },
+  {
+    "name": "Diddykongracing",
+    "img": "/assets/img/games/seraph/diddykongracing.png",
+    "url": "https://idkrly1919.github.io/seraph/games/diddykongracing/index.html",
+    "embed": true
+  },
+  {
+    "name": "Waverace 64",
+    "img": "/assets/img/games/seraph/waverace64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/waverace64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Quest 64",
+    "img": "/assets/img/games/seraph/quest64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/quest64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Gex 64",
+    "img": "/assets/img/games/seraph/gex64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/gex64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Dukenukem 64",
+    "img": "/assets/img/games/seraph/dukenukem64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/dukenukem64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mortalkombat 4",
+    "img": "/assets/img/games/seraph/mortalkombat4.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mortalkombat4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Badpiggies",
+    "img": "/assets/img/games/seraph/badpiggies.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/badpiggies/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermarioflash 2",
+    "img": "/assets/img/games/seraph/supermarioflash2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/supermarioflash2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Swordsandsandals",
+    "img": "/assets/img/games/seraph/swordsandsandals.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/swordsandsandals/index.html",
+    "embed": true
+  },
+  {
+    "name": "Swordsandsandals 2",
+    "img": "/assets/img/games/seraph/swordsandsandals2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/swordsandsandals2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Wordle",
+    "img": "/assets/img/games/seraph/wordle.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/wordle/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vex",
+    "img": "/assets/img/games/seraph/vex.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/vex/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vex 2",
+    "img": "/assets/img/games/seraph/vex2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/vex2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vex 5",
+    "img": "/assets/img/games/seraph/vex5.png",
+    "url": "https://idkrly1919.github.io/seraph/games/vex5/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vex 7",
+    "img": "/assets/img/games/seraph/vex7.png",
+    "url": "https://idkrly1919.github.io/seraph/games/vex7/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stack",
+    "img": "/assets/img/games/seraph/stack.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/stack/index.html",
+    "embed": true
+  },
+  {
+    "name": "Skibiditoiletattack",
+    "img": "/assets/img/games/seraph/skibiditoiletattack.png",
+    "url": "https://idkrly1919.github.io/seraph/games/skibiditoiletattack/index.html",
+    "embed": true
+  },
+  {
+    "name": "Moto X3M Pool Party",
+    "img": "/assets/img/games/seraph/motox3mpool.png",
+    "url": "https://idkrly1919.github.io/seraph/games/motox3mpool/index.html",
+    "embed": true
+  },
+  {
+    "name": "Offlineparadise",
+    "img": "/assets/img/games/seraph/offlineparadise.png",
+    "url": "https://idkrly1919.github.io/seraph/games/offlineparadise/index.html",
+    "embed": true
+  },
+  {
+    "name": "A Link to the Past",
+    "img": "/assets/img/games/seraph/linktothepast.png",
+    "url": "https://idkrly1919.github.io/seraph/games/linktothepast/index.html",
+    "embed": true
+  },
+  {
+    "name": "Donkeykongcountry",
+    "img": "/assets/img/games/seraph/donkeykongcountry.png",
+    "url": "https://idkrly1919.github.io/seraph/games/donkeykongcountry/index.html",
+    "embed": true
+  },
+  {
+    "name": "Donkeykongcountry 2",
+    "img": "/assets/img/games/seraph/donkeykongcountry2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/donkeykongcountry2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Superbomberman",
+    "img": "/assets/img/games/seraph/superbomberman.png",
+    "url": "https://idkrly1919.github.io/seraph/games/superbomberman/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mariopaint",
+    "img": "/assets/img/games/seraph/mariopaint.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mariopaint/index.html",
+    "embed": true
+  },
+  {
+    "name": "Megamanx",
+    "img": "/assets/img/games/seraph/megamanx.png",
+    "url": "https://idkrly1919.github.io/seraph/games/megamanx/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermariorpg",
+    "img": "/assets/img/games/seraph/supermariorpg.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermariorpg/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supertennis",
+    "img": "/assets/img/games/seraph/supertennis.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supertennis/index.html",
+    "embed": true
+  },
+  {
+    "name": "Warioswoods",
+    "img": "/assets/img/games/seraph/warioswoods.png",
+    "url": "https://idkrly1919.github.io/seraph/games/warioswoods/index.html",
+    "embed": true
+  },
+  {
+    "name": "Worldshardestgame 2",
+    "img": "/assets/img/games/seraph/worldshardestgame2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/worldshardestgame2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bubbletanks 2",
+    "img": "/assets/img/games/seraph/bubbletanks2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/bubbletanks2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Chooseyourweapon",
+    "img": "/assets/img/games/seraph/chooseyourweapon.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/chooseyourweapon/index.html",
+    "embed": true
+  },
+  {
+    "name": "Chooseyourweapon 2",
+    "img": "/assets/img/games/seraph/chooseyourweapon.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/chooseyourweapon2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Chooseyourweapon 3",
+    "img": "/assets/img/games/seraph/chooseyourweapon3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/chooseyourweapon3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Connect 4",
+    "img": "/assets/img/games/seraph/connect4.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/connect4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Electricbox",
+    "img": "/assets/img/games/seraph/electricbox.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/electricbox/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mctowerdefence 2",
+    "img": "/assets/img/games/seraph/mctowerdefence2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/mctowerdefence2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cars 2",
+    "img": "/assets/img/games/seraph/cars2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/cars2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cookingmama",
+    "img": "/assets/img/games/seraph/cookingmama.png",
+    "url": "https://idkrly1919.github.io/seraph/games/cookingmama/index.html",
+    "embed": true
+  },
+  {
+    "name": "Adventuretime",
+    "img": "/assets/img/games/seraph/adventuretime.png",
+    "url": "https://idkrly1919.github.io/seraph/games/adventuretime/index.html",
+    "embed": true
+  },
+  {
+    "name": "Garfieldgetsreal",
+    "img": "/assets/img/games/seraph/garfieldgetsreal.png",
+    "url": "https://idkrly1919.github.io/seraph/games/garfieldgetsreal/index.html",
+    "embed": true
+  },
+  {
+    "name": "Wariowaretouched",
+    "img": "/assets/img/games/seraph/wariowaretouched.png",
+    "url": "https://idkrly1919.github.io/seraph/games/wariowaretouched/index.html",
+    "embed": true
+  },
+  {
+    "name": "Kirbypowerpaintbrush",
+    "img": "/assets/img/games/seraph/kirbypowerpaintbrush.png",
+    "url": "https://idkrly1919.github.io/seraph/games/kirbypowerpaintbrush/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sonicandknuckles",
+    "img": "/assets/img/games/seraph/sonicandknuckles.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sonicandknuckles/index.html",
+    "embed": true
+  },
+  {
+    "name": "Alteredbeast",
+    "img": "/assets/img/games/seraph/alteredbeast.png",
+    "url": "https://idkrly1919.github.io/seraph/games/alteredbeast/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sonicspinball",
+    "img": "/assets/img/games/seraph/sonicspinball.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sonicspinball/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sonicthehedgehog 3",
+    "img": "/assets/img/games/seraph/sonicthehedgehog3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sonicthehedgehog3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Streetsofrage",
+    "img": "/assets/img/games/seraph/streetsofrage.png",
+    "url": "https://idkrly1919.github.io/seraph/games/streetsofrage/index.html",
+    "embed": true
+  },
+  {
+    "name": "Goldenaxe",
+    "img": "/assets/img/games/seraph/goldenaxe.png",
+    "url": "https://idkrly1919.github.io/seraph/games/goldenaxe/index.html",
+    "embed": true
+  },
+  {
+    "name": "Kirbyamazingmirror",
+    "img": "/assets/img/games/seraph/kirbyamazingmirror.png",
+    "url": "https://idkrly1919.github.io/seraph/games/kirbyamazingmirror/index.html",
+    "embed": true
+  },
+  {
+    "name": "Championisland",
+    "img": "/assets/img/games/seraph/championisland.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/championisland/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermarioconstruct",
+    "img": "/assets/img/games/seraph/supermarioconstruct.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermarioconstruct/index.html",
+    "embed": true
+  },
+  {
+    "name": "Clickerheroes",
+    "img": "/assets/img/games/seraph/clickerheroes.png",
+    "url": "https://idkrly1919.github.io/seraph/games/clickerheroes/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stairrace 3 D",
+    "img": "/assets/img/games/seraph/stairrace3d.png",
+    "url": "https://idkrly1919.github.io/seraph/games/stairrace3d/index.html",
+    "embed": true
+  },
+  {
+    "name": "Slope 2",
+    "img": "/assets/img/games/seraph/slope2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/slope2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Paper.io 3D",
+    "img": "/assets/img/games/seraph/paperio3d.png",
+    "url": "https://idkrly1919.github.io/seraph/games/paperio3d/index.html",
+    "embed": true
+  },
+  {
+    "name": "Moto X3M Spooky",
+    "img": "/assets/img/games/seraph/motox3mspooky.png",
+    "url": "https://idkrly1919.github.io/seraph/games/motox3mspooky/index.html",
+    "embed": true
+  },
+  {
+    "name": "Moto X3M Winter",
+    "img": "/assets/img/games/seraph/motox3mwinter.png",
+    "url": "https://idkrly1919.github.io/seraph/games/motox3mwinter/index.html",
+    "embed": true
+  },
+  {
+    "name": "Snake",
+    "img": "/assets/img/games/seraph/snake.png",
+    "url": "https://idkrly1919.github.io/seraph/games/snake/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papastacomia",
+    "img": "/assets/img/games/seraph/papastacomia.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papastacomia/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ovo",
+    "img": "/assets/img/games/seraph/ovo.png",
+    "url": "https://idkrly1919.github.io/seraph/games/ovo/index.html",
+    "embed": true
+  },
+  {
+    "name": "Knifehit",
+    "img": "/assets/img/games/seraph/knifehit.png",
+    "url": "https://idkrly1919.github.io/seraph/games/knifehit/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cubefield",
+    "img": "/assets/img/games/seraph/cubefield.png",
+    "url": "https://idkrly1919.github.io/seraph/games/cubefield/index.html",
+    "embed": true
+  },
+  {
+    "name": "Burgerandfrights",
+    "img": "/assets/img/games/seraph/burgerandfrights.png",
+    "url": "https://idkrly1919.github.io/seraph/games/burgerandfrights/index.html",
+    "embed": true
+  },
+  {
+    "name": "Chess",
+    "img": "/assets/img/games/seraph/chess.png",
+    "url": "https://idkrly1919.github.io/seraph/games/chess/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fnfmidfight",
+    "img": "/assets/img/games/seraph/fnfmidfight.png",
+    "url": "https://idkrly1919.github.io/seraph/games/fnfmidfight/index.html",
+    "embed": true
+  },
+  {
+    "name": "Thumbfighter",
+    "img": "/assets/img/games/seraph/thumbfighter.png",
+    "url": "https://idkrly1919.github.io/seraph/games/thumbfighter/index.html",
+    "embed": true
+  },
+  {
+    "name": "Snowbattleio",
+    "img": "/assets/img/games/seraph/snowbattleio.png",
+    "url": "https://idkrly1919.github.io/seraph/games/snowbattleio/index.html",
+    "embed": true
+  },
+  {
+    "name": "Lazyjump 3 D",
+    "img": "/assets/img/games/seraph/lazyjump3d.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/lazyjump3d/index.html",
+    "embed": true
+  },
+  {
+    "name": "Goball",
+    "img": "/assets/img/games/seraph/goball.png",
+    "url": "https://idkrly1919.github.io/seraph/games/goball/index.html",
+    "embed": true
+  },
+  {
+    "name": "Flippyfish",
+    "img": "/assets/img/games/seraph/flippyfish.png",
+    "url": "https://idkrly1919.github.io/seraph/games/flippyfish/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shopempire",
+    "img": "/assets/img/games/seraph/shopempire.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/shopempire/index.html",
+    "embed": true
+  },
+  {
+    "name": "Monsterbrawl",
+    "img": "/assets/img/games/seraph/monsterbrawl.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/monsterbrawl/index.html",
+    "embed": true
+  },
+  {
+    "name": "Multitask",
+    "img": "/assets/img/games/seraph/multitask.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/multitask/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shift",
+    "img": "/assets/img/games/seraph/shift.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/shift/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shift 2",
+    "img": "/assets/img/games/seraph/shift2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/shift2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shift 3",
+    "img": "/assets/img/games/seraph/shift3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/shift3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shift 4",
+    "img": "/assets/img/games/seraph/shift4.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/shift4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Monopoly",
+    "img": "/assets/img/games/seraph/monopoly.png",
+    "url": "https://idkrly1919.github.io/seraph/games/monopoly/index.html",
+    "embed": true
+  },
+  {
+    "name": "Picrossds",
+    "img": "/assets/img/games/seraph/picrossds.png",
+    "url": "https://idkrly1919.github.io/seraph/games/picrossds/index.html",
+    "embed": true
+  },
+  {
+    "name": "Wariowarediy",
+    "img": "/assets/img/games/seraph/wariowarediy.png",
+    "url": "https://idkrly1919.github.io/seraph/games/wariowarediy/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pizzatower",
+    "img": "/assets/img/games/seraph/pizzatower.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pizzatower/index.html",
+    "embed": true
+  },
+  {
+    "name": "Territorialio",
+    "img": "/assets/img/games/seraph/territorialio.png",
+    "url": "https://idkrly1919.github.io/seraph/games/territorialio/index.html",
+    "embed": true
+  },
+  {
+    "name": "1v1.LoL",
+    "img": "/assets/img/games/seraph/1v1lol.png",
+    "url": "https://idkrly1919.github.io/seraph/games/1v1lol/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ballisticchickens",
+    "img": "/assets/img/games/seraph/ballisticchickens.png",
+    "url": "https://idkrly1919.github.io/seraph/games/ballisticchickens/index.html",
+    "embed": true
+  },
+  {
+    "name": "Basketbrosio",
+    "img": "/assets/img/games/seraph/basketbrosio.png",
+    "url": "https://idkrly1919.github.io/seraph/games/basketbrosio/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mcclassic",
+    "img": "/assets/img/games/seraph/mcclassic.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mcclassic/index.html",
+    "embed": true
+  },
+  {
+    "name": "Deathrun 3 D",
+    "img": "/assets/img/games/seraph/deathrun3d.png",
+    "url": "https://idkrly1919.github.io/seraph/games/deathrun3d/index.html",
+    "embed": true
+  },
+  {
+    "name": "Soccerrandom",
+    "img": "/assets/img/games/seraph/soccerrandom.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/soccerrandom/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sprinter",
+    "img": "/assets/img/games/seraph/sprinter.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/sprinter/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tron",
+    "img": "/assets/img/games/seraph/tron.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/tron/index.html",
+    "embed": true
+  },
+  {
+    "name": "1v1 Soccer",
+    "img": "/assets/img/games/seraph/1on1soccer.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/1on1soccer/index.html",
+    "embed": true
+  },
+  {
+    "name": "Badtimesimulator",
+    "img": "/assets/img/games/seraph/badtimesimulator.png",
+    "url": "https://idkrly1919.github.io/seraph/games/badtimesimulator/index.html",
+    "embed": true
+  },
+  {
+    "name": "Amazingropepolice",
+    "img": "/assets/img/games/seraph/amazingropepolice.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/amazingropepolice/index.html",
+    "embed": true
+  },
+  {
+    "name": "Celeste",
+    "img": "/assets/img/games/seraph/celeste.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/celeste/index.html",
+    "embed": true
+  },
+  {
+    "name": "Justfalllol",
+    "img": "/assets/img/games/seraph/justfalllol.png",
+    "url": "https://idkrly1919.github.io/seraph/games/justfalllol/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ngon",
+    "img": "/assets/img/games/seraph/ngon.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ngon/index.html",
+    "embed": true
+  },
+  {
+    "name": "Rocketsoccer",
+    "img": "/assets/img/games/seraph/rocketsoccer.png",
+    "url": "https://idkrly1919.github.io/seraph/games/rocketsoccer/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stickmanclimb",
+    "img": "/assets/img/games/seraph/stickmanclimb.png",
+    "url": "https://idkrly1919.github.io/seraph/games/stickmanclimb/index.html",
+    "embed": true
+  },
+  {
+    "name": "Osumania",
+    "img": "/assets/img/games/seraph/osumania.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/osumania/index.html",
+    "embed": true
+  },
+  {
+    "name": "Helixjump",
+    "img": "/assets/img/games/seraph/helixjump.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/helixjump/index.html",
+    "embed": true
+  },
+  {
+    "name": "Dadish",
+    "img": "/assets/img/games/seraph/dadish.png",
+    "url": "https://idkrly1919.github.io/seraph/games/dadish/index.html",
+    "embed": true
+  },
+  {
+    "name": "Dadish 2",
+    "img": "/assets/img/games/seraph/dadish2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/dadish2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Dadish 3",
+    "img": "/assets/img/games/seraph/dadish3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/dadish3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Snowrider 3 D",
+    "img": "/assets/img/games/seraph/snowrider3d.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/snowrider3d/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tubejumpers",
+    "img": "/assets/img/games/seraph/tubejumpers.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/tubejumpers/index.html",
+    "embed": true
+  },
+  {
+    "name": "Yohoho",
+    "img": "/assets/img/games/seraph/yohoho.png",
+    "url": "https://idkrly1919.github.io/seraph/games/yohoho/index.html",
+    "embed": true
+  },
+  {
+    "name": "10 Minutestilldawn",
+    "img": "/assets/img/games/seraph/10minutestilldawn.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/10minutestilldawn/index.html",
+    "embed": true
+  },
+  {
+    "name": "Volleyrandom",
+    "img": "/assets/img/games/seraph/volleyrandom.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/volleyrandom/index.html",
+    "embed": true
+  },
+  {
+    "name": "Waterworks",
+    "img": "/assets/img/games/seraph/waterworks.png",
+    "url": "https://idkrly1919.github.io/seraph/games/waterworks/index.html",
+    "embed": true
+  },
+  {
+    "name": "Geometryrash",
+    "img": "/assets/img/games/seraph/geometryrash.png",
+    "url": "https://idkrly1919.github.io/seraph/games/geometryrash/index.html",
+    "embed": true
+  },
+  {
+    "name": "Holeio",
+    "img": "/assets/img/games/seraph/holeio.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/holeio/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sandtrix",
+    "img": "/assets/img/games/seraph/sandtrix.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sandtrix/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shapeshipper",
+    "img": "/assets/img/games/seraph/shapeshipper.png",
+    "url": "https://idkrly1919.github.io/seraph/games/shapeshipper/index.html",
+    "embed": true
+  },
+  {
+    "name": "Slopeball",
+    "img": "/assets/img/games/seraph/slopeball.png",
+    "url": "https://idkrly1919.github.io/seraph/games/slopeball/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stickmangolf",
+    "img": "/assets/img/games/seraph/stickmangolf.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/stickmangolf/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tabs",
+    "img": "/assets/img/games/seraph/totallyaccuratebattlesim.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/tabs/index.html",
+    "embed": true
+  },
+  {
+    "name": "Watermelongame",
+    "img": "/assets/img/games/seraph/watermelongame.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/watermelongame/index.html",
+    "embed": true
+  },
+  {
+    "name": "Wallsmash",
+    "img": "/assets/img/games/seraph/wallsmash.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/wallsmash/index.html",
+    "embed": true
+  },
+  {
+    "name": "Crimsonfantasia",
+    "img": "/assets/img/games/seraph/crimsonfantasia.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/crimsonfantasia/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cuttherope",
+    "img": "/assets/img/games/seraph/cuttherope.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/cuttherope/index.html",
+    "embed": true
+  },
+  {
+    "name": "Funnymadracing",
+    "img": "/assets/img/games/seraph/funnymadracing.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/funnymadracing/index.html",
+    "embed": true
+  },
+  {
+    "name": "Geometry Dash Lite",
+    "img": "/assets/img/games/seraph/geometrydashlite.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/gdlite/index.html",
+    "embed": true
+  },
+  {
+    "name": "Grandtheftgrotto",
+    "img": "/assets/img/games/seraph/grandtheftgrotto.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/grandtheftgrotto/index.html",
+    "embed": true
+  },
+  {
+    "name": "Driftmania",
+    "img": "/assets/img/games/seraph/driftmania.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/driftmania/index.html",
+    "embed": true
+  },
+  {
+    "name": "Risehigher",
+    "img": "/assets/img/games/seraph/risehigher.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/risehigher/index.html",
+    "embed": true
+  },
+  {
+    "name": "Burritobison",
+    "img": "/assets/img/games/seraph/burritobison.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/burritobison/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pool",
+    "img": "/assets/img/games/seraph/pool.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/pool/index.html",
+    "embed": true
+  },
+  {
+    "name": "Redball 1",
+    "img": "/assets/img/games/seraph/redball.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/redball1/index.html",
+    "embed": true
+  },
+  {
+    "name": "Redball 3",
+    "img": "/assets/img/games/seraph/redball3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/redball3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Redball 4",
+    "img": "/assets/img/games/seraph/redball4.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/redball4/index.html",
+    "embed": true
+  },
+  {
+    "name": "Redballv 2",
+    "img": "/assets/img/games/seraph/redball4vol2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/redballv2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Redballv 3",
+    "img": "/assets/img/games/seraph/redball4vol3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/redballv3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Roughdino",
+    "img": "/assets/img/games/seraph/roughdino.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/roughdino/index.html",
+    "embed": true
+  },
+  {
+    "name": "Timeshooter 1",
+    "img": "/assets/img/games/seraph/timeshooter.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/timeshooter1/index.html",
+    "embed": true
+  },
+  {
+    "name": "Timeshooter 2",
+    "img": "/assets/img/games/seraph/timeshooter2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/timeshooter2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Timeshooter 3",
+    "img": "/assets/img/games/seraph/timeshooter3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/timeshooter3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Battletoads",
+    "img": "/assets/img/games/seraph/battletoads.png",
+    "url": "https://idkrly1919.github.io/seraph/games/battletoads/index.html",
+    "embed": true
+  },
+  {
+    "name": "Castlevaniaiii",
+    "img": "/assets/img/games/seraph/castlevaniaiii.png",
+    "url": "https://idkrly1919.github.io/seraph/games/castlevaniaiii/index.html",
+    "embed": true
+  },
+  {
+    "name": "Contra",
+    "img": "/assets/img/games/seraph/contra.png",
+    "url": "https://idkrly1919.github.io/seraph/games/contra/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ducktales",
+    "img": "/assets/img/games/seraph/ducktales.png",
+    "url": "https://idkrly1919.github.io/seraph/games/ducktales/index.html",
+    "embed": true
+  },
+  {
+    "name": "Kidicarus",
+    "img": "/assets/img/games/seraph/kidicarus.png",
+    "url": "https://idkrly1919.github.io/seraph/games/kidicarus/index.html",
+    "embed": true
+  },
+  {
+    "name": "Megaman 2",
+    "img": "/assets/img/games/seraph/megaman2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/megaman2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ninjagaiden",
+    "img": "/assets/img/games/seraph/ninjagaiden.png",
+    "url": "https://idkrly1919.github.io/seraph/games/ninjagaiden/index.html",
+    "embed": true
+  },
+  {
+    "name": "Punchout",
+    "img": "/assets/img/games/seraph/punchout.png",
+    "url": "https://idkrly1919.github.io/seraph/games/punchout/index.html",
+    "embed": true
+  },
+  {
+    "name": "Chronotrigger",
+    "img": "/assets/img/games/seraph/chronotrigger.png",
+    "url": "https://idkrly1919.github.io/seraph/games/chronotrigger/index.html",
+    "embed": true
+  },
+  {
+    "name": "Contraiii",
+    "img": "/assets/img/games/seraph/contraiii.png",
+    "url": "https://idkrly1919.github.io/seraph/games/contraiii/index.html",
+    "embed": true
+  },
+  {
+    "name": "Donkeykongcountry 3",
+    "img": "/assets/img/games/seraph/donkeykongcountry3.png",
+    "url": "https://idkrly1919.github.io/seraph/games/donkeykongcountry3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Earthbound",
+    "img": "/assets/img/games/seraph/earthbound.png",
+    "url": "https://idkrly1919.github.io/seraph/games/earthbound/index.html",
+    "embed": true
+  },
+  {
+    "name": "Finalfantasyvi",
+    "img": "/assets/img/games/seraph/finalfantasyvi.png",
+    "url": "https://idkrly1919.github.io/seraph/games/finalfantasyvi/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fzero",
+    "img": "/assets/img/games/seraph/fzero.png",
+    "url": "https://idkrly1919.github.io/seraph/games/fzero/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermetroid",
+    "img": "/assets/img/games/seraph/supermetroid.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermetroid/index.html",
+    "embed": true
+  },
+  {
+    "name": "Banjotooie",
+    "img": "/assets/img/games/seraph/banjotooie.png",
+    "url": "https://idkrly1919.github.io/seraph/games/banjotooie/index.html",
+    "embed": true
+  },
+  {
+    "name": "Harvestmoon 64",
+    "img": "/assets/img/games/seraph/harvestmoon64.png",
+    "url": "https://idkrly1919.github.io/seraph/games/harvestmoon64/index.html",
+    "embed": true
+  },
+  {
+    "name": "Jetforcegemini",
+    "img": "/assets/img/games/seraph/jetforcegemini.png",
+    "url": "https://idkrly1919.github.io/seraph/games/jetforcegemini/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mysticalninja",
+    "img": "/assets/img/games/seraph/mysticalninja.png",
+    "url": "https://idkrly1919.github.io/seraph/games/mysticalninja/index.html",
+    "embed": true
+  },
+  {
+    "name": "Turokdinosaurhunter",
+    "img": "/assets/img/games/seraph/turokdinosaurhunter.png",
+    "url": "https://idkrly1919.github.io/seraph/games/turokdinosaurhunter/index.html",
+    "embed": true
+  },
+  {
+    "name": "Yoshisstory",
+    "img": "/assets/img/games/seraph/yoshisstory.png",
+    "url": "https://idkrly1919.github.io/seraph/games/yoshisstory/index.html",
+    "embed": true
+  },
+  {
+    "name": "Kirbysdreamland 2",
+    "img": "/assets/img/games/seraph/kirbysdreamland2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/kirbysdreamland2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Link's Awakening DX",
+    "img": "/assets/img/games/seraph/linksawakeningdx.png",
+    "url": "https://idkrly1919.github.io/seraph/games/linksawakeningdx/index.html",
+    "embed": true
+  },
+  {
+    "name": "Metroidii",
+    "img": "/assets/img/games/seraph/metroidii.png",
+    "url": "https://idkrly1919.github.io/seraph/games/metroidii/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supermarioland 2",
+    "img": "/assets/img/games/seraph/supermarioland2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/supermarioland2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Wariolandii",
+    "img": "/assets/img/games/seraph/wariolandii.png",
+    "url": "https://idkrly1919.github.io/seraph/games/wariolandii/index.html",
+    "embed": true
+  },
+  {
+    "name": "Castlevaniaariaofsorrow",
+    "img": "/assets/img/games/seraph/castlevaniaariaofsorrow.png",
+    "url": "https://idkrly1919.github.io/seraph/games/castlevaniaariaofsorrow/index.html",
+    "embed": true
+  },
+  {
+    "name": "Finalfantasytacticsadvance",
+    "img": "/assets/img/games/seraph/finalfantasytacticsadvance.png",
+    "url": "https://idkrly1919.github.io/seraph/games/finalfantasytacticsadvance/index.html",
+    "embed": true
+  },
+  {
+    "name": "Drilldozer",
+    "img": "/assets/img/games/seraph/drilldozer.png",
+    "url": "https://idkrly1919.github.io/seraph/games/drilldozer/index.html",
+    "embed": true
+  },
+  {
+    "name": "Advancewarsdayofruin",
+    "img": "/assets/img/games/seraph/advancewarsdayofruin.png",
+    "url": "https://idkrly1919.github.io/seraph/games/advancewarsdayofruin/index.html",
+    "embed": true
+  },
+  {
+    "name": "Castlevaniadawnofsorrow",
+    "img": "/assets/img/games/seraph/castlevaniadawnofsorrow.png",
+    "url": "https://idkrly1919.github.io/seraph/games/castlevaniadawnofsorrow/index.html",
+    "embed": true
+  },
+  {
+    "name": "Castlevaniaorderofecclesia",
+    "img": "/assets/img/games/seraph/castlevaniaorderofecclesia.png",
+    "url": "https://idkrly1919.github.io/seraph/games/castlevaniaorderofecclesia/index.html",
+    "embed": true
+  },
+  {
+    "name": "Marioandluigipartnersintime",
+    "img": "/assets/img/games/seraph/marioandluigipartnersintime.png",
+    "url": "https://idkrly1919.github.io/seraph/games/marioandluigipartnersintime/index.html",
+    "embed": true
+  },
+  {
+    "name": "Comixzone",
+    "img": "/assets/img/games/seraph/comixzone.png",
+    "url": "https://idkrly1919.github.io/seraph/games/comixzone/index.html",
+    "embed": true
+  },
+  {
+    "name": "Eccothedolphin",
+    "img": "/assets/img/games/seraph/eccothedolphin.png",
+    "url": "https://idkrly1919.github.io/seraph/games/eccothedolphin/index.html",
+    "embed": true
+  },
+  {
+    "name": "Gunstarheroes",
+    "img": "/assets/img/games/seraph/gunstarheroes.png",
+    "url": "https://idkrly1919.github.io/seraph/games/gunstarheroes/index.html",
+    "embed": true
+  },
+  {
+    "name": "Phantasystariv",
+    "img": "/assets/img/games/seraph/phantasystariv.png",
+    "url": "https://idkrly1919.github.io/seraph/games/phantasystariv/index.html",
+    "embed": true
+  },
+  {
+    "name": "Rangerx",
+    "img": "/assets/img/games/seraph/rangerx.png",
+    "url": "https://idkrly1919.github.io/seraph/games/rangerx/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ristar",
+    "img": "/assets/img/games/seraph/ristar.png",
+    "url": "https://idkrly1919.github.io/seraph/games/ristar/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shiningforce",
+    "img": "/assets/img/games/seraph/shiningforce.png",
+    "url": "https://idkrly1919.github.io/seraph/games/shiningforce/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shinobiiii",
+    "img": "/assets/img/games/seraph/shinobiiii.png",
+    "url": "https://idkrly1919.github.io/seraph/games/shinobiiii/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sonicthehedgehog",
+    "img": "/assets/img/games/seraph/sonicthehedgehog.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sonicthehedgehog/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sonicthehedgehog 2",
+    "img": "/assets/img/games/seraph/sonicthehedgehog2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sonicthehedgehog2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Streetsofrage 2",
+    "img": "/assets/img/games/seraph/streetsofrage2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/streetsofrage2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vectorman",
+    "img": "/assets/img/games/seraph/vectorman.png",
+    "url": "https://idkrly1919.github.io/seraph/games/vectorman/index.html",
+    "embed": true
+  },
+  {
+    "name": "Vectorman 2",
+    "img": "/assets/img/games/seraph/vectorman2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/vectorman2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Illusionofgaia",
+    "img": "/assets/img/games/seraph/illusionofgaia.png",
+    "url": "https://idkrly1919.github.io/seraph/games/illusionofgaia/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pokemonyellow",
+    "img": "/assets/img/games/seraph/pokemonyellow.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pokemonyellow/index.html",
+    "embed": true
+  },
+  {
+    "name": "Abudathealien",
+    "img": "/assets/img/games/seraph/abudathealien.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/abudathealien/index.html",
+    "embed": true
+  },
+  {
+    "name": "Battlebeavers",
+    "img": "/assets/img/games/seraph/battlebeavers.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/battlebeavers/index.html",
+    "embed": true
+  },
+  {
+    "name": "Controlcraft 2",
+    "img": "/assets/img/games/seraph/controlcraft2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/controlcraft2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ageofwar",
+    "img": "/assets/img/games/seraph/ageofwar.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ageofwar/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ageofwar 2",
+    "img": "/assets/img/games/seraph/ageofwar2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ageofwar2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Amorphous",
+    "img": "/assets/img/games/seraph/amorphous.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/amorphous/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bubblespinner",
+    "img": "/assets/img/games/seraph/bubblespinner.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/bubblespinner/index.html",
+    "embed": true
+  },
+  {
+    "name": "Crushthecastle",
+    "img": "/assets/img/games/seraph/crushthecastle.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/crushthecastle/index.html",
+    "embed": true
+  },
+  {
+    "name": "Crushthecastle 2",
+    "img": "/assets/img/games/seraph/crushthecastle2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/crushthecastle2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Epicbattlefantasy",
+    "img": "/assets/img/games/seraph/epicbattlefantasy.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/epicbattlefantasy/index.html",
+    "embed": true
+  },
+  {
+    "name": "Epicbattlefantasy 2",
+    "img": "/assets/img/games/seraph/epicbattlefantasy2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/epicbattlefantasy2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Epicbattlefantasy 3",
+    "img": "/assets/img/games/seraph/epicbattlefantasy3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/epicbattlefantasy3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Fancypantsadventure 3",
+    "img": "/assets/img/games/seraph/fancypantsadventure3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/fancypantsadventure3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Floodrunner 2",
+    "img": "/assets/img/games/seraph/floodrunner2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/floodrunner2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Floodrunner 3",
+    "img": "/assets/img/games/seraph/floodrunner3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/floodrunner3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Dragonboy 2",
+    "img": "/assets/img/games/seraph/dragonboy2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/dragonboy2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Neonrider",
+    "img": "/assets/img/games/seraph/neonrider.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/neonrider/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pandemic 2",
+    "img": "/assets/img/games/seraph/pandemic2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/pandemic2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stickwar",
+    "img": "/assets/img/games/seraph/stickwar.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/stickwar/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stickwar 2",
+    "img": "/assets/img/games/seraph/stickwar2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/stickwar2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ultimateflashsonic",
+    "img": "/assets/img/games/seraph/ultimateflashsonic.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ultimateflashsonic/index.html",
+    "embed": true
+  },
+  {
+    "name": "Zombocalypse",
+    "img": "/assets/img/games/seraph/zombocalpyse.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/zombocalypse/index.html",
+    "embed": true
+  },
+  {
+    "name": "Zombotron",
+    "img": "/assets/img/games/seraph/zombotron.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/zombotron/index.html",
+    "embed": true
+  },
+  {
+    "name": "Zombotron 2",
+    "img": "/assets/img/games/seraph/zombotron2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/zombotron2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Backrooms 2 D",
+    "img": "/assets/img/games/seraph/backrooms2d.png",
+    "url": "https://idkrly1919.github.io/seraph/games/backrooms2d/index.html",
+    "embed": true
+  },
+  {
+    "name": "Basketrandom",
+    "img": "/assets/img/games/seraph/basketrandom.png",
+    "url": "https://idkrly1919.github.io/seraph/games/basketrandom/index.html",
+    "embed": true
+  },
+  {
+    "name": "Csgoclicker",
+    "img": "/assets/img/games/seraph/csgoclicker.png",
+    "url": "https://idkrly1919.github.io/seraph/games/csgoclicker/index.html",
+    "embed": true
+  },
+  {
+    "name": "Doom",
+    "img": "/assets/img/games/seraph/doom.png",
+    "url": "https://idkrly1919.github.io/seraph/games/doom/index.html",
+    "embed": true
+  },
+  {
+    "name": "Funnyshooter 2",
+    "img": "/assets/img/games/seraph/funnyshooter2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/funnyshooter2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Gunfest",
+    "img": "/assets/img/games/seraph/gunfest.png",
+    "url": "https://idkrly1919.github.io/seraph/games/gunfest/index.html",
+    "embed": true
+  },
+  {
+    "name": "Infinitecraft",
+    "img": "/assets/img/games/seraph/infinitecraft.png",
+    "url": "https://idkrly1919.github.io/seraph/games/infinitecraft/index.html",
+    "embed": true
+  },
+  {
+    "name": "Lowsadventures 2",
+    "img": "/assets/img/games/seraph/lowsadventures2.png",
+    "url": "https://idkrly1919.github.io/seraph/games/lowsadventures2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pakohighway",
+    "img": "/assets/img/games/seraph/pakohighway.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pakohighway/index.html",
+    "embed": true
+  },
+  {
+    "name": "Recoil",
+    "img": "/assets/img/games/seraph/recoil.png",
+    "url": "https://idkrly1919.github.io/seraph/games/recoil/index.html",
+    "embed": true
+  },
+  {
+    "name": "Run 3 Plus",
+    "img": "/assets/img/games/seraph/run3plus.png",
+    "url": "https://idkrly1919.github.io/seraph/games/run3plus/index.html",
+    "embed": true
+  },
+  {
+    "name": "Slopecity",
+    "img": "/assets/img/games/seraph/slopecity.png",
+    "url": "https://idkrly1919.github.io/seraph/games/slopecity/index.html",
+    "embed": true
+  },
+  {
+    "name": "Stateio",
+    "img": "/assets/img/games/seraph/stateio.png",
+    "url": "https://idkrly1919.github.io/seraph/games/stateio/index.html",
+    "embed": true
+  },
+  {
+    "name": "Sudoku",
+    "img": "/assets/img/games/seraph/sudoku.png",
+    "url": "https://idkrly1919.github.io/seraph/games/sudoku/index.html",
+    "embed": true
+  },
+  {
+    "name": "Superherodrop",
+    "img": "/assets/img/games/seraph/superherodrop.png",
+    "url": "https://idkrly1919.github.io/seraph/games/superherodrop/index.html",
+    "embed": true
+  },
+  {
+    "name": "Balloonrun",
+    "img": "/assets/img/games/seraph/balloonrun.png",
+    "url": "https://idkrly1919.github.io/seraph/games/balloonrun/index.html",
+    "embed": true
+  },
+  {
+    "name": "Crazytunnel 3 D",
+    "img": "/assets/img/games/seraph/crazytunnel3d.png",
+    "url": "https://idkrly1919.github.io/seraph/games/crazytunnel3d/index.html",
+    "embed": true
+  },
+  {
+    "name": "Eaglercraft 1.8",
+    "img": "/assets/img/games/seraph/eagler1.8.png",
+    "url": "https://idkrly1919.github.io/seraph/games/eagler1.8/index.html",
+    "embed": true
+  },
+  {
+    "name": "Geometrydashsky",
+    "img": "/assets/img/games/seraph/geometrydashsky.png",
+    "url": "https://idkrly1919.github.io/seraph/games/geometrydashsky/index.html",
+    "embed": true
+  },
+  {
+    "name": "Wubzzysamazingadventure",
+    "img": "/assets/img/games/seraph/wubzzysamazingadventure.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/wubzzysamazingadventure/index.html",
+    "embed": true
+  },
+  {
+    "name": "Golddiggerfrvr",
+    "img": "/assets/img/games/seraph/golddiggerfrvr.png",
+    "url": "https://idkrly1919.github.io/seraph/games/golddiggerfrvr/index.html",
+    "embed": true
+  },
+  {
+    "name": "Hexgl",
+    "img": "/assets/img/games/seraph/hexgl.png",
+    "url": "https://idkrly1919.github.io/seraph/games/hexgl/index.html",
+    "embed": true
+  },
+  {
+    "name": "Houseofhazards",
+    "img": "/assets/img/games/seraph/houseofhazards.png",
+    "url": "https://idkrly1919.github.io/seraph/games/houseofhazards/index.html",
+    "embed": true
+  },
+  {
+    "name": "Pickcrafter",
+    "img": "/assets/img/games/seraph/pickcrafter.png",
+    "url": "https://idkrly1919.github.io/seraph/games/pickcrafter/index.html",
+    "embed": true
+  },
+  {
+    "name": "Precisionclient",
+    "img": "/assets/img/games/seraph/precisionclient.png",
+    "url": "https://idkrly1919.github.io/seraph/games/precisionclient/index.html",
+    "embed": true
+  },
+  {
+    "name": "Subwayrunner",
+    "img": "/assets/img/games/seraph/subwayrunner.png",
+    "url": "https://idkrly1919.github.io/seraph/games/subwayrunner/index.html",
+    "embed": true
+  },
+  {
+    "name": "xx142-b2.exe",
+    "img": "/assets/img/games/seraph/xx142-b2.exe.png",
+    "url": "https://idkrly1919.github.io/seraph/games/xx142-b2.exe/index.html",
+    "embed": true
+  },
+  {
+    "name": "Canopy",
+    "img": "/assets/img/games/seraph/canopy.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/canopy/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cavechaos",
+    "img": "/assets/img/games/seraph/cavechaos.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/cavechaos/index.html",
+    "embed": true
+  },
+  {
+    "name": "Changetype",
+    "img": "/assets/img/games/seraph/changetype.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/changetype/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cheesedreams",
+    "img": "/assets/img/games/seraph/cheesedreams.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/cheesedreams/index.html",
+    "embed": true
+  },
+  {
+    "name": "Chisel",
+    "img": "/assets/img/games/seraph/chisel.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/chisel/index.html",
+    "embed": true
+  },
+  {
+    "name": "Chisel 2",
+    "img": "/assets/img/games/seraph/chisel2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/chisel2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Ditto",
+    "img": "/assets/img/games/seraph/ditto.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/ditto/index.html",
+    "embed": true
+  },
+  {
+    "name": "Feedme",
+    "img": "/assets/img/games/seraph/feedme.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/feedme/index.html",
+    "embed": true
+  },
+  {
+    "name": "Finalninja",
+    "img": "/assets/img/games/seraph/finalninja.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/finalninja/index.html",
+    "embed": true
+  },
+  {
+    "name": "Frostbite",
+    "img": "/assets/img/games/seraph/frostbite.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/frostbite/index.html",
+    "embed": true
+  },
+  {
+    "name": "Frostbite 2",
+    "img": "/assets/img/games/seraph/frostbite2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/frostbite2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Icebreaker",
+    "img": "/assets/img/games/seraph/icebreaker.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/icebreaker/index.html",
+    "embed": true
+  },
+  {
+    "name": "Mutiny",
+    "img": "/assets/img/games/seraph/mutiny.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/mutiny/index.html",
+    "embed": true
+  },
+  {
+    "name": "Nitromemustdie",
+    "img": "/assets/img/games/seraph/nitromemustdie.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/nitromemustdie/index.html",
+    "embed": true
+  },
+  {
+    "name": "Oodlegobs",
+    "img": "/assets/img/games/seraph/oodlegobs.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/oodlegobs/index.html",
+    "embed": true
+  },
+  {
+    "name": "Supertreadmill",
+    "img": "/assets/img/games/seraph/supertreadmill.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/supertreadmill/index.html",
+    "embed": true
+  },
+  {
+    "name": "Swindler",
+    "img": "/assets/img/games/seraph/swindler.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/swindler/index.html",
+    "embed": true
+  },
+  {
+    "name": "Testsubjectarena",
+    "img": "/assets/img/games/seraph/testsubjectarena.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/testsubjectarena/index.html",
+    "embed": true
+  },
+  {
+    "name": "Testsubjectcomplete",
+    "img": "/assets/img/games/seraph/testsubjectcomplete.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/testsubjectcomplete/index.html",
+    "embed": true
+  },
+  {
+    "name": "Twinshot",
+    "img": "/assets/img/games/seraph/twinshot.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/twinshot/index.html",
+    "embed": true
+  },
+  {
+    "name": "Twinshot 2",
+    "img": "/assets/img/games/seraph/twinshot2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/twinshot2/index.html",
+    "embed": true
+  },
+  {
+    "name": "3 Line",
+    "img": "/assets/img/games/seraph/threeline.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/3line/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bikechamp",
+    "img": "/assets/img/games/seraph/bikechamp.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/bikechamp/index.html",
+    "embed": true
+  },
+  {
+    "name": "Bikechamp 2",
+    "img": "/assets/img/games/seraph/bikechamp2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/bikechamp2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Corporationinc",
+    "img": "/assets/img/games/seraph/corporationinc.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/corporationinc/index.html",
+    "embed": true
+  },
+  {
+    "name": "Shopempirefable",
+    "img": "/assets/img/games/seraph/shopempirefable.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/shopempirefable/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cactusmccoy",
+    "img": "/assets/img/games/seraph/cactusmccoy.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/cactusmccoy/index.html",
+    "embed": true
+  },
+  {
+    "name": "Cactusmccoy 2",
+    "img": "/assets/img/games/seraph/cactusmccoy2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/cactusmccoy2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papalouie",
+    "img": "/assets/img/games/seraph/papalouie.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papalouie/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papalouie 2",
+    "img": "/assets/img/games/seraph/papalouie2.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papalouie2/index.html",
+    "embed": true
+  },
+  {
+    "name": "Papalouie 3",
+    "img": "/assets/img/games/seraph/papalouie3.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/papalouie3/index.html",
+    "embed": true
+  },
+  {
+    "name": "Steakandjake",
+    "img": "/assets/img/games/seraph/steakandjake.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/steakandjake/index.html",
+    "embed": true
+  },
+  {
+    "name": "Steakandjakemidnightmarch",
+    "img": "/assets/img/games/seraph/steakandjakemidnightmarch.jpg",
+    "url": "https://idkrly1919.github.io/seraph/games/steakandjakemidnightmarch/index.html",
+    "embed": true
+  }
+]

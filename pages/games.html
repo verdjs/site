@@ -282,12 +282,16 @@
 
         async function getJson() {
             try {
-                res = await fetch('/assets/json/gn-math.json');
+                // Get selected store from localStorage (default to gn-math)
+                const store = localStorage.getItem('verdis_gameStore') || 'GN-Math';
+                const storeFile = store.toLowerCase().replace('-', '');
+
+                res = await fetch(`/assets/json/${storeFile}.json`);
                 if (!res.ok) {
                     throw new Error(`HTTP ${res.status}: ${res.statusText}`);
                 }
                 data = await res.json();
-                console.log("Games loaded:", data.length);
+                console.log(`Games loaded from ${store}:`, data.length);
             } catch (err) {
                 console.error("Failed to load games JSON:", err);
                 throw err;

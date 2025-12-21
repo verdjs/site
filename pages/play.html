@@ -332,13 +332,31 @@
             // Check if it's a local game (path starting with /)
             const isLocalGame = decodedUrl.startsWith('/');
 
-            if (isLocalGame) {
-                // Load local games DIRECTLY without proxy
-                // This prevents SharedWorker/BareMux conflicts in Unity games
+            // Check if it's from seraph or other trusted game hosts / CDNs (embed directly)
+            const bypassDomains = [
+                'github.io',
+                'gitlab.io',
+                'pages.dev',
+                'vercel.app',
+                'netlify.app',
+                'territorial.io',
+                'raw.githubusercontent.com',
+                'cdn.jsdelivr.net',
+                'googleusercontent.com',
+                '3kh0.github.io',
+                'unblocked-games.github.io',
+                'bitbucket.io'
+            ];
+
+            const isEmbedGame = bypassDomains.some(domain => decodedUrl.includes(domain));
+
+            if (isLocalGame || isEmbedGame) {
+                // Load local games and trusted embeds DIRECTLY without proxy
+                // This prevents SharedWorker/BareMux conflicts in Unity games or unnecessary lag
                 gameframe.src = decodedUrl;
                 gameframe.focus();
-            } else {
-                // External URLs go through Scramjet proxy
+            } else if (decodedUrl.startsWith('http://') || decodedUrl.startsWith('https://')) {
+                // Other external URLs go through Scramjet proxy
                 getProxiedUrl(decodedUrl).then(proxiedUrl => {
                     gameframe.src = proxiedUrl;
                     gameframe.focus();
@@ -348,6 +366,10 @@
                     gameframe.src = decodedUrl;
                     gameframe.focus();
                 });
+            } else {
+                // Unknown format, try direct load
+                gameframe.src = decodedUrl;
+                gameframe.focus();
             }
 
             gameframe.onload = () => {

@@ -50,8 +50,7 @@
     <script src="/assets/js/lib/three.min.js"></script>
     <script src="/assets/js/lib/vanta.fog.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda@3.4.3/eruda.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/assets/js/backend/supabase-client.js"></script>
+
     <script src="/assets/js/backend/reviews.js"></script>
     <script src="/assets/js/backend/leaderboard.js"></script>
     <script src="/assets/js/carousel.js"></script>
@@ -861,17 +860,20 @@
             })
         })
 
+
         function observe() {
             document.querySelectorAll(".bg-img[data-bg]").forEach(el => bgO.observe(el))
         }
 
-        load("apps", "apps", "Apps", "rSearch", "")
-        load(selectedStore.toLowerCase(), "games", "Games", "navTo", "play.html?launch=")
+        // Moved load() calls to after SW registration to ensure proxy is ready
 
         document.addEventListener("DOMContentLoaded", () => {
-            observe()
-            // Render Quick Access on page load
-            setTimeout(renderQuickAccess, 100)
+            // Initial UI setup
+            const loading = document.querySelector(".loading")
+            if (loading) {
+                loading.style.opacity = 0
+                loading.style.pointerEvents = "none"
+            }
         })
 
         // Handle favorites updated (including auto-removed items)
@@ -912,51 +914,113 @@
         }
     </script>
     <script>
+        async function waitForSW() {
+            if (!("serviceWorker" in navigator)) return;
+            if (navigator.serviceWorker.controller) return;
+
+            return new Promise(resolve => {
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    resolve();
+                }, { once: true });
+            });
+        }
+
         async function registerSW() {
+            console.log("Verdis: Initializing Service Workers...");
             if ("serviceWorker" in navigator) {
-                await navigator.serviceWorker.register("/uv/sw.js").then(() => {
-                    console.log(
-                        "%cverdis" + "%c UV sw registered!",
-                        "color: white; background: linear-gradient(to bottom right, #040c16, #000000); border-radius: 5px; font-weight: bold; padding: 6px; font-family: sans-serif;",
-                        "color: white; background: transparent; border-radius: 0px; padding: 0px;"
-                    );
-                    setTimeout(() => {
-                        showToast("success", "Ultraviolet worker initialized!", "fas fa-check-circle")
-                        console.log("shown toast")
-                    }, 1000)
-                }).catch(e => {
-                    console.log("Error registering service worker (UV): " + e)
-                    showToast("error", "Failed to register service worker", "fas fa-times-circle")
-                });
+                try {
+                    await navigator.serviceWorker.register("/uv/sw.js", {
+                        scope: '/uv/service/'
+                    });
+                    console.log("Verdis: UV SW Registered");
 
-                await navigator.serviceWorker.register("/sw.js").then(() => {
-                    console.log(
-                        "%cverdis" + "%c SJ sw registered!",
-                        "color: white; background: linear-gradient(to bottom right, #040c16, #000000); border-radius: 5px; font-weight: bold; padding: 6px; font-family: sans-serif;",
-                        "color: white; background: transparent; border-radius: 0px; padding: 0px;"
-                    );
-                    setTimeout(() => {
-                        showToast("success", "Scramjet worker initialized", "fas fa-check-circle")
-                        console.log("shown toast")
-                    }, 1000)
-                }).catch(e => {
-                    console.log("Error registering service worker (SJ): " + e)
-                    showToast("error", "Failed to register service worker", "fas fa-times-circle")
-                });
+                    await navigator.serviceWorker.register("/sw.js", {
+                        scope: '/'
+                    });
+                    console.log("Verdis: Main SW Registered");
 
-                setTimeout(() => {
+                    // Reload if no controller (first load) ensuring immediate control
+                    if (!navigator.serviceWorker.controller) {
+                        // We can try to reload or just wait? 
+                        // Usually new SWs claim clients. Let's assume they DO in their install/activate.
+                        // But if not, we might need a hard reload. 
+                        // For now, let's proceed but logged.
+                        console.log("Verdis: Waiting for SW controller...");
+                        await waitForSW();
+                        console.log("Verdis: SW Controller active");
+                    }
+
+                    showToast("success", "Service Workers Ready", "fas fa-check-circle");
+
+                    // LOAD CONTENT NOW
+                    console.log("Verdis: Loading Content...");
+                    load("apps", "apps", "Apps", "rSearch", "")
+                    load(selectedStore.toLowerCase(), "games", "Games", "navTo", "play.html?launch=")
+
+                    observe()
+                    setTimeout(renderQuickAccess, 100)
+
+                    // Init Umami now that proxy is ready
+                    initUmami();
+
+                    // Start User Count (safe now)
+                    getActiveUsers();
+                    setInterval(() => getActiveUsers(), 30000);
+
                     document.querySelector(".loading").style.opacity = 0
                     document.querySelector(".loading").style.pointerEvents = "none"
                     document.querySelector("#homesearch").disabled = false
                     document.querySelector("#homesearch").placeholder = "search anything..."
-                }, 1000)
+
+                } catch (e) {
+                    console.error("Verdis: SW Registration Failed", e);
+                    showToast("error", "Failed to register Service Worker", "fas fa-times-circle");
+                    // Still try to load? content might fail
+                    load("apps", "apps", "Apps", "rSearch", "")
+                    load(selectedStore.toLowerCase(), "games", "Games", "navTo", "play.html?launch=")
+                }
             }
+        }
+
+        function initUmami() {
+            const uScript = document.createElement('script');
+            uScript.defer = true;
+            uScript.dataset.websiteId = "aa852720-724b-4441-be4c-6db9ef160eb9";
+
+            let src = "https://cloud.umami.is/script.js";
+            if (typeof __uv$config !== 'undefined') {
+                try {
+                    src = __uv$config.prefix + __uv$config.encodeUrl(src);
+                    console.log("Loading Umami via Proxy");
+                } catch (e) { console.error("UV encode failed", e); }
+            }
+
+
+
+            uScript.src = src;
+            document.head.appendChild(uScript);
+        }
+
+        async function getActiveUsers() {
+            try {
+                let endpoint = "https://api.x8r.dev/api/umami"
+                if (typeof __uv$config !== 'undefined') {
+                    endpoint = __uv$config.prefix + __uv$config.encodeUrl(endpoint);
+                }
+                const res = await fetch(endpoint)
+                if (!res.ok) throw new Error("Fetch failed");
+                const data = await res.json()
+                console.log("CURRENT VISITORS:" + data.visitors)
+                const userCountEl = document.getElementById("user-count")
+                if (userCountEl) userCountEl.textContent = data.visitors
+            } catch (e) { console.error("Visitors fetch error", e); }
         }
 
         window.addEventListener("load", () => {
             registerSW();
             lucide.createIcons();
         });
+
 
         const contentFrame = document.getElementById('contentFrame');
         const homeContent = document.getElementById('homeContent');
@@ -1683,23 +1747,7 @@
             })
         }
 
-        async function getActiveUsers() {
-            let endpoint = "https://api.x8r.dev/api/umami"
-            if (typeof __uv$config !== 'undefined') {
-                endpoint = __uv$config.prefix + __uv$config.encodeUrl(endpoint);
-            }
-            const res = await fetch(endpoint)
-            const data = await res.json()
 
-            console.log("CURRENT VISITORS:" + data.visitors)
-            document.getElementById("user-count").textContent = data.visitors
-        }
-
-        getActiveUsers()
-
-        setInterval(() => {
-            getActiveUsers()
-        }, 30000)
     </script>
     <script>
         // --- Game Mode Optimization & Proxy Loader ---
@@ -1759,20 +1807,6 @@
         }
 
         // Umami Proxy Loader
-        window.addEventListener('load', () => {
-            const uScript = document.createElement('script');
-            uScript.defer = true;
-            uScript.dataset.websiteId = "aa852720-724b-4441-be4c-6db9ef160eb9";
 
-            let src = "https://cloud.umami.is/script.js";
-            if (typeof __uv$config !== 'undefined') {
-                try {
-                    src = __uv$config.prefix + __uv$config.encodeUrl(src);
-                    console.log("Loading Umami via Proxy");
-                } catch (e) { console.error("UV encode failed", e); }
-            }
-            uScript.src = src;
-            document.head.appendChild(uScript);
-        });
     </script>
 </body>

@@ -66,8 +66,7 @@
     <meta name="language" content="English">
     <meta name="revisit-after" content="2 days">
     <meta name="author" content="x8r and verdis team">
-    <script defer src="https://cloud.umami.is/script.js"
-        data-website-id="aa852720-724b-4441-be4c-6db9ef160eb9"></script>
+
     <link rel="stylesheet" href="/assets/css/font.css">
     <link rel="stylesheet" href="/assets/icons/fonts/remixicon.css">
 
@@ -998,7 +997,17 @@
                 const blur = document.querySelector('.blurOverlay');
                 if (blur) blur.remove();
 
+                // RESTORE BACKGROUND - EXIT GAME MODE
+                if (typeof exitGameMode === 'function') {
+                    exitGameMode();
+                }
+
             } else if (l === "vms" || l === "movies") {
+                // OPTIMIZE - ENTER GAME MODE
+                if (typeof enterGameMode === 'function') {
+                    enterGameMode();
+                }
+
                 // Re-add iframe if it was removed
                 if (!document.body.contains(contentFrame)) {
                     document.body.appendChild(contentFrame);
@@ -1017,6 +1026,12 @@
                 if (!document.body.contains(contentFrame)) {
                     document.body.appendChild(contentFrame);
                 }
+
+                // OPTIMIZE - ENTER GAME MODE (For games and proxy pages)
+                if (typeof enterGameMode === 'function') {
+                    enterGameMode();
+                }
+
                 const overlayOn = localStorage.getItem("verdis_useOverlay") ?? "yes"
                 if (l.includes("/stores/") || l.includes("play.html")) {
                     document.body.classList.add("content-open");
@@ -1394,6 +1409,9 @@
             })
 
             console.log("rSearch")
+            if (typeof enterGameMode === 'function') {
+                enterGameMode();
+            }
             newTab()
             nav(url)
             switchTab(aTab)
@@ -1422,11 +1440,15 @@
         function updatePJS() {
             if (pjstoggle.checked) {
                 console.log("checked")
-                const newpjs = document.createElement("div")
-                newpjs.setAttribute("id", "vanta-fog-container")
-                document.body.append(newpjs)
+                let newpjs = document.getElementById("vanta-fog-container")
+                if (!newpjs) {
+                    newpjs = document.createElement("div")
+                    newpjs.setAttribute("id", "vanta-fog-container")
+                    document.body.append(newpjs)
+                }
                 localStorage.setItem("verdis_particlesOn", "yes")
-                VANTA.FOG({
+                if (window.vantaEffect) window.vantaEffect.destroy()
+                window.vantaEffect = VANTA.FOG({
                     el: "#vanta-fog-container",
                     mouseControls: true,
                     touchControls: true,
@@ -1443,7 +1465,11 @@
                 showToast("success", "Vanta is now on!", "fas fa-check-circle")
             } else {
                 const newpcont = document.getElementById("vanta-fog-container")
-                newpcont.remove()
+                if (newpcont) newpcont.remove()
+                if (window.vantaEffect) {
+                    window.vantaEffect.destroy()
+                    window.vantaEffect = null
+                }
                 console.log("unchecked")
                 localStorage.setItem("verdis_particlesOn", "no")
                 showToast("success", "Vanta is now off!", "fas fa-check-circle")
@@ -1640,7 +1666,8 @@
 
         const useFog = localStorage.getItem("verdis_particlesOn") ?? "yes"
         if (useFog === "yes") {
-            VANTA.FOG({
+            if (window.vantaEffect) window.vantaEffect.destroy()
+            window.vantaEffect = VANTA.FOG({
                 el: "#vanta-fog-container",
                 mouseControls: true,
                 touchControls: true,
@@ -1657,7 +1684,10 @@
         }
 
         async function getActiveUsers() {
-            const endpoint = "https://api.x8r.dev/api/umami"
+            let endpoint = "https://api.x8r.dev/api/umami"
+            if (typeof __uv$config !== 'undefined') {
+                endpoint = __uv$config.prefix + __uv$config.encodeUrl(endpoint);
+            }
             const res = await fetch(endpoint)
             const data = await res.json()
 
@@ -1670,5 +1700,79 @@
         setInterval(() => {
             getActiveUsers()
         }, 30000)
+    </script>
+    <script>
+        // --- Game Mode Optimization & Proxy Loader ---
+        const gmStyle = document.createElement('style');
+        gmStyle.textContent = `
+            .game-mode #homeContent, 
+            .game-mode #quickAccessSection,
+            .game-mode .carousel-container { 
+                display: none !important; 
+            }
+        `;
+        document.head.appendChild(gmStyle);
+
+        window.enterGameMode = function () {
+            if (document.body.classList.contains('game-mode')) return;
+            console.log("Verdis: Entering Game Mode (Optimized)");
+            document.body.classList.add('game-mode');
+
+            // Disable Vanta
+            if (window.vantaEffect) {
+                window.vantaEffect.destroy();
+                // We keep usingPJS state but destroy the visual
+            }
+
+            // Disable Particles if any
+            if (window.pJSDom && window.pJSDom.length > 0) {
+                try {
+                    window.pJSDom[0].pJS.fn.vendors.destroypJS();
+                    window.pJSDom = [];
+                } catch (e) { console.warn("Error destroying particles", e); }
+            }
+
+            const fogContainer = document.getElementById("vanta-fog-container");
+            if (fogContainer) fogContainer.style.display = 'none';
+        }
+
+        window.exitGameMode = function () {
+            if (!document.body.classList.contains('game-mode')) return;
+            console.log("Verdis: Exiting Game Mode");
+            document.body.classList.remove('game-mode');
+
+            // Restore Vanta if it was enabled
+            const pjsIsOn = localStorage.getItem("verdis_particlesOn") ?? "yes";
+            if (pjsIsOn === "yes") {
+                let pcont = document.getElementById("vanta-fog-container");
+                if (!pcont) {
+                    const newpjs = document.createElement("div");
+                    newpjs.setAttribute("id", "vanta-fog-container");
+                    document.body.append(newpjs);
+                } else {
+                    pcont.style.display = 'block';
+                }
+                // Re-init logic is in updatePJS, but we need to ensure checkbox is correct first or just call VANTA directly
+                // updatePJS relies on checkbox. Let's rely on updatePJS to handle it based on checkbox state (which should match storage on load)
+                updatePJS();
+            }
+        }
+
+        // Umami Proxy Loader
+        window.addEventListener('load', () => {
+            const uScript = document.createElement('script');
+            uScript.defer = true;
+            uScript.dataset.websiteId = "aa852720-724b-4441-be4c-6db9ef160eb9";
+
+            let src = "https://cloud.umami.is/script.js";
+            if (typeof __uv$config !== 'undefined') {
+                try {
+                    src = __uv$config.prefix + __uv$config.encodeUrl(src);
+                    console.log("Loading Umami via Proxy");
+                } catch (e) { console.error("UV encode failed", e); }
+            }
+            uScript.src = src;
+            document.head.appendChild(uScript);
+        });
     </script>
 </body>

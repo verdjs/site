@@ -17,11 +17,17 @@
   document.body.appendChild(cursor);
 
   let cursorVisible = true;
+  let cursorEnabled = true;
   let lastMove = Date.now();
   let mouseX = 0;
   let mouseY = 0;
   let displayX = 0;
   let displayY = 0;
+
+  const hideCursorStyle = document.createElement("style");
+  hideCursorStyle.id = "zxs-hide-cursor-style";
+  hideCursorStyle.textContent = `* { cursor: none !important; }`;
+  document.head.appendChild(hideCursorStyle);
 
   function animate() {
     displayX += (mouseX - displayX) * 0.25;
@@ -32,6 +38,7 @@
   requestAnimationFrame(animate);
 
   function updateCursor(x, y) {
+    if (!cursorEnabled) return;
     mouseX = x;
     mouseY = y;
     lastMove = Date.now();
@@ -61,10 +68,6 @@
       updateCursor(data.x + offsetX, data.y + offsetY);
   });
 
-  const hideCursorStyle = document.createElement("style");
-  hideCursorStyle.textContent = `* { cursor: none !important; }`;
-  document.head.appendChild(hideCursorStyle);
-
   setInterval(() => {
     if (Date.now() - lastMove > 500 && cursorVisible) hideCursor();
   }, 250);
@@ -75,7 +78,23 @@
   }
 
   function showCursor() {
+    if (!cursorEnabled) return;
     cursor.style.opacity = "1";
     cursorVisible = true;
   }
+
+  // Public API to enable/disable cursor globally
+  window.VerdisCursor = {
+    disable: function () {
+      cursorEnabled = false;
+      cursor.style.display = "none";
+      hideCursorStyle.textContent = ""; // Restore default cursor
+    },
+    enable: function () {
+      cursorEnabled = true;
+      cursor.style.display = "block";
+      hideCursorStyle.textContent = `* { cursor: none !important; }`;
+    }
+  };
 })();
+

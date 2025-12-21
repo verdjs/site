@@ -1,0 +1,273 @@
+/* Playtime Tracker Styles */
+
+/* Container li for playtime button */
+nav ul li:has(#playtime-btn) {
+    width: auto !important;
+    min-width: 130px;
+    height: 40px !important;
+    padding: 0;
+    margin-right: 6px;
+    margin-top: 4px !important;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Navbar Playtime Button */
+#playtime-btn {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
+    border: 1px solid var(--border-4);
+    border-radius: 14px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    box-sizing: border-box;
+    cursor: default;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    justify-content: center;
+}
+
+#playtime-btn i {
+    font-size: 16px;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+#playtime-btn i:hover {
+    transform: scale(1.15);
+    filter: brightness(1.2);
+}
+
+.playtime-divider-icon {
+    color: var(--border-4);
+    font-size: 12px;
+    opacity: 0.4;
+    margin: 0 -2px;
+    flex-shrink: 0;
+}
+
+.playtime-text {
+    cursor: pointer;
+    font-family: 'Inter', Arial, sans-serif;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* Playtime Modal */
+.playtime-modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 90vw;
+    background: color-mix(in srgb, var(--bg) 85%, transparent 15%);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-4);
+    border-radius: 20px;
+    padding: 24px;
+    z-index: 100;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.playtime-modal.settings-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.playtime-modal.settings-shown {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.playtime-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.playtime-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--bright-text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.playtime-modal-header h3 i {
+    color: var(--accent);
+}
+
+.playtime-close-btn {
+    background: var(--bg-2);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+.playtime-close-btn:hover {
+    background: var(--bg-3);
+    color: var(--accent);
+}
+
+/* Total Time Display */
+.playtime-total {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg,
+            color-mix(in srgb, var(--accent) 15%, transparent 85%),
+            color-mix(in srgb, var(--accent-2) 10%, transparent 90%));
+    border-radius: 16px;
+    margin-bottom: 16px;
+}
+
+.playtime-total-label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text);
+    opacity: 0.7;
+    margin-bottom: 6px;
+}
+
+.playtime-total-value {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--bright-text);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Meta Info */
+.playtime-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text);
+    opacity: 0.7;
+    margin-bottom: 16px;
+}
+
+.playtime-meta i {
+    margin-right: 4px;
+}
+
+/* Divider */
+.playtime-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-4), transparent);
+    margin: 16px 0;
+}
+
+/* Breakdown Section */
+#playtime-breakdown h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.playtime-activities {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.playtime-activity {
+    background: var(--bg-2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: all 0.2s;
+}
+
+.playtime-activity:hover {
+    background: var(--bg-3);
+    transform: translateX(4px);
+}
+
+.playtime-activity-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.playtime-activity-icon {
+    font-size: 18px;
+}
+
+.playtime-activity-label {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--bright-text);
+}
+
+.playtime-activity-time {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Progress Bar */
+.playtime-progress {
+    height: 6px;
+    background: var(--bg-4);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.playtime-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    min-width: 2px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .playtime-modal {
+        width: 95vw;
+        padding: 16px;
+    }
+
+    .playtime-total-value {
+        font-size: 24px;
+    }
+
+    .playtime-meta {
+        flex-direction: column;
+        gap: 4px;
+    }
+}

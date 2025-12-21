@@ -1,15 +1,17 @@
 /* Favorites System Styles */
 
-/* Quick Access Section - Fixed position below home content */
+/* Quick Access Section - Now inside carousel, hide this one */
 .quick-access-section {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 600px;
-    text-align: left;
-    z-index: 2;
+    display: none !important;
+}
+
+/* Hide quick access when games/apps panels are open */
+body.content-open .quick-access-section,
+.games-wrapper:not(.settings-hidden)~.quick-access-section,
+.apps-wrapper:not(.settings-hidden)~.quick-access-section {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .quick-access-section h3 {
@@ -175,7 +177,7 @@
 }
 
 .favorite-btn.active i {
-    animation: heartPop 0.4s ease;
+    animation: heartPop 0.5s cubic-bezier(0.17, 0.89, 0.32, 1.49);
 }
 
 @keyframes heartPop {
@@ -183,16 +185,24 @@
         transform: scale(1);
     }
 
-    25% {
-        transform: scale(1.3);
+    15% {
+        transform: scale(0.7);
     }
 
-    50% {
+    30% {
+        transform: scale(1.4);
+    }
+
+    45% {
         transform: scale(0.9);
     }
 
+    60% {
+        transform: scale(1.2);
+    }
+
     75% {
-        transform: scale(1.15);
+        transform: scale(0.95);
     }
 
     100% {
@@ -204,4 +214,28 @@
 .favorite-btn i.fas.fa-heart {
     color: #ff6b6b;
     text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+/* Heart click burst effect */
+.favorite-btn.animating::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 107, 107, 0.6) 0%, transparent 70%);
+    animation: heartBurst 0.5s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes heartBurst {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
 }

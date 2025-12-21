@@ -1,0 +1,343 @@
+/* Game Details Modal & Backend Styles */
+
+.game-details-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.game-details-modal.settings-hidden {
+    opacity: 0;
+    transform: none !important;
+    pointer-events: none !important;
+    visibility: hidden;
+}
+
+.game-details-modal.settings-shown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none !important;
+    visibility: visible;
+}
+
+.modal-content {
+    width: 700px;
+    max-width: 90vw;
+    max-height: 90vh;
+    background: var(--bg);
+    border: 1px solid var(--border-4);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    transform: scale(1);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: all;
+}
+
+.game-details-modal.settings-hidden .modal-content {
+    transform: scale(0.9);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.modal-close-btn:hover {
+    background: var(--accent);
+    transform: rotate(90deg);
+}
+
+/* Hero Section */
+.modal-header-hero {
+    height: 200px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.modal-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.4);
+}
+
+.modal-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-hero-content h2 {
+    font-size: 32px;
+    color: white;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-play-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-play-btn:hover {
+    transform: scale(1.05);
+    background: white;
+    color: var(--accent);
+}
+
+/* Tabs */
+.modal-tabs {
+    display: flex;
+    gap: 20px;
+    padding: 0 25px;
+    border-bottom: 1px solid var(--border-4);
+    background: var(--bg-2);
+}
+
+.modal-tab {
+    background: none;
+    border: none;
+    color: var(--text);
+    padding: 15px 5px;
+    font-size: 15px;
+    cursor: pointer;
+    position: relative;
+    opacity: 0.7;
+    transition: 0.2s;
+}
+
+.modal-tab:hover,
+.modal-tab.active {
+    opacity: 1;
+    color: var(--bright-text);
+}
+
+.modal-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+}
+
+/* Body Content */
+.modal-body-content {
+    background: var(--bg);
+}
+
+.modal-tab-content {
+    display: none;
+    padding: 25px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.modal-tab-content.active {
+    display: block;
+}
+
+/* Info Button on Cards */
+.info-btn {
+    position: absolute;
+    top: 10px;
+    right: 45px;
+    /* Left of heart button */
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    transition: 0.2s;
+    opacity: 0;
+}
+
+.app:hover .info-btn {
+    opacity: 1;
+}
+
+.info-btn:hover {
+    background: white;
+    color: black;
+    transform: scale(1.1);
+}
+
+/* Reviews */
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.write-review-btn {
+    background: var(--bg-3);
+    border: 1px solid var(--border-4);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.write-review-btn:hover {
+    background: var(--bg-4);
+}
+
+.review-form {
+    background: var(--bg-2);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-4);
+}
+
+.review-form input,
+.review-form textarea {
+    width: 100%;
+    background: var(--bg-3);
+    border: 1px solid var(--border-4);
+    color: var(--text);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.star-rating-input {
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.review-form button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.stat-card {
+    background: var(--bg-2);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.stat-card i {
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-card span {
+    font-size: 28px;
+    font-weight: 700;
+    display: block;
+    color: var(--bright-text);
+}
+
+.stat-card small {
+    opacity: 0.7;
+    font-size: 13px;
+}
+
+/* Individual Review Item */
+.review-item {
+    border-bottom: 1px solid var(--border-4);
+    padding: 15px 0;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.review-author {
+    font-weight: 600;
+    color: var(--bright-text);
+}
+
+.review-stars {
+    color: var(--accent);
+    font-size: 12px;
+}
+
+.review-text {
+    font-size: 14px;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.review-date {
+    font-size: 11px;
+    opacity: 0.5;
+    margin-top: 5px;
+    display: block;
+}

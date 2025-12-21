@@ -162,10 +162,15 @@ li.toright {
 #homeContent {
     position: fixed;
     text-align: center;
-    top: 50%;
+    top: 44%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    z-index: 100;
+}
+
+body.content-open #homeContent {
+    display: none !important;
+    pointer-events: none !important;
 }
 
 #homeContent.hidden {
@@ -410,6 +415,7 @@ p a:hover {
     opacity: 0;
     pointer-events: none;
     transform-origin: center center;
+    display: none;
 }
 
 .settings-shown {
@@ -427,6 +433,7 @@ p a:hover {
     opacity: 0;
     pointer-events: none;
     transform-origin: center center;
+    display: none;
 }
 
 .apps-wrapper.settings-shown,
@@ -1464,11 +1471,37 @@ span.online-count {
     }
 }
 
+/* Navbar User Count Styling */
+.online-users-nav {
+    width: auto !important;
+    padding: 0 10px !important;
+}
+
+.online-users-nav a {
+    gap: 8px;
+}
+
+.online-users-nav i {
+    font-size: 18px !important;
+    color: var(--accent);
+}
+
+.navbar-divider-icon {
+    opacity: 0.3;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.user-count-text {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: monospace;
+}
+
 #gohomeblock {
     height: 50px;
     width: 50px;
     background: color-mix(in srgb, var(--bg) 55%, transparent 45%);
-    ;
     position: absolute;
     right: 15px;
     top: 15px;
@@ -1484,13 +1517,4 @@ span.online-count {
 
 #gohomeblock:hover {
     scale: 1.05;
-}
-
-.online-users {
-    position: absolute;
-    left: 50%;
-    bottom: 5px;
-    font-size: 15px;
-    transform: translateX(-50%);
-    opacity: .45;
 }

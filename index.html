@@ -19,6 +19,7 @@
     <link rel="icon" type="image/png" href="https://ssl.gstatic.com/classroom/favicon.png">
     <title>Google Classroom</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="/uv/uv.bundle.js"></script>
     <script src="/uv/uv.config.js"></script>
     <script src="/baremux/index.js"></script>
@@ -35,14 +36,25 @@
     <link rel="stylesheet" href="/assets/css/t.css">
     <link rel="stylesheet" href="/assets/css/dropdown.css">
     <link rel="stylesheet" href="/assets/css/favorites.css">
+    <link rel="stylesheet" href="/assets/css/playtime.css">
+    <link rel="stylesheet" href="/assets/css/backend.css">
+    <link rel="stylesheet" href="/assets/css/carousel.css">
     <script src="/assets/js/cursor.js" defer></script>
     <script src="/assets/js/colors.js"></script>
     <script src="/assets/js/splash.js" defer></script>
     <script src="/assets/js/favorites.js"></script>
+    <script src="/assets/js/playtime.js"></script>
     <script src="/assets/js/browserfunctions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/backend/supabase-client.js"></script>
     <script src="/assets/js/lib/three.min.js"></script>
     <script src="/assets/js/lib/vanta.fog.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda@3.4.3/eruda.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/backend/supabase-client.js"></script>
+    <script src="/assets/js/backend/reviews.js"></script>
+    <script src="/assets/js/backend/leaderboard.js"></script>
+    <script src="/assets/js/carousel.js"></script>
     <script src="/assets/js/lib/particles.js"></script>
     <meta name="title" content="Google Classroom">
     <meta name="description" content="Google Classroom helps classes communicate, save time, and stay organized.">
@@ -69,8 +81,11 @@
     <nav>
         <ul>
             <li>
-                <a onclick="openAB()" aria-label="Cave cloak" href="#">
-                    <i class="fas fa-mountain" aria-hidden="true"></i>
+                <a id="playtime-btn" href="#" aria-label="Playtime">
+                    <i class="fas fa-mountain" onclick="event.stopPropagation(); openAB()" aria-label="Cave cloak"></i>
+                    <span class="playtime-divider-icon">|</span>
+                    <i class="far fa-clock" onclick="VerdisPlaytime.toggleModal()"></i>
+                    <span class="playtime-text" onclick="VerdisPlaytime.toggleModal()">0m</span>
                 </a>
             </li>
             <li class="divider"></li>
@@ -101,11 +116,6 @@
                     <i class="ri-robot-2-line"></i>
                 </a>
             </li>
-            <li>
-                <a onclick="togglePartners()" href="#" data-page="movies">
-                    <i class="ri-shake-hands-fill"></i>
-                </a>
-            </li>
             <!--
             <li>
                 <a onclick="toggleChat()" href="#" data-page="social">
@@ -118,22 +128,14 @@
                     <i class="ri-settings-3-line"></i>
                 </a>
             </li>
-            <li>
-                <a target="_blank" href="https://discord.gg/hUYzETaQ9U" data-page="settings">
-                    <i class="ri-discord-fill"></i>
-                </a>
-            </li>
-            <!--
             <li class="divider"></li>
-            <li style="width: 85px">
-                <a onclick="navTo('gmbl'); showToast('warning', 'verdis in NO WAY encourages gambling, betting, or any actions of the kind. This is just a joke.', 'fas fa-exclamation-triangle')"
-                    href="#" data-page="gmbl">
-                    <i class="far fa-slot-machine"
-                        style="font-size: 17px; transform: translateY(40%); left: 10px;"></i><span
-                        class="new">NEW</span>
+            <li id="nav-user-count" class="online-users-nav">
+                <a href="#" aria-label="Online Users">
+                    <i class="fas fa-users"></i>
+                    <span class="navbar-divider-icon">|</span>
+                    <span id="user-count" class="user-count-text">0</span>
                 </a>
             </li>
-            -->
         </ul>
     </nav>
     <div id="homeContent">
@@ -152,7 +154,15 @@
             </svg>
         </div>
         <div class="search-warning" style="margin: 6px 0 0 6px;">This is a proxy; you could get in trouble.</div>
-        <br><br>
+        <br>
+    </div>
+
+    <!-- Top Games Carousel (fixed at bottom, behind quick access) -->
+    <div class="top-games-carousel" id="topGamesCarousel">
+        <div class="top-games-title"><i class="fas fa-fire"></i> Top Games This Week</div>
+        <div class="top-games-track" id="topGamesTrack">
+            <!-- Populated by JS -->
+        </div>
     </div>
 
     <!-- Quick Access Favorites Section (separate from homeContent to not push layout) -->
@@ -162,14 +172,95 @@
         </div>
     </div>
 
+    <!-- Playtime Tracker Modal -->
+    <div class="playtime-modal settings-hidden">
+        <div class="playtime-modal-header">
+            <h3><i class="far fa-clock"></i> Your Playtime</h3>
+            <button class="playtime-close-btn" onclick="VerdisPlaytime.toggleModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="playtime-breakdown">
+            <!-- Content rendered by JS -->
+        </div>
+    </div>
+
+    <!-- Game Details Modal -->
+    <div class="game-details-modal settings-hidden" id="gameDetailsModal">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeGameDetails()">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="modal-header-hero">
+                <div class="modal-hero-bg" id="modalHeroBg"></div>
+                <div class="modal-hero-content">
+                    <h2 id="modalGameTitle">Game Name</h2>
+                    <div class="modal-actions">
+                        <button id="modalPlayBtn" class="modal-play-btn">
+                            <i class="fas fa-play"></i> Play Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body-content">
+                <div class="modal-tabs">
+                    <button class="modal-tab active" onclick="switchModalTab('reviews')">Reviews</button>
+                    <button class="modal-tab" onclick="switchModalTab('stats')">Stats</button>
+                </div>
+
+                <div id="modal-tab-reviews" class="modal-tab-content active">
+                    <div class="reviews-header">
+                        <h3>User Reviews</h3>
+                        <button class="write-review-btn" onclick="toggleReviewForm()">
+                            <i class="fas fa-pen"></i> Write Review
+                        </button>
+                    </div>
+
+                    <div id="reviewForm" class="review-form" style="display: none;">
+                        <input type="text" id="reviewName" placeholder="Your Name (Optional)" maxlength="20">
+                        <div class="star-rating-input">
+                            <i class="far fa-star" data-rating="1" onclick="setRating(1)"></i>
+                            <i class="far fa-star" data-rating="2" onclick="setRating(2)"></i>
+                            <i class="far fa-star" data-rating="3" onclick="setRating(3)"></i>
+                            <i class="far fa-star" data-rating="4" onclick="setRating(4)"></i>
+                            <i class="far fa-star" data-rating="5" onclick="setRating(5)"></i>
+                        </div>
+                        <textarea id="reviewComment" placeholder="What did you think?" maxlength="140"></textarea>
+                        <button onclick="submitReviewAction()">Post Review</button>
+                    </div>
+
+                    <div id="reviewsList" class="reviews-list">
+                        <!-- Reviews rendered here -->
+                        <div class="loading-spinner">Loading reviews...</div>
+                    </div>
+                </div>
+
+                <div id="modal-tab-stats" class="modal-tab-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-eye"></i>
+                            <span id="statViews">0</span>
+                            <small>Global Plays</small>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-star"></i>
+                            <span id="statRating">0.0</span>
+                            <small>Average Rating</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="toast-container fixed right-4 top-4 w-1/4">
     </div>
 
     <div class="toast-container"></div>
 
     <iframe id="contentFrame"></iframe>
-
-    <span class="online-users"><b id="user-count">0</b> users currently online</span>
 
     <div class="settings-container settings-hidden">
         <div class="container">
@@ -204,7 +295,8 @@
             <div class="settings-content-container">
                 <div id="settings-general" class="settings-page settings-active">
                     <h2>Theme</h2>
-                    <p>The color scheme used across the whole site. Some changes might not happen instantly, so refresh
+                    <p>The color scheme used across the whole site. Some changes might not happen instantly, so
+                        refresh
                         to see those take place.</p>
                     <div class="theme-selector">
                         <div class="theme-selected"></div>
@@ -258,7 +350,8 @@
                     </div>
 
                     <h2>Game Overlay</h2>
-                    <p>Enable or disable the game overlay, which provides useful tools while gaming such as a browser,
+                    <p>Enable or disable the game overlay, which provides useful tools while gaming such as a
+                        browser,
                         recording tools, etc. Turn off if you're experiencing performance issues.</p>
                     <!-- From Uiverse.io by Galahhad -->
                     <label class="switch">
@@ -346,7 +439,8 @@
                     </label>
                     <br><br>
                     <h2>Confirm Leave</h2>
-                    <p>This setting is useful if teachers are trying to close your tab. When the tab is closed, it will
+                    <p>This setting is useful if teachers are trying to close your tab. When the tab is closed, it
+                        will
                         show an "Are you sure you want to leave this site?" popup to prevent tab closing.</p>
                     <label class="switch">
                         <input id="confirm-leave-toggle" checked="" onchange="updateCLSettings()" type="checkbox">
@@ -380,7 +474,8 @@
 
                 <div id="settings-proxy" class="settings-page">
                     <h2>Wisp Server</h2>
-                    <p>The server that all content will be transferred through. Make sure the Wisp server you are using
+                    <p>The server that all content will be transferred through. Make sure the Wisp server you are
+                        using
                         is not blocked, or the proxy will not function.</p>
                     <div class="wisp-selector">
                         <div class="wisp-selected"></div>
@@ -389,7 +484,8 @@
                         </div>
                     </div>
                     <h2>Backend</h2>
-                    <p>The main proxy service. Scramjet is newer but more experimental, while Ultraviolet is older but
+                    <p>The main proxy service. Scramjet is newer but more experimental, while Ultraviolet is older
+                        but
                         less advanced.</p>
                     <div class="backend-selector">
                         <div class="backend-selected"></div>
@@ -414,7 +510,8 @@
                     <h2>Credits</h2>
                     <p>
                         <b style="font-weight: 600;">GN Math</b> - all games <br>
-                        <b style="font-weight: 600;"><a href="https://waves.lat" target="_blank">Waves</a></b> - custom
+                        <b style="font-weight: 600;"><a href="https://waves.lat" target="_blank">Waves</a></b> -
+                        custom
                         dropdown, styling
                         inspiration <br>
                         <b style="font-weight: 600;">TitaniumNetwork</b> - Ultraviolet <br>
@@ -528,7 +625,8 @@
             </a>
         </div>
         <br>
-        <p style="opacity: .5; font-size: 14px; font-style: italic; text-align: center; ">more coming before gta 6 twin
+        <p style="opacity: .5; font-size: 14px; font-style: italic; text-align: center; ">more coming before gta 6
+            twin
             <br> :broken-heart: :wilted-rose: :low-battery:
         </p>
     </div>
@@ -599,6 +697,16 @@
         // time wasted on this:
         // 0.25 hour(s)
 
+        function slugify(text) {
+            if (!text) return '';
+            return text.toString().toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '-')
+                .replace(/^-+/, '')
+                .replace(/-+$/, '');
+        }
+
         function load(file, type, functionName, toRun, additions) {
             gj(file).then(() => {
                 console.log(
@@ -620,16 +728,29 @@
                     // Check if favorited
                     const isFav = VerdiFavorites.isFavorite(type, item.name)
 
+                    // Helper to track play then handle navigation
+                    const clickHandler = `
+                        if(typeof VerdisBackend !== 'undefined' && '${type}' === 'games') {
+                            VerdisBackend.trackPlay('${slugify(item.name)}', '${item.name.replace(/'/g, "\\'")}');
+                        }
+                        console.log("Tracking play for: ${item.name}");
+                        toggle${functionName}();
+                        ${toRun}('${additions}${item.url}');
+                    `.replace(/\s+/g, ' ');
+
                     // Special handling for Roblox
                     if (item.name === 'Roblox') {
                         newAppContainer.setAttribute("onclick", `handleRoblox()`)
                     } else {
-                        newAppContainer.setAttribute("onclick", `toggle${functionName}();${toRun}('${additions}${item.url}'); console.log("asdflkjgasdfkljhgasdfkhgasfjkhgasfjkhgsdfgjh")`)
+                        newAppContainer.setAttribute("onclick", clickHandler)
                     }
 
                     newAppContainer.innerHTML = `
                         <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavoriteCard(this, '${type}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
                             <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                        </button>
+                        <button class="info-btn" onclick="event.stopPropagation(); openGameDetails('${type}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                            <i class="fas fa-info-circle"></i>
                         </button>
                         <div class="bg-img" data-bg="${item.img}"></div>
                         <div class="app-title-cont">
@@ -655,6 +776,10 @@
 
             const icon = btn.querySelector('i')
             if (isFav) {
+                // Add animation class for burst effect
+                btn.classList.add('animating')
+                setTimeout(() => btn.classList.remove('animating'), 500)
+
                 btn.classList.add('active')
                 icon.classList.remove('far')
                 icon.classList.add('fas')
@@ -673,7 +798,7 @@
         function renderQuickAccess() {
             const section = document.getElementById('quickAccessSection')
             const container = document.getElementById('quickAccessContainer')
-            const favorites = VerdiFavorites.getAllFavorites(8)
+            const favorites = VerdiFavorites.getAllFavorites(6)
 
             if (favorites.length === 0) {
                 section.style.display = 'none'
@@ -750,9 +875,22 @@
             setTimeout(renderQuickAccess, 100)
         })
 
-        // Handle favorites limit
-        window.addEventListener('favoritesLimitReached', (e) => {
-            showToast('warning', `Max ${e.detail.limit} favorites allowed! Remove one first.`, 'fas fa-exclamation-triangle')
+        // Handle favorites updated (including auto-removed items)
+        window.addEventListener('favoritesUpdated', (e) => {
+            if (e.detail.removedItem) {
+                // An old favorite was auto-removed to make room
+                showToast('info', `Removed "${e.detail.removedItem.name}" to make room`, 'fas fa-info-circle')
+
+                // Update the UI for the removed item's card
+                const removedCard = document.querySelector(`.app[data-name="${e.detail.removedItem.name}"][data-type="${e.detail.removedItem.type}"]`)
+                if (removedCard) {
+                    const btn = removedCard.querySelector('.favorite-btn')
+                    if (btn) {
+                        btn.classList.remove('active')
+                        btn.querySelector('i').classList.replace('fas', 'far')
+                    }
+                }
+            }
         })
 
         document.addEventListener("storeUpdated", (e) => {
@@ -826,28 +964,68 @@
         const navLinks = document.querySelectorAll('nav a[data-page]');
 
         function navTo(l) {
+            // Track activity based on destination
+            if (typeof VerdisPlaytime !== 'undefined') {
+                if (l.includes("play.html") || l.includes("/stores/")) {
+                    VerdisPlaytime.trackActivity('games');
+                } else if (l === "movies") {
+                    VerdisPlaytime.trackActivity('movies');
+                } else if (l.includes("home")) {
+                    VerdisPlaytime.trackActivity('idle');
+                }
+            }
+
             if (l.includes("home")) {
+                // remove class first to unlock visibility
+                document.body.classList.remove("content-open");
+
                 contentFrame.remove();
                 document.querySelector("nav").style.display = "block"
                 setTimeout(() => {
                     document.querySelector("nav").style.opacity = "1"
                 }, 3)
+
                 homeContent.style.display = "block";
                 document.querySelector("#gohomeblock").style.display = "none"
+                hideHomeButton(); // Hide home button on dashboard
+
+                // Close any open settings panels
+                const panels = document.querySelectorAll('.settings-shown');
+                panels.forEach(p => {
+                    p.classList.remove('settings-shown');
+                    p.classList.add('settings-hidden');
+                });
+                const blur = document.querySelector('.blurOverlay');
+                if (blur) blur.remove();
+
             } else if (l === "vms" || l === "movies") {
+                // Re-add iframe if it was removed
+                if (!document.body.contains(contentFrame)) {
+                    document.body.appendChild(contentFrame);
+                }
                 document.querySelector("nav").style.opacity = 0
                 setTimeout(() => {
                     document.querySelector("nav").style.display = "none"
                 }, 350)
-                document.querySelector("#gohomeblock").style.display = "block"
+                document.querySelector("#gohomeblock").style.display = "none"
                 homeContent.style.display = "none";
                 contentFrame.style.display = "block";
                 contentFrame.src = `/pages/${l}.html`
+                document.body.classList.add("content-open");
+                showHomeButton(); // Show home button
             } else {
                 if (!document.body.contains(contentFrame)) {
                     document.body.appendChild(contentFrame);
                 }
                 const overlayOn = localStorage.getItem("verdis_useOverlay") ?? "yes"
+                if (l.includes("/stores/") || l.includes("play.html")) {
+                    document.body.classList.add("content-open");
+                    showHomeButton(); // Show home button for games
+                } else {
+                    // For generic proxy pages
+                    document.body.classList.add("content-open");
+                    showHomeButton();
+                }
                 if (overlayOn === "yes" && l.includes("/stores/")) {
                     document.querySelector("nav").style.opacity = 0
                     setTimeout(() => {
@@ -869,6 +1047,54 @@
                 console.log("i")
             }
         })
+
+        // Global Home Button Logic
+        function showHomeButton() {
+            let btn = document.getElementById('global-home-btn');
+            if (!btn) {
+                btn = document.createElement('div');
+                btn.id = 'global-home-btn';
+                btn.innerHTML = '<i class="fas fa-home"></i>';
+                btn.style.position = 'fixed';
+                btn.style.top = '15px';
+                btn.style.right = '15px';
+                btn.style.width = '40px';
+                btn.style.height = '40px';
+                btn.style.background = 'rgba(0, 0, 0, 0.5)';
+                btn.style.backdropFilter = 'blur(5px)';
+                btn.style.borderRadius = '10px';
+                btn.style.display = 'flex';
+                btn.style.alignItems = 'center';
+                btn.style.justifyContent = 'center';
+                btn.style.color = 'white';
+                btn.style.cursor = 'pointer';
+                btn.style.zIndex = '10000';
+                btn.style.transition = '0.2s';
+                btn.style.border = '1px solid rgba(255,255,255,0.1)';
+
+                btn.onmouseenter = () => {
+                    btn.style.background = 'var(--accent)';
+                    btn.style.transform = 'scale(1.1)';
+                };
+                btn.onmouseleave = () => {
+                    btn.style.background = 'rgba(0, 0, 0, 0.5)';
+                    btn.style.transform = 'scale(1)';
+                };
+                btn.onclick = () => {
+                    window.location.reload();
+                };
+
+                document.body.appendChild(btn);
+            }
+            btn.style.display = 'flex';
+        }
+
+        function hideHomeButton() {
+            const btn = document.getElementById('global-home-btn');
+            if (btn) {
+                btn.style.display = 'none';
+            }
+        }
     </script>
     <script defer>
         window.addEventListener("load", () => {
@@ -933,9 +1159,11 @@
                 })
                 settingsHolder.classList.remove("settings-hidden")
                 settingsHolder.classList.add("settings-shown")
+                document.body.classList.add("content-open")
             } else {
                 settingsHolder.classList.remove("settings-shown")
                 settingsHolder.classList.add("settings-hidden")
+                document.body.classList.remove("content-open")
                 const newBlurOverlay = document.querySelector(".blurOverlay")
                 newBlurOverlay.remove()
             }
@@ -957,12 +1185,15 @@
                 newBlurOverlay.addEventListener("click", () => {
                     toggleApps()
                 })
+                document.body.classList.add('content-open')
                 appsHolder.classList.remove("settings-hidden")
                 appsHolder.classList.add("settings-shown")
                 console.log("Apps toggled.")
             } else {
+                document.body.classList.remove('content-open')
                 appsHolder.classList.remove("settings-shown")
                 appsHolder.classList.add("settings-hidden")
+                document.body.classList.remove("content-open")
                 const newBlurOverlay = document.querySelector(".blurOverlay")
                 newBlurOverlay.remove()
             }
@@ -987,10 +1218,12 @@
                 })
                 downloadHolder.classList.remove("settings-hidden")
                 downloadHolder.classList.add("settings-shown")
+                document.body.classList.add("content-open")
                 console.log("Apps toggled.")
             } else {
                 downloadHolder.classList.remove("settings-shown")
                 downloadHolder.classList.add("settings-hidden")
+                document.body.classList.remove("content-open")
                 const newBlurOverlay = document.querySelector(".blurOverlay")
                 newBlurOverlay.remove()
             }
@@ -1014,9 +1247,11 @@
                     console.log("clicked")
                     toggleGames()
                 })
+                document.body.classList.add('content-open')
                 gamesHolder.classList.remove("settings-hidden")
                 gamesHolder.classList.add("settings-shown")
             } else {
+                document.body.classList.remove('content-open')
                 gamesHolder.classList.remove("settings-shown")
                 gamesHolder.classList.add("settings-hidden")
                 const newBlurOverlay = document.querySelector(".blurOverlay")
@@ -1044,9 +1279,11 @@
                 })
                 partnerHolder.classList.remove("settings-hidden")
                 partnerHolder.classList.add("settings-shown")
+                document.body.classList.add("content-open")
             } else {
                 partnerHolder.classList.remove("settings-shown")
                 partnerHolder.classList.add("settings-hidden")
+                document.body.classList.remove("content-open")
                 const newBlurOverlay = document.querySelector(".blurOverlay")
                 newBlurOverlay.remove()
             }
@@ -1121,9 +1358,18 @@
         }
 
         function rSearch(input) {
+            // Track browsing/apps activity
+            if (typeof VerdisPlaytime !== 'undefined') {
+                VerdisPlaytime.trackActivity('browsing');
+            }
+
             const aw = document.querySelector(".apps-wrapper")
 
             if (aw.classList.contains("settings-shown")) {
+                // Track as apps since coming from apps panel
+                if (typeof VerdisPlaytime !== 'undefined') {
+                    VerdisPlaytime.trackActivity('apps');
+                }
                 toggleApps()
             }
 

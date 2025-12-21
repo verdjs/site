@@ -52,14 +52,29 @@ const VerdiFavorites = (function () {
         const exists = all[type].some(f => f.id === item.id || f.name === item.name);
         if (exists) return false;
 
-        // Check total favorites limit
+        // Check total favorites limit - auto-remove oldest if at limit
         const totalFavorites = all.games.length + all.apps.length + all.movies.length;
+        let removedItem = null;
         if (totalFavorites >= MAX_FAVORITES) {
-            // Dispatch event to show limit message
-            window.dispatchEvent(new CustomEvent('favoritesLimitReached', {
-                detail: { limit: MAX_FAVORITES }
-            }));
-            return false;
+            // Find and remove the oldest favorite across all types
+            const allFavs = [
+                ...all.games.map(f => ({ ...f, type: 'games' })),
+                ...all.apps.map(f => ({ ...f, type: 'apps' })),
+                ...all.movies.map(f => ({ ...f, type: 'movies' }))
+            ];
+
+            // Sort by oldest first
+            allFavs.sort((a, b) => (a.addedAt || 0) - (b.addedAt || 0));
+
+            if (allFavs.length > 0) {
+                const oldest = allFavs[0];
+                removedItem = oldest;
+                // Remove from appropriate array
+                const idx = all[oldest.type].findIndex(f => f.id === oldest.id || f.name === oldest.name);
+                if (idx !== -1) {
+                    all[oldest.type].splice(idx, 1);
+                }
+            }
         }
 
         // Add with timestamp
@@ -72,7 +87,7 @@ const VerdiFavorites = (function () {
 
         // Dispatch event for UI updates
         window.dispatchEvent(new CustomEvent('favoritesUpdated', {
-            detail: { type, action: 'add', item }
+            detail: { type, action: 'add', item, removedItem }
         }));
 
         return true;

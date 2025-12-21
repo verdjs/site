@@ -104,7 +104,7 @@ function isBlocked(hostname, pathname) {
 	if (hostname === "cineby.gd" || hostname === "www.cineby.gd") {
 		return false;
 	}
-	
+
 	return CONFIG.blocked.some((pattern) => {
 		if (pattern.startsWith("#")) {
 			pattern = pattern.substring(1);
@@ -162,15 +162,20 @@ async function handleRequest(event) {
 		return response;
 	}
 
-	return fetch(event.request);
+	try {
+		return await fetch(event.request);
+	} catch (e) {
+		console.error("SW Fetch error:", e);
+		return new Response("Network error", { status: 408 });
+	}
 }
 
 self.addEventListener("fetch", (event) => {
 	const url = event.request.url;
 
-  	if (url.includes("supabase.co")) {
-    	return;
-  	}
+	if (url.includes("supabase.co")) {
+		return;
+	}
 
 	event.respondWith(handleRequest(event));
 });

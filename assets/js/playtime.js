@@ -1,0 +1,281 @@
+/**
+ * Verdis Playtime Tracker
+ * Tracks total time spent on the website and activity breakdown
+ */
+
+const VerdisPlaytime = (() => {
+    const STORAGE_KEY = 'verdis_playtime';
+    const SAVE_INTERVAL = 10000; // Save every 10 seconds
+
+    let sessionStart = Date.now();
+    let currentActivity = 'idle';
+    let activityStart = Date.now();
+    let saveTimer = null;
+
+    // Default data structure
+    const defaultData = () => ({
+        totalMs: 0,
+        sessions: 0,
+        firstVisit: new Date().toISOString().split('T')[0],
+        breakdown: {
+            games: 0,
+            apps: 0,
+            movies: 0,
+            browsing: 0,
+            idle: 0
+        }
+    });
+
+    // Load data from localStorage
+    function loadData() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                const data = JSON.parse(stored);
+                // Ensure all breakdown categories exist
+                if (!data.breakdown) data.breakdown = defaultData().breakdown;
+                ['games', 'apps', 'movies', 'browsing', 'idle'].forEach(cat => {
+                    if (typeof data.breakdown[cat] !== 'number') data.breakdown[cat] = 0;
+                });
+                return data;
+            }
+        } catch (e) {
+            console.error('Error loading playtime data:', e);
+        }
+        return defaultData();
+    }
+
+    // Save data to localStorage
+    function saveData(data) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.error('Error saving playtime data:', e);
+        }
+    }
+
+    // Update time for current activity
+    function updateActivityTime() {
+        const now = Date.now();
+        const elapsed = now - activityStart;
+
+        // Don't track idle/home time at all
+        if (currentActivity === 'idle') {
+            activityStart = now;
+            return;
+        }
+
+        const data = loadData();
+        data.breakdown[currentActivity] = (data.breakdown[currentActivity] || 0) + elapsed;
+        data.totalMs += elapsed;
+        saveData(data);
+
+        activityStart = now;
+    }
+
+    // Format milliseconds to human-readable string
+    function formatTime(ms, short = false) {
+        if (ms < 0) ms = 0;
+
+        const seconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (short) {
+            // Short format for navbar button
+            if (days > 0) return `${days}d ${hours % 24}h`;
+            if (hours > 0) return `${hours}h ${minutes % 60}m`;
+            if (minutes > 0) return `${minutes}m`;
+            return `${seconds}s`;
+        } else {
+            // Long format for modal
+            if (days > 0) return `${days} day${days > 1 ? 's' : ''} ${hours % 24}h ${minutes % 60}m`;
+            if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ${minutes % 60}m`;
+            if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+            return `${seconds} second${seconds !== 1 ? 's' : ''}`;
+        }
+    }
+
+    // Format date nicely
+    function formatDate(dateStr) {
+        try {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        } catch (e) {
+            return dateStr;
+        }
+    }
+
+    // Initialize tracking
+    function init() {
+        // Increment session count
+        const data = loadData();
+        data.sessions = (data.sessions || 0) + 1;
+        saveData(data);
+
+        // Start periodic saving
+        saveTimer = setInterval(() => {
+            updateActivityTime();
+            updateDisplay();
+        }, SAVE_INTERVAL);
+
+        // Save on page unload
+        window.addEventListener('beforeunload', () => {
+            updateActivityTime();
+        });
+
+        // Save when page becomes hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                updateActivityTime();
+            }
+        });
+
+        // Initial display update
+        setTimeout(updateDisplay, 100);
+    }
+
+    // Track activity change
+    function trackActivity(activity) {
+        if (!['games', 'apps', 'movies', 'browsing', 'idle'].includes(activity)) {
+            activity = 'idle';
+        }
+
+        if (activity !== currentActivity) {
+            updateActivityTime();
+            currentActivity = activity;
+            activityStart = Date.now();
+        }
+    }
+
+    // Get total playtime
+    function getTotal() {
+        updateActivityTime();
+        const data = loadData();
+        return data.totalMs;
+    }
+
+    // Get breakdown
+    function getBreakdown() {
+        updateActivityTime();
+        const data = loadData();
+        return data.breakdown;
+    }
+
+    // Get all stats
+    function getStats() {
+        updateActivityTime();
+        return loadData();
+    }
+
+    // Update navbar display
+    function updateDisplay() {
+        const btn = document.getElementById('playtime-btn');
+        if (btn) {
+            const total = getTotal();
+            const timeText = btn.querySelector('.playtime-text');
+            if (timeText) {
+                timeText.textContent = formatTime(total, true);
+            }
+        }
+    }
+
+    // Toggle modal
+    function toggleModal() {
+        const modal = document.querySelector('.playtime-modal');
+        if (!modal) return;
+
+        const isHidden = modal.classList.contains('settings-hidden');
+
+        if (isHidden) {
+            // Show modal
+            renderModal();
+            modal.classList.remove('settings-hidden');
+            modal.classList.add('settings-shown');
+        } else {
+            // Hide modal
+            modal.classList.remove('settings-shown');
+            modal.classList.add('settings-hidden');
+        }
+    }
+
+    // Render modal content
+    function renderModal() {
+        const container = document.getElementById('playtime-breakdown');
+        if (!container) return;
+
+        const stats = getStats();
+        const breakdown = stats.breakdown;
+        const total = stats.totalMs;
+
+        // Activity icons and labels (no idle - we don't track home time)
+        const activities = [
+            { key: 'games', icon: '🎮', label: 'Games' },
+            { key: 'browsing', icon: '🌐', label: 'Browsing' },
+            { key: 'apps', icon: '📱', label: 'Apps' },
+            { key: 'movies', icon: '🎬', label: 'Movies' }
+        ];
+
+        // Sort by time spent (descending)
+        activities.sort((a, b) => (breakdown[b.key] || 0) - (breakdown[a.key] || 0));
+
+        let html = `
+            <div class="playtime-total">
+                <span class="playtime-total-label">Active Playtime</span>
+                <span class="playtime-total-value">${formatTime(total)}</span>
+            </div>
+            <div class="playtime-meta">
+                <span><i class="far fa-calendar"></i> First visit: ${formatDate(stats.firstVisit)}</span>
+                <span><i class="far fa-repeat"></i> ${stats.sessions} session${stats.sessions !== 1 ? 's' : ''}</span>
+            </div>
+            <div class="playtime-divider"></div>
+            <h4>Activity Breakdown</h4>
+            <div class="playtime-activities">
+        `;
+
+        activities.forEach(act => {
+            const time = breakdown[act.key] || 0;
+            const percent = total > 0 ? Math.round((time / total) * 100) : 0;
+
+            html += `
+                <div class="playtime-activity">
+                    <div class="playtime-activity-header">
+                        <span class="playtime-activity-icon">${act.icon}</span>
+                        <span class="playtime-activity-label">${act.label}</span>
+                        <span class="playtime-activity-time">${formatTime(time, true)}</span>
+                    </div>
+                    <div class="playtime-progress">
+                        <div class="playtime-progress-bar" style="width: ${percent}%"></div>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // Public API
+    return {
+        init,
+        trackActivity,
+        getTotal,
+        getBreakdown,
+        getStats,
+        formatTime,
+        updateDisplay,
+        toggleModal
+    };
+})();
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => VerdisPlaytime.init());
+} else {
+    VerdisPlaytime.init();
+}

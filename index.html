@@ -729,17 +729,24 @@
                     const isFav = VerdiFavorites.isFavorite(type, item.name)
 
                     // Helper to track play then handle navigation
-                    const clickHandler = `
-                        if(typeof VerdisBackend !== 'undefined' && '${type}' === 'games') {
-                            VerdisBackend.trackPlay('${slugify(item.name)}', '${item.name.replace(/'/g, "\\'")}');
-                        }
-                        console.log("Tracking play for: ${item.name}");
-                        toggle${functionName}();
-                        const launchUrl = new URL('${item.url}', window.location.origin);
-                        const playUrl = 'play.html?launch=' + encodeURIComponent('${item.url}') + 
-                                       '${item.embed ? '&embed=true' : ''}';
-                        ${toRun}(playUrl, '${item.name.replace(/'/g, "\\'")}');
-                    `.replace(/\s+/g, ' ');
+                    let clickHandler;
+                    if (type === 'games') {
+                        clickHandler = `
+                            if(typeof VerdisBackend !== 'undefined') {
+                                VerdisBackend.trackPlay('${slugify(item.name)}', '${item.name.replace(/'/g, "\\'")}');
+                            }
+                            console.log("Launching game: ${item.name.replace(/'/g, "\\'")}");
+                            toggleGames();
+                            navTo('play.html?launch=' + encodeURIComponent('${item.url}') + '${item.embed ? '&embed=true' : ''}', '${item.name.replace(/'/g, "\\'")}');
+                        `.replace(/\s+/g, ' ');
+                    } else {
+                        // Apps use rSearch with the direct URL
+                        clickHandler = `
+                            console.log("Launching app: ${item.name.replace(/'/g, "\\'")}");
+                            toggleApps();
+                            rSearch('${item.url}');
+                        `.replace(/\s+/g, ' ');
+                    }
 
                     // Special handling for Roblox
                     if (item.name === 'Roblox') {
@@ -1045,6 +1052,21 @@
 
             const nav = document.getElementById("main-nav");
 
+            // Close any open settings panels / overlays logic
+            // We do this for both home and game navigation to be sure
+            const panels = document.querySelectorAll('.settings-shown');
+            panels.forEach(p => {
+                p.classList.remove('settings-shown');
+                p.classList.add('settings-hidden');
+            });
+            const blur = document.querySelector('.blurOverlay');
+            if (blur) blur.remove();
+
+            // Also ensure body class is cleaned up if we are closing things
+            // But game interaction might want content-open? 
+            // The toggles add content-open. navTo(home) removes it. navTo(game) adds it.
+            // So we handle it below.
+
             if (l.includes("home")) {
                 // remove class first to unlock visibility
                 document.body.classList.remove("content-open");
@@ -1057,16 +1079,7 @@
                 }
 
                 if (contentFrame) contentFrame.remove();
-                homeContent.style.display = "block";
-
-                // Close any open settings panels
-                const panels = document.querySelectorAll('.settings-shown');
-                panels.forEach(p => {
-                    p.classList.remove('settings-shown');
-                    p.classList.add('settings-hidden');
-                });
-                const blur = document.querySelector('.blurOverlay');
-                if (blur) blur.remove();
+                if (homeContent) homeContent.style.display = "block";
 
                 // RESTORE BACKGROUND - EXIT GAME MODE
                 if (typeof exitGameMode === 'function') {
@@ -1081,8 +1094,13 @@
                     nav.classList.add("nav-minimized");
                 }
 
-                if (!document.body.contains(contentFrame)) {
-                    document.body.appendChild(contentFrame);
+                let cFrame = document.getElementById('contentFrame');
+                if (!cFrame) {
+                    cFrame = document.createElement('iframe');
+                    cFrame.id = 'contentFrame';
+                    document.body.appendChild(cFrame);
+                } else if (!document.body.contains(cFrame)) {
+                    document.body.appendChild(cFrame);
                 }
 
                 // ENTER GAME MODE
@@ -1090,8 +1108,8 @@
                     enterGameMode();
                 }
 
-                homeContent.style.display = "none";
-                contentFrame.style.display = "block";
+                if (homeContent) homeContent.style.display = "none";
+                cFrame.style.display = "block";
 
                 let target = l;
                 if (l.includes("/stores/")) {
@@ -1101,7 +1119,7 @@
                 } else {
                     target = `/pages/${l}.html`;
                 }
-                contentFrame.src = target;
+                cFrame.src = target;
             }
         }
 

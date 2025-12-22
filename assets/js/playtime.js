@@ -3,7 +3,7 @@
  * Tracks total time spent on the website and activity breakdown
  */
 
-const VerdisPlaytime = (() => {
+window.VerdisPlaytime = (() => {
     const STORAGE_KEY = 'verdis_playtime';
     const SAVE_INTERVAL = 10000; // Save every 10 seconds
 
@@ -264,7 +264,7 @@ const VerdisPlaytime = (() => {
             const hasDetails = Object.keys(subItems).length > 0;
 
             html += `
-                <div class="playtime-activity ${hasDetails ? 'has-details' : ''}" onclick="${hasDetails ? `VerdisPlaytime.toggleDetails('${act.key}')` : ''}">
+                <div class="playtime-activity ${hasDetails ? 'has-details' : 'no-details'}" onclick="VerdisPlaytime.toggleDetails('${act.key}')">
                     <div class="playtime-activity-header">
                         <span class="playtime-activity-icon">${act.icon}</span>
                         <span class="playtime-activity-label">${act.label}</span>
@@ -276,25 +276,76 @@ const VerdisPlaytime = (() => {
                     <div id="playtime-details-${act.key}" class="playtime-details-list" style="display: none;">
             `;
 
-            // Sort sub-items by time
-            const sortedSubItems = Object.entries(subItems).sort((a, b) => b[1] - a[1]);
-            sortedSubItems.forEach(([name, subTime]) => {
+            if (hasDetails) {
+                // Sort sub-items by time
+                const sortedSubItems = Object.entries(subItems).sort((a, b) => b[1] - a[1]);
+                sortedSubItems.forEach(([name, subTime]) => {
+                    html += `
+                        <div class="playtime-sub-item clickable" onclick="event.stopPropagation(); VerdisPlaytime.launchGameByName('${name.replace(/'/g, "\\'")}')">
+                            <span class="playtime-sub-label">${name}</span>
+                            <span class="playtime-sub-time">${formatTime(subTime, true)}</span>
+                        </div>
+                    `;
+                });
+            } else {
                 html += `
-                    <div class="playtime-sub-item">
-                        <span class="playtime-sub-label">${name}</span>
-                        <span class="playtime-sub-time">${formatTime(subTime, true)}</span>
+                    <div class="playtime-sub-item" style="justify-content: center; opacity: 0.5; font-style: italic;">
+                        No history required
                     </div>
                 `;
-            });
+            }
 
             html += `
-                    </div>
                 </div>
+            </div>
             `;
         });
 
         html += '</div>';
         container.innerHTML = html;
+    }
+
+    // Launch game by name
+    async function launchGameByName(name) {
+        if (!name) return;
+
+        // 1. Try to find in DOM first (if games are loaded)
+        // The load function creates h2 with class 'app-title-h2'
+        const titles = Array.from(document.querySelectorAll('.app-title-h2'));
+        const titleEl = titles.find(t => t.textContent.trim() === name);
+
+        if (titleEl) {
+            // Find parent clickable container
+            // structure: div.games-container > div (onclick) > ... > div.app-title-cont > h2
+            let parent = titleEl.closest('[onclick]');
+            if (parent) {
+                parent.click();
+                return;
+            }
+        }
+
+        // 2. Fallback: Fetch from store
+        try {
+            const store = (localStorage.getItem("verdis_gameStore") || "gn-math").toLowerCase();
+            const res = await fetch(`/assets/json/${store}.json`);
+            if (!res.ok) throw new Error("Failed to load store");
+
+            const games = await res.json();
+            const game = games.find(g => g.name === name);
+
+            if (game) {
+                if (typeof navTo === 'function') {
+                    navTo(`play.html?launch=${game.url}`, game.name);
+                } else {
+                    window.location.href = `/pages/play.html?launch=${game.url}`;
+                }
+            } else {
+                console.warn(`Game "${name}" not found in store ${store}`);
+                // Optional: check all stores? Too expensive maybe.
+            }
+        } catch (e) {
+            console.error("Error launching game by name:", e);
+        }
     }
 
     function toggleDetails(key) {
@@ -318,7 +369,8 @@ const VerdisPlaytime = (() => {
         formatTime,
         updateDisplay,
         toggleModal,
-        toggleDetails
+        toggleDetails,
+        launchGameByName
     };
 })();
 

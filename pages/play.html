@@ -334,7 +334,18 @@
                 '3kh0.github.io',
                 'unblocked-games.github.io',
                 'bitbucket.io',
-                'idkrly1919.github.io'
+                'idkrly1919.github.io',
+                // CDN domains - don't proxy these
+                'cdn.',
+                'cdnjs.cloudflare.com',
+                'unpkg.com',
+                'esm.sh',
+                'skypack.dev',
+                'fastly.net',
+                'akamaihd.net',
+                'cloudfront.net',
+                'azureedge.net',
+                'b-cdn.net'
             ];
 
             const isEmbedGame = isExplicitEmbed || bypassDomains.some(domain => decodedUrl.includes(domain));

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://ssl.gstatic.com/classroom/favicon.png">
+    <title>Google Classroom</title>
+    <link rel="stylesheet" href="/assets/css/fake-error-overlay.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .test-buttons {
+            margin: 20px 0;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Fake Error Overlay Test Page</h1>
+        
+        <div class="info">
+            <h3>How to Test:</h3>
+            <ol>
+                <li>This page simulates the Google Classroom cloak functionality</li>
+                <li>Click outside this window or switch to another tab</li>
+                <li>The fake error screen should appear</li>
+                <li>Click "Checking the proxy and the firewall" or "Reload" to dismiss it</li>
+            </ol>
+        </div>
+
+        <div class="status">
+            <strong>Current Status:</strong>
+            <div id="status-text">Fake error overlay is ready. Try clicking outside this window!</div>
+        </div>
+
+        <div class="test-buttons">
+            <h3>Manual Test Controls:</h3>
+            <button onclick="window.FakeErrorOverlay.showOverlay()">🔴 Show Fake Error</button>
+            <button onclick="window.FakeErrorOverlay.hideOverlay()">🟢 Hide Fake Error</button>
+            <button onclick="localStorage.removeItem('verdis_fakeErrorShown'); location.reload()">🔄 Reset First Time Notice</button>
+        </div>
+
+        <div class="info">
+            <h3>Features Implemented:</h3>
+            <ul>
+                <li>✅ Chrome error page HTML with realistic styling</li>
+                <li>✅ Shows on window blur (when clicking away)</li>
+                <li>✅ Tab title changes to "Site unreachable"</li>
+                <li>✅ No favicon when error is shown</li>
+                <li>✅ "Checking the proxy and the firewall" link dismisses overlay</li>
+                <li>✅ "Reload" button dismisses overlay</li>
+                <li>✅ First-time user notification</li>
+                <li>✅ Overlay appears on top without page reload</li>
+            </ul>
+        </div>
+
+        <div class="info" style="background: #fff9c4; border-color: #fbc02d;">
+            <h3>⚠️ Testing Instructions:</h3>
+            <p><strong>Focus/Blur Test:</strong> Click in the browser address bar or switch to another application, then return to see the error screen appear.</p>
+            <p><strong>Dismissal Test:</strong> When the error appears, click on the blue "Checking the proxy and the firewall" link to dismiss it.</p>
+            <p><strong>First Time Test:</strong> Click "Reset First Time Notice" button above and reload to see the welcome message again.</p>
+        </div>
+    </div>
+
+    <script src="/assets/js/fake-error-overlay.js"></script>
+    <script>
+        // Monitor focus/blur events
+        let focusCount = 0;
+        let blurCount = 0;
+
+        window.addEventListener('focus', () => {
+            focusCount++;
+            updateStatus();
+        });
+
+        window.addEventListener('blur', () => {
+            blurCount++;
+            updateStatus();
+        });
+
+        function updateStatus() {
+            const statusEl = document.getElementById('status-text');
+            if (statusEl) {
+                statusEl.innerHTML = `
+                    Fake error overlay is active!<br>
+                    <small>Focus events: ${focusCount} | Blur events: ${blurCount}</small><br>
+                    <small>Try clicking outside the window to trigger the error screen.</small>
+                `;
+            }
+        }
+
+        // Check if overlay exists
+        setTimeout(() => {
+            if (window.FakeErrorOverlay) {
+                console.log('✅ Fake Error Overlay initialized successfully!');
+                console.log('📋 Available methods:', Object.keys(window.FakeErrorOverlay));
+            } else {
+                console.error('❌ Fake Error Overlay not found!');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

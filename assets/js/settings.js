@@ -75,7 +75,7 @@ function cloakMe(o) {
     switch (o) {
         case "gclassroom":
             tabIcon.href = "/assets/img/cloaks/gclassroom.png";
-            document.title = "Google Classroom";
+            document.title = "IXL | Maths, English and Science Practice";
             localStorage.setItem("verdis_cloakIcon", tabIcon.href);
             localStorage.setItem("verdis_cloakTitle", document.title);
             break;
@@ -123,7 +123,7 @@ function cloakMe(o) {
             break;
         case "none":
             tabIcon.href = "https://ssl.gstatic.com/classroom/favicon.png";
-            document.title = "Google Classroom";
+            document.title = "IXL | Maths, English and Science Practice";
             localStorage.setItem("verdis_cloakIcon", tabIcon.href);
             localStorage.setItem("verdis_cloakTitle", document.title);
             break;

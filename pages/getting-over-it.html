@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <base href="https://cdn.jsdelivr.net/gh/genizy/web-port@main/getting-over-it/" />
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Unity WebGL Player | Getting Over It</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <link rel="stylesheet" href="TemplateData/style.css" />
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: #231f20;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #unity-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Splash Screen Styles */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+            color: white;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .made-by {
+            font-size: 24px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards 0.5s;
+        }
+
+        .slqnt-text {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .links-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards 1s;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .link-item:hover {
+            transform: scale(1.1);
+            color: #007bff;
+        }
+
+        .link-item img {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
+        /* Loading Animation */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #loading-text {
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom Splash Screen -->
+    <div id="splash-screen">
+        <div class="loader-content">
+            <div class="made-by">made by <span class="slqnt-text">slqnt</span></div>
+            <div class="spinner"></div>
+            <div id="loading-text">LOADING ASSETS...</div>
+
+            <div class="links-container">
+                <a href="https://github.com/slqntdevss" target="_blank" class="link-item">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub">
+                    github.com/slqntdevss
+                </a>
+                <a href="https://slqnt.dev" target="_blank" class="link-item">
+                    <img src="https://slqnt.dev/favicon.ico" alt="slqnt.dev"
+                        onerror="this.src='https://www.google.com/s2/favicons?domain=slqnt.dev'">
+                    slqnt.dev
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="unity-container" class="unity-desktop" style="width: 100%; height: 100%;">
+        <canvas id="unity-canvas" tabindex="-1"></canvas>
+        <div id="unity-loading-bar" style="display: none;">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loadingText = document.querySelector("#loading-text");
+        const splashScreen = document.querySelector("#splash-screen");
+        let totalBytes = 0;
+        let loadedBytes = 0;
+        let splashTimeDone = false;
+        let unityLoaded = false;
+
+        // Enforce minimum splash time of 6.5s
+        setTimeout(() => {
+            splashTimeDone = true;
+            checkReadyToHide();
+        }, 6500);
+
+        function checkReadyToHide() {
+            if (splashTimeDone && unityLoaded) {
+                splashScreen.classList.add("hidden");
+            }
+        }
+
+        function formatSize(bytes) {
+            if (bytes > 1024 * 1024 * 1024) {
+                return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+            } else if (bytes > 1024 * 1024) {
+                return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+            } else if (bytes > 1024) {
+                return (bytes / 1024).toFixed(2) + " KB";
+            } else {
+                return bytes + " B";
+            }
+        }
+
+        async function fetchWithProgress(url) {
+            const response = await fetch(url);
+            const reader = response.body.getReader();
+            let chunks = [];
+            let received = 0;
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                received += value.length;
+                loadedBytes += value.length;
+                chunks.push(value);
+                const doneText = formatSize(loadedBytes);
+                const totalText = formatSize(totalBytes);
+                const percent =
+                    totalBytes > 0
+                        ? ((loadedBytes / totalBytes) * 100).toFixed(1)
+                        : "?";
+                loadingText.textContent = `LOADING... ${doneText} / ${totalText} (${percent}%)`;
+            }
+            let fullBuffer = new Uint8Array(received);
+            let offset = 0;
+            for (let chunk of chunks) {
+                fullBuffer.set(chunk, offset);
+                offset += chunk.length;
+            }
+            return fullBuffer.buffer;
+        }
+        async function mergeFiles(parts, workerCount = 4) {
+            const buffers = new Array(parts.length);
+            let index = 0;
+
+            async function worker() {
+                while (index < parts.length) {
+                    const i = index++;
+                    buffers[i] = await fetchWithProgress(parts[i]);
+                }
+            }
+
+            await Promise.all(
+                Array.from({ length: Math.min(workerCount, parts.length) }, worker)
+            );
+
+            const blob = new Blob(buffers);
+            return URL.createObjectURL(blob);
+        }
+
+        function getParts(file, count) {
+            let parts = [];
+            for (let i = 1; i <= count; i++) {
+                parts.push(file + ".part" + i);
+            }
+            return parts;
+        }
+
+        (async () => {
+            const dataParts = getParts("Build/GettingOverIt.data", 32);
+            const wasmParts = getParts("Build/GettingOverIt.wasm", 2);
+            totalBytes = 691732588;
+
+            const [dataUrl, wasmUrl] = await Promise.all([
+                mergeFiles(dataParts, 4),
+                mergeFiles(wasmParts, 4),
+            ]);
+
+            var container = document.querySelector("#unity-container");
+            var canvas = document.querySelector("#unity-canvas");
+            var loadingBar = document.querySelector("#unity-loading-bar");
+            var progressBarFull = document.querySelector(
+                "#unity-progress-bar-full"
+            );
+
+            function unityShowBanner(msg, type) { }
+
+            var buildUrl = "Build";
+            var loaderUrl = buildUrl + "/GettingOverIt.loader.js";
+            var config = {
+                dataUrl: dataUrl,
+                frameworkUrl: buildUrl + "/GettingOverIt.framework.js",
+                codeUrl: wasmUrl,
+                streamingAssetsUrl: "StreamingAssets",
+                companyName: "Bennett Foddy",
+                productName: "Getting Over It",
+                productVersion: "1.7",
+                showBanner: unityShowBanner,
+            };
+
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                var meta = document.createElement("meta");
+                meta.name = "viewport";
+                meta.content =
+                    "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
+                document.getElementsByTagName("head")[0].appendChild(meta);
+                container.className = "unity-mobile";
+                canvas.className = "unity-mobile";
+            } else {
+                function resizeCanvas() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    canvas.style.width = window.innerWidth + "px";
+                    canvas.style.height = window.innerHeight + "px";
+                }
+                window.addEventListener("resize", resizeCanvas);
+                resizeCanvas();
+            }
+
+            loadingBar.style.display = "block";
+
+            var script = document.createElement("script");
+            script.src = loaderUrl;
+            script.onload = () => {
+                createUnityInstance(canvas, config, (progress) => {
+                    progressBarFull.style.width = 100 * progress + "%";
+                })
+                    .then((unityInstance) => {
+                        loadingBar.style.display = "none";
+                        unityLoaded = true;
+                        checkReadyToHide();
+                    })
+                    .catch((message) => {
+                        alert(message);
+                    });
+            };
+
+            document.body.appendChild(script);
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,10 @@
 [
   {
+    "name": "Getting Over It",
+    "img": "/assets/img/games/getting-over-it.png",
+    "url": "/pages/getting-over-it.html"
+  },
+  {
     "name": "Bowmasters",
     "img": "/assets/img/games/gn-math/0.png",
     "url": "/stores/gn-math/0.html"

@@ -335,8 +335,8 @@ function applyDecoy(s) {
       s +
       " was selected"
     );
-    document.title = "Google Classroom";
-    favicon.href = "https://ssl.gstatic.com/classroom/favicon.png";
+    document.title = "IXL | Maths, English and Science Practice";
+    favicon.href = "images/ixl-favicon.png";
     return;
   } else {
     document.title = selected.title;

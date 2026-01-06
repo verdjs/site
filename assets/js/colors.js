@@ -7,11 +7,11 @@ if (theme !== 'default') {
   link.href = '/assets/css/colors.css';
 }
 
-// Global Google Classroom cloaking across all pages
-const CLASSROOM_TITLE = "Google Classroom";
+// Global IXL cloaking across all pages
+const CLASSROOM_TITLE = "IXL | Maths, English and Science Practice";
 const CLASSROOM_DESC =
-  "Google Classroom helps classes communicate, save time, and stay organized.";
-const CLASSROOM_FAV = "https://ssl.gstatic.com/classroom/favicon.png";
+  "IXL is the world's most popular subscription-based learning site. Used by over 17 million students, IXL provides unlimited practice in more than 6400 maths, English and science topics.";
+const CLASSROOM_FAV = "images/ixl-favicon.png";
 const CLASSROOM_PATH = "/";
 const LAST_PATH_KEY = "verdis_lastPath";
 const CLASSROOM_OVERLAY_ID = "classroom-overlay";

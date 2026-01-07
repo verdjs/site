@@ -16,14 +16,7 @@ now choose how you wanna do this
 4. import the repo
 5. follow the steps do deploy
 
-### setting up api_key for image generation
-The assistant AI uses the zimage API for image generation which requires an API key.
-
-1. In your Cloudflare Pages dashboard, go to your project
-2. Navigate to Settings > Environment variables
-3. Add a new environment variable:
-   - Variable name: `API_KEY`
-   - Value: Your zimage API key
-4. Save and redeploy your project
-
-The API key is securely stored in Cloudflare environment variables and only accessed by the `/functions/api/generate-image.js` serverless function. This proxy approach ensures the API key is never exposed to the client browser.
+### assistant ai features
+The assistant AI page includes:
+- **Text generation**: Uses the public pollinations.ai endpoint (no API key needed)
+- **Image generation**: Uses zimage API with 2k resolution (2048x2048) and includes a public API key

@@ -304,6 +304,9 @@
     </div>
     <script src="/assets/js/cursor.js"></script>
     <script>
+        // API key for zimage (public key)
+        const API_KEY = "pk_KIMtgCNbGikRxsdT";
+
         const input = document.querySelector("input");
         const placeholders = [
             "What's 2 + 2?",
@@ -386,25 +389,9 @@
                 anim(div, data, 10);
             } else {
                 try {
-                    // Use serverless function to proxy zimage API request (keeps API key secure)
-                    const response = await fetch('/api/generate-image', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ prompt: text })
-                    });
-                    
-                    if (!response.ok) {
-                        const error = await response.json();
-                        div.innerHTML = `Error: ${error.error || 'Could not generate image'}`;
-                        return;
-                    }
-                    
-                    // Create object URL from the response blob
-                    const blob = await response.blob();
-                    const imgUrl = URL.createObjectURL(blob);
-                    
+                    // Use zimage API with 2k resolution (2048x2048) and API key
+                    const encoded = encodeURIComponent(text);
+                    const imgUrl = `https://api.zimage.ai/v1/generate?prompt=${encoded}&width=2048&height=2048&model=zimage&apikey=${API_KEY}`;
                     const img = document.createElement("img");
                     img.src = imgUrl;
                     img.alt = prompt;
@@ -412,14 +399,6 @@
                     img.style.borderRadius = "25px";
                     div.innerHTML = ``;
                     div.append(img);
-                    
-                    // Clean up the object URL when image loads to prevent memory leaks
-                    img.onload = () => {
-                        URL.revokeObjectURL(imgUrl);
-                    };
-                    img.onerror = () => {
-                        URL.revokeObjectURL(imgUrl);
-                    };
                 } catch (err) {
                     div.innerHTML = "Error: Could not generate image.";
                     console.error(err);

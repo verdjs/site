@@ -304,6 +304,23 @@
     </div>
     <script src="/assets/js/cursor.js"></script>
     <script>
+        // API_KEY will be fetched from Cloudflare Pages Functions
+        let API_KEY = null;
+
+        // Fetch API key from serverless function
+        async function loadApiKey() {
+            try {
+                const response = await fetch('/api/config');
+                const data = await response.json();
+                API_KEY = data.apiKey;
+            } catch (error) {
+                console.error('Failed to load API key:', error);
+            }
+        }
+
+        // Load API key on page load
+        loadApiKey();
+
         const input = document.querySelector("input");
         const placeholders = [
             "What's 2 + 2?",
@@ -386,8 +403,14 @@
                 anim(div, data, 10);
             } else {
                 try {
+                    // Ensure API key is loaded
+                    if (!API_KEY) {
+                        await loadApiKey();
+                    }
+                    
+                    // Use zimage API with 2k resolution (2048x2048) and API key
                     const encoded = encodeURIComponent(text);
-                    const imgUrl = "https://image.pollinations.ai/prompt/" + encoded;
+                    const imgUrl = `https://api.zimage.ai/v1/generate?prompt=${encoded}&width=2048&height=2048&model=zimage&apikey=${API_KEY}`;
                     const img = document.createElement("img");
                     img.src = imgUrl;
                     img.alt = prompt;

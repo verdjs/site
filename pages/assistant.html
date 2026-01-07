@@ -408,6 +408,12 @@
                         await loadApiKey();
                     }
                     
+                    // Check if API key is available
+                    if (!API_KEY) {
+                        div.innerHTML = "Error: API key not configured. Please contact the site administrator.";
+                        return;
+                    }
+                    
                     // Use zimage API with 2k resolution (2048x2048) and API key
                     const encoded = encodeURIComponent(text);
                     const imgUrl = `https://api.zimage.ai/v1/generate?prompt=${encoded}&width=2048&height=2048&model=zimage&apikey=${API_KEY}`;

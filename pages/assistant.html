@@ -304,23 +304,6 @@
     </div>
     <script src="/assets/js/cursor.js"></script>
     <script>
-        // API_KEY will be fetched from Cloudflare Pages Functions
-        let API_KEY = null;
-
-        // Fetch API key from serverless function
-        async function loadApiKey() {
-            try {
-                const response = await fetch('/api/config');
-                const data = await response.json();
-                API_KEY = data.apiKey;
-            } catch (error) {
-                console.error('Failed to load API key:', error);
-            }
-        }
-
-        // Load API key on page load
-        loadApiKey();
-
         const input = document.querySelector("input");
         const placeholders = [
             "What's 2 + 2?",
@@ -403,20 +386,25 @@
                 anim(div, data, 10);
             } else {
                 try {
-                    // Ensure API key is loaded
-                    if (!API_KEY) {
-                        await loadApiKey();
-                    }
+                    // Use serverless function to proxy zimage API request (keeps API key secure)
+                    const response = await fetch('/api/generate-image', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: text })
+                    });
                     
-                    // Check if API key is available
-                    if (!API_KEY) {
-                        div.innerHTML = "Error: API key not configured. Please contact the site administrator.";
+                    if (!response.ok) {
+                        const error = await response.json();
+                        div.innerHTML = `Error: ${error.error || 'Could not generate image'}`;
                         return;
                     }
                     
-                    // Use zimage API with 2k resolution (2048x2048) and API key
-                    const encoded = encodeURIComponent(text);
-                    const imgUrl = `https://api.zimage.ai/v1/generate?prompt=${encoded}&width=2048&height=2048&model=zimage&apikey=${API_KEY}`;
+                    // Create object URL from the response blob
+                    const blob = await response.blob();
+                    const imgUrl = URL.createObjectURL(blob);
+                    
                     const img = document.createElement("img");
                     img.src = imgUrl;
                     img.alt = prompt;
@@ -424,6 +412,11 @@
                     img.style.borderRadius = "25px";
                     div.innerHTML = ``;
                     div.append(img);
+                    
+                    // Clean up the object URL when image loads
+                    img.onload = () => {
+                        // Keep the blob URL for now, it will be cleaned up when the page unloads
+                    };
                 } catch (err) {
                     div.innerHTML = "Error: Could not generate image.";
                     console.error(err);

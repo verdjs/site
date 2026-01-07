@@ -413,9 +413,12 @@
                     div.innerHTML = ``;
                     div.append(img);
                     
-                    // Clean up the object URL when image loads
+                    // Clean up the object URL when image loads to prevent memory leaks
                     img.onload = () => {
-                        // Keep the blob URL for now, it will be cleaned up when the page unloads
+                        URL.revokeObjectURL(imgUrl);
+                    };
+                    img.onerror = () => {
+                        URL.revokeObjectURL(imgUrl);
                     };
                 } catch (err) {
                     div.innerHTML = "Error: Could not generate image.";

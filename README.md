@@ -26,4 +26,4 @@ The assistant AI uses the zimage API for image generation which requires an API 
    - Value: Your zimage API key
 4. Save and redeploy your project
 
-The API key will be automatically used by the `/functions/api/config.js` serverless function to securely provide the key to the frontend.
+The API key is securely stored in Cloudflare environment variables and only accessed by the `/functions/api/generate-image.js` serverless function. This proxy approach ensures the API key is never exposed to the client browser.

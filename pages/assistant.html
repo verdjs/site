@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <script src="/assets/js/lib/three.min.js"></script>
+    <script src="/assets/js/lib/vanta.fog.min.js"></script>
 </head>
 
 <body>
@@ -39,6 +41,15 @@
             left: 0;
             z-index: -1;
             opacity: 0.5;
+        }
+
+        #vanta-fog-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
         }
 
         .container {
@@ -263,6 +274,7 @@
             border-radius: 3842px;
         }
     </style>
+    <div id="vanta-fog-container"></div>
     <div id="particles-container"></div>
     <br><br><br><br>
 
@@ -283,6 +295,33 @@
         particlesJS.load('particles-container', '/assets/json/config/particles.json', function () {
             console.log('Particles.js config loaded');
         });
+    </script>
+    <script>
+        // Initialize VANTA fog effect
+        function hexToNumber(hex) {
+            return parseInt(hex.replace('#', ''), 16);
+        }
+        
+        function cssVar(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
+        
+        if (typeof VANTA !== 'undefined') {
+            VANTA.FOG({
+                el: "#vanta-fog-container",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                highlightColor: hexToNumber(cssVar("--accent")),
+                midtoneColor: hexToNumber(cssVar("--bg-2")),
+                lowlightColor: hexToNumber(cssVar("--bg-5")),
+                baseColor: hexToNumber(cssVar("--bg")),
+                blurFactor: 0.90,
+                speed: 1
+            });
+        }
     </script>
     <script>
         marked.setOptions({
@@ -390,9 +429,9 @@
                 anim(div, data, 10);
             } else {
                 try {
-                    // Use zimage API with 2k resolution (2048x2048) and API key
+                    // Use pollinations.ai with zimage model, 2k resolution (2048x2048) and API key
                     const encoded = encodeURIComponent(text);
-                    const imgUrl = `https://api.zimage.ai/v1/generate?prompt=${encoded}&width=2048&height=2048&model=zimage&apikey=${API_KEY}`;
+                    const imgUrl = `https://image.pollinations.ai/prompt/${encoded}?model=zimage&width=2048&height=2048&seed=${API_KEY}`;
                     
                     // Show loading message
                     div.innerHTML = `<svg viewBox="25 25 50 50" class="loading">

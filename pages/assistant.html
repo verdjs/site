@@ -263,6 +263,7 @@
             border-radius: 3842px;
         }
     </style>
+    <div id="particles-container"></div>
     <br><br><br><br>
 
     <div class="container" style="position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%);">
@@ -392,15 +393,51 @@
                     // Use zimage API with 2k resolution (2048x2048) and API key
                     const encoded = encodeURIComponent(text);
                     const imgUrl = `https://api.zimage.ai/v1/generate?prompt=${encoded}&width=2048&height=2048&model=zimage&apikey=${API_KEY}`;
+                    
+                    // Show loading message
+                    div.innerHTML = `<svg viewBox="25 25 50 50" class="loading">
+                        <circle r="20" cy="50" cx="50"></circle>
+                    </svg><p style="margin-top: 10px;">Generating image, this may take a minute...</p>`;
+                    
+                    // Fetch the image with a longer timeout for generation
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minute timeout
+                    
+                    const response = await fetch(imgUrl, { 
+                        signal: controller.signal,
+                        mode: 'cors'
+                    });
+                    clearTimeout(timeoutId);
+                    
+                    if (!response.ok) {
+                        throw new Error(`API returned ${response.status}`);
+                    }
+                    
+                    const blob = await response.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    
                     const img = document.createElement("img");
-                    img.src = imgUrl;
+                    img.src = blobUrl;
                     img.alt = prompt;
                     img.style.maxWidth = "100%";
                     img.style.borderRadius = "25px";
+                    
                     div.innerHTML = ``;
                     div.append(img);
+                    
+                    // Clean up blob URL after image loads
+                    img.onload = () => URL.revokeObjectURL(blobUrl);
+                    img.onerror = () => {
+                        URL.revokeObjectURL(blobUrl);
+                        div.innerHTML = "Error: Failed to load image.";
+                    };
+                    
                 } catch (err) {
-                    div.innerHTML = "Error: Could not generate image.";
+                    if (err.name === 'AbortError') {
+                        div.innerHTML = "Error: Image generation timed out. Please try again with a simpler prompt.";
+                    } else {
+                        div.innerHTML = `Error: Could not generate image. ${err.message || ''}`;
+                    }
                     console.error(err);
                 }
             }

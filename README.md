@@ -19,4 +19,6 @@ now choose how you wanna do this
 ### assistant ai features
 The assistant AI page includes:
 - **Text generation**: Uses the public pollinations.ai endpoint (no API key needed)
-- **Image generation**: Uses zimage API with 2k resolution (2048x2048) and includes a public API key
+- **Image generation**: Uses zimage API with 2k resolution (2048x2048) through a secure serverless function
+
+**Important**: You must set the `API_KEY` environment variable in your Cloudflare Pages project settings for image generation to work. See `functions/README.md` for setup instructions.

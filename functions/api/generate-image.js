@@ -21,8 +21,9 @@ export async function onRequest(context) {
         const apiKey = env.API_KEY;
         
         if (!apiKey) {
-            return new Response(JSON.stringify({ error: 'API key not configured' }), {
-                status: 500,
+            // Generic error message to avoid leaking configuration details
+            return new Response(JSON.stringify({ error: 'Service temporarily unavailable' }), {
+                status: 503,
                 headers: { 'Content-Type': 'application/json' }
             });
         }
@@ -65,7 +66,9 @@ export async function onRequest(context) {
                 headers: { 'Content-Type': 'application/json' }
             });
         }
-        return new Response(JSON.stringify({ error: error.message }), {
+        // Generic error message to avoid exposing internal details
+        console.error('Image generation error:', error);
+        return new Response(JSON.stringify({ error: 'Failed to generate image' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }
         });

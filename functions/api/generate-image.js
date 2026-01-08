@@ -29,7 +29,8 @@ export async function onRequest(context) {
         
         // Build the image generation URL with the secure API key
         const encoded = encodeURIComponent(prompt);
-        const imgUrl = `https://image.pollinations.ai/prompt/${encoded}?model=zimage&width=2048&height=2048&apikey=${apiKey}`;
+        // Use default seed and pass API key correctly
+        const imgUrl = `https://image.pollinations.ai/prompt/${encoded}?model=zimage&width=2048&height=2048&key=${apiKey}`;
         
         // Fetch the image from pollinations.ai with timeout
         const controller = new AbortController();

@@ -15,3 +15,8 @@ now choose how you wanna do this
 3. click "looking to deploy pages?" or smth
 4. import the repo
 5. follow the steps do deploy
+
+### assistant ai features
+The assistant AI page includes:
+- **Text generation**: Uses the public pollinations.ai endpoint (no API key needed)
+- **Image generation**: Uses zimage API with 2k resolution (2048x2048) and includes a public API key

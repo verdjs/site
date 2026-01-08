@@ -344,8 +344,8 @@
     </div>
     <script src="/assets/js/cursor.js"></script>
     <script>
-        // API key for zimage (public key)
-        const API_KEY = "pk_KIMtgCNbGikRxsdT";
+        // API key is now securely stored in Cloudflare Pages environment variables
+        // and accessed through the serverless function
 
         const input = document.querySelector("input");
         const placeholders = [
@@ -429,27 +429,29 @@
                 anim(div, data, 10);
             } else {
                 try {
-                    // Use pollinations.ai with zimage model, 2k resolution (2048x2048) and API key
-                    const encoded = encodeURIComponent(text);
-                    const imgUrl = `https://image.pollinations.ai/prompt/${encoded}?model=zimage&width=2048&height=2048&seed=${API_KEY}`;
-                    
+                    // Use serverless function to securely handle API key
                     // Show loading message
                     div.innerHTML = `<svg viewBox="25 25 50 50" class="loading">
                         <circle r="20" cy="50" cx="50"></circle>
                     </svg><p style="margin-top: 10px;">Generating image, this may take a minute...</p>`;
                     
-                    // Fetch the image with a longer timeout for generation
+                    // Call the serverless function with the prompt
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minute timeout
                     
-                    const response = await fetch(imgUrl, { 
-                        signal: controller.signal,
-                        mode: 'cors'
+                    const response = await fetch('/api/generate-image', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: text }),
+                        signal: controller.signal
                     });
                     clearTimeout(timeoutId);
                     
                     if (!response.ok) {
-                        throw new Error(`API returned ${response.status}`);
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.error || `API returned ${response.status}`);
                     }
                     
                     const blob = await response.blob();

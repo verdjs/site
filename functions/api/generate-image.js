@@ -31,8 +31,14 @@ export async function onRequest(context) {
         const encoded = encodeURIComponent(prompt);
         const imgUrl = `https://image.pollinations.ai/prompt/${encoded}?model=zimage&width=2048&height=2048&apikey=${apiKey}`;
         
-        // Fetch the image from pollinations.ai
-        const response = await fetch(imgUrl);
+        // Fetch the image from pollinations.ai with timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minute timeout
+        
+        const response = await fetch(imgUrl, {
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
         
         if (!response.ok) {
             throw new Error(`API returned ${response.status}`);
@@ -44,11 +50,20 @@ export async function onRequest(context) {
             headers: {
                 'Content-Type': response.headers.get('Content-Type') || 'image/png',
                 'Cache-Control': 'public, max-age=3600',
+                // Allow all origins since this is a public site
+                // Change to specific domain if you want to restrict access
                 'Access-Control-Allow-Origin': '*'
             }
         });
         
     } catch (error) {
+        // Handle timeout errors specifically
+        if (error.name === 'AbortError') {
+            return new Response(JSON.stringify({ error: 'Image generation timed out' }), {
+                status: 504,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
         return new Response(JSON.stringify({ error: error.message }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }

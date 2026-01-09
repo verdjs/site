@@ -49,14 +49,14 @@ window.VerdisFakeError = (() => {
                     </svg>
                 </div>
                 <h1 class="chrome-error-title">This site can't be reached</h1>
-                <p class="chrome-error-message"><strong>${window.location.hostname}</strong> unexpectedly closed the connection.</p>
+                <p class="chrome-error-message"><strong id="error-hostname"></strong> unexpectedly closed the connection.</p>
                 <p class="chrome-error-suggestion">Try:</p>
                 <ul class="chrome-error-list">
                     <li>Checking the connection</li>
                     <li>Checking the proxy and the firewall</li>
                 </ul>
                 <p class="chrome-error-code">ERR_CONNECTION_CLOSED</p>
-                <button class="chrome-error-reload-button" onclick="VerdisFakeError.dismissError()">Reload</button>
+                <button class="chrome-error-reload-button" id="chrome-error-reload-btn">Reload</button>
                 <div class="chrome-error-details">
                     <details>
                         <summary>More information</summary>
@@ -66,6 +66,18 @@ window.VerdisFakeError = (() => {
             </div>
         `;
         document.body.appendChild(overlay);
+        
+        // Set hostname safely using textContent
+        const hostnameEl = overlay.querySelector('#error-hostname');
+        if (hostnameEl) {
+            hostnameEl.textContent = window.location.hostname;
+        }
+        
+        // Attach event listener properly
+        const reloadBtn = overlay.querySelector('#chrome-error-reload-btn');
+        if (reloadBtn) {
+            reloadBtn.addEventListener('click', dismissError);
+        }
     }
 
     // Create CSS styles
@@ -214,8 +226,7 @@ window.VerdisFakeError = (() => {
             }
 
             /* Hide navbar when error is shown */
-            body.chrome-error-active #main-nav,
-            body.chrome-error-active nav {
+            body.chrome-error-active #main-nav {
                 display: none !important;
             }
         `;

@@ -18,7 +18,7 @@
         // Register service worker for proxy
         async function initProxy() {
             await navigator.serviceWorker.register("/sw.js").catch(e => {
-                console.log("SW registration error:", e);
+                console.error("SW registration error:", e);
             });
         }
         window.addEventListener("load", initProxy);
@@ -203,10 +203,11 @@
     </nav>
 
     <div class="nav-logo">
-        <img src="/assets/img/fav.png" alt="">
+        <img src="/assets/img/fav.png" alt="Verdis logo">
     </div>
 
     <iframe id="unity-canvas" 
+            title="Gorilla Tag Web Game"
             scrolling="no" 
             allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated; web-share" 
             allowtransparency="true" 
@@ -221,8 +222,8 @@
         const nav = document.querySelector("nav");
         const navLogo = document.querySelector(".nav-logo");
 
-        // Toggle navigation on logo click
-        navLogo.addEventListener("click", () => {
+        // Toggle navigation function
+        function toggleNav() {
             nav.classList.toggle("active");
             
             if (nav.classList.contains("active")) {
@@ -237,27 +238,16 @@
                 const blurr = document.querySelector('.bluroverlay');
                 if (blurr) blurr.remove();
             }
-        });
+        }
+
+        // Toggle navigation on logo click
+        navLogo.addEventListener("click", toggleNav);
 
         // Keyboard shortcut to toggle navigation
         window.addEventListener("keydown", (e) => {
             if (e.ctrlKey && e.key === "m") {
-                console.log("Key pressed");
                 e.preventDefault();
-                nav.classList.toggle("active");
-                
-                if (nav.classList.contains("active")) {
-                    const blurr = document.createElement("div");
-                    blurr.classList.add("bluroverlay");
-                    document.body.append(blurr);
-                    blurr.addEventListener("click", () => {
-                        blurr.remove();
-                        nav.classList.remove("active");
-                    });
-                } else {
-                    const blurr = document.querySelector(".bluroverlay");
-                    if (blurr) blurr.remove();
-                }
+                toggleNav();
             }
         });
 
@@ -302,7 +292,6 @@
             try {
                 const proxiedUrl = await getProxiedUrl(gameUrl);
                 gameFrame.src = proxiedUrl;
-                console.log("Game loaded through proxy");
             } catch (error) {
                 console.error("Error loading game through proxy:", error);
                 // Fallback to direct load if proxy fails

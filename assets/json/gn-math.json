@@ -5,6 +5,11 @@
     "url": "/pages/getting-over-it.html"
   },
   {
+    "name": "Gorilla Tag Web",
+    "img": "/assets/img/games/gtag-web.png",
+    "url": "/pages/gtag-web.html"
+  },
+  {
     "name": "Bowmasters",
     "img": "/assets/img/games/gn-math/0.png",
     "url": "/stores/gn-math/0.html"

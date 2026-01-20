@@ -8,7 +8,7 @@ const wispUrl =
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;
-const se = localStorage.getItem("verdis_searchEngine") || "Brave";
+const se = localStorage.getItem("verdis_searchEngine") || "DuckDuckGo";
 
 if (se === "DuckDuckGo") {
   searchE = "https://duckduckgo.com/search?q=";
@@ -144,36 +144,6 @@ async function nav(i) {
   if (!i.trim()) return;
 
   let url = i.trim();
-  const lowerInput = url.toLowerCase();
-  const nowggDomain = ["nowgg.lol", "nowgg.fun"].find((d) =>
-    lowerInput.includes(d)
-  );
-
-  if (nowggDomain) {
-    try {
-      const res = await fetch("https://api.ipify.org?format=json");
-      if (!res.ok) {
-        throw new Error(`IP lookup failed with status ${res.status}`);
-      }
-      let data = null;
-      try {
-        data = await res.json();
-      } catch (parseErr) {
-        console.error("Unable to parse IP response", parseErr);
-      }
-      const ip = data?.ip || "";
-      const isIpv4 =
-        /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(ip);
-      const prefix = isIpv4 ? ip.split(".")[0] : "";
-
-      if (prefix) {
-        const shardTld = nowggDomain.endsWith(".fun") ? "fun" : "lol";
-        url = `https://${prefix}.ip.nowgg.${shardTld}/`;
-      }
-    } catch (e) {
-      console.error("Unable to resolve nowgg shard", e);
-    }
-  }
 
   if (!url.includes(".") || url.includes(" ")) {
     url = searchE + encodeURIComponent(url);
@@ -311,9 +281,9 @@ function b() {
   cTab.url = u;
   let furl;
   const ba = localStorage.getItem("verdis_backend");
-  if (ba.toLowerCase() === "scramjet") {
+  if (ba && ba.toLowerCase() === "scramjet") {
     furl = scramjet.encodeUrl(u);
-  } else if (ba.toLowerCase() === "ultraviolet") {
+  } else if (ba && ba.toLowerCase() === "ultraviolet") {
     furl = __uv$config.prefix + __uv$config.encodeUrl(u);
   } else {
     furl = scramjet.encodeUrl(u);
@@ -324,16 +294,16 @@ function b() {
 
 function f() {
   const cTab = bTabs.find((t) => t.id === aTab);
+  if (!cTab || cTab.historyIndex >= cTab.history.length - 1) return;
 
-  cTab.historyIndex++;
   cTab.historyIndex++;
   const u = cTab.history[cTab.historyIndex];
   cTab.url = u;
   let furl;
   const ba = localStorage.getItem("verdis_backend");
-  if (ba.toLowerCase() === "scramjet") {
+  if (ba && ba.toLowerCase() === "scramjet") {
     furl = scramjet.encodeUrl(u);
-  } else if (ba.toLowerCase() === "ultraviolet") {
+  } else if (ba && ba.toLowerCase() === "ultraviolet") {
     furl = __uv$config.prefix + __uv$config.encodeUrl(u);
   } else {
     furl = scramjet.encodeUrl(u);
@@ -378,3 +348,24 @@ async function launchEruda() {
     showToast("error", "Failed to inject Eruda", "fas fa-times-circle");
   }
 }
+
+// Add Enter key listener for searchbar
+document.addEventListener("DOMContentLoaded", () => {
+  const searchbar = document.getElementById("searchbar");
+  if (searchbar) {
+    searchbar.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        nav(searchbar.value);
+      }
+    });
+  }
+});
+
+// Improved real-time URL, title, and favicon update
+setInterval(() => {
+  const viewframe = document.querySelector(`.viewframe[data-frame-id="${aTab}"]`);
+  if (viewframe && viewframe.classList.contains("active")) {
+    updateUrlFromIframe(viewframe);
+  }
+}, 1000);

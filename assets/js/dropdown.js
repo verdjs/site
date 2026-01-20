@@ -1,9 +1,9 @@
 // thanks to https://waves.lat for custom dropdowns || https://gitlab.com/waveslab/waves
 const appSettings = {
   backend: localStorage.getItem("verdis_backend") || "Scramjet",
-  searchEngine: localStorage.getItem("verdis_searchEngine") || "Brave",
+  searchEngine: localStorage.getItem("verdis_searchEngine") || "DuckDuckGo",
   decoy: localStorage.getItem("decoy") || "None",
-  wisp: localStorage.getItem("verdis_wispUrlSelected") || "Anura 6",
+  wisp: localStorage.getItem("verdis_wispUrlSelected") || "Anura 4",
   theme: localStorage.getItem("verdis_theme") || "default",
   store: localStorage.getItem("verdis_gameStore") || "GN-Math",
 };
@@ -192,11 +192,11 @@ const wispPresets = {
 
 if (!localStorage.getItem("verdis_wispUrl")) {
   const defaultWisp =
-    wispPresets[appSettings.wisp] || wispPresets["Anura 6"] || null;
+    wispPresets[appSettings.wisp] || wispPresets["Anura 4"] || null;
   if (defaultWisp?.url) {
     localStorage.setItem("verdis_wispUrl", defaultWisp.url);
     if (!localStorage.getItem("verdis_wispUrlSelected")) {
-      localStorage.setItem("verdis_wispUrlSelected", "Anura 6");
+      localStorage.setItem("verdis_wispUrlSelected", "Anura 4");
     }
   }
 }

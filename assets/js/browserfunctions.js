@@ -8,7 +8,7 @@ const wispUrl =
 const bareUrl = "https://useclassplay.vercel.app/fq/";
 
 let searchE;
-const se = localStorage.getItem("verdis_searchEngine") || "Brave";
+const se = localStorage.getItem("verdis_searchEngine") || "DuckDuckGo";
 
 if (se === "DuckDuckGo") {
   searchE = "https://duckduckgo.com/search?q=";

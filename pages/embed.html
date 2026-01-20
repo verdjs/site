@@ -332,11 +332,11 @@
             const launchUrl = params.get("launch");
             let wispUrl = localStorage.getItem("verdis_wispUrl") ?? "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/";
             
-            // Use Terbium 2 Wisp server specifically for cineby.gd to resolve SSL connection issues
+            // Use Terbium 2 Wisp server specifically for cinemaos.live to resolve SSL connection issues
             if (launchUrl) {
                 try {
                     const url = new URL(launchUrl);
-                    if (url.hostname === "cineby.gd" || url.hostname === "www.cineby.gd") {
+                    if (url.hostname === "cinemaos.live" || url.hostname === "www.cinemaos.live") {
                         wispUrl = "wss://wisp.terbiumon.top/wisp/";
                     }
                 } catch (e) {

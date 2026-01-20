@@ -122,8 +122,8 @@ function toRegex(pattern) {
  * @returns {boolean}
  */
 function isBlocked(hostname, pathname) {
-	// Disable blocklist for cineby.gd
-	if (hostname === "cineby.gd" || hostname === "www.cineby.gd") {
+	// Disable blocklist for cinemaos.live
+	if (hostname === "cinemaos.live" || hostname === "www.cinemaos.live") {
 		return false;
 	}
 

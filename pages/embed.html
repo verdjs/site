@@ -332,12 +332,12 @@
             const launchUrl = params.get("launch");
             let wispUrl = localStorage.getItem("verdis_wispUrl") ?? "wss://edu.info.east-kazakhstan.su.cdn.cloudflare.net/wisp/";
             
-            // Use Terbium 2 Wisp server specifically for cinemaos.live to resolve SSL connection issues
+            // Use Anura 6 Wisp server specifically for cinemaos.live
             if (launchUrl) {
                 try {
                     const url = new URL(launchUrl);
                     if (url.hostname === "cinemaos.live" || url.hostname === "www.cinemaos.live") {
-                        wispUrl = "wss://wisp.terbiumon.top/wisp/";
+                        wispUrl = "wss://swordartii.online/";
                     }
                 } catch (e) {
                     // Invalid URL, use default wisp server

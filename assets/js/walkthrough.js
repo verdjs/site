@@ -12,8 +12,17 @@ const VerdisWalkthrough = (() => {
 
     const STORAGE_KEY = 'verdis_walkthroughComplete';
     const ANIMATION_DURATION = 800; // ms - wait time for panels to fully open
-    const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
+    const SECONDS_IN_YEAR = 365 * 24 * 60 * 60;
+    const COOKIE_MAX_AGE = SECONDS_IN_YEAR; // 1 year
     const RELOAD_DELAY = 1200;
+
+    function safeDecode(value) {
+        try {
+            return decodeURIComponent(value);
+        } catch (error) {
+            return value;
+        }
+    }
 
     function getCookieEntries() {
         if (!document.cookie) {
@@ -29,18 +38,15 @@ const VerdisWalkthrough = (() => {
                 const name = divider >= 0 ? entry.slice(0, divider) : entry;
                 const value = divider >= 0 ? entry.slice(divider + 1) : '';
                 return {
-                    name: decodeURIComponent(name),
-                    value: decodeURIComponent(value)
+                    name: safeDecode(name),
+                    value: safeDecode(value)
                 };
             });
     }
 
     function hasCompletionCookie() {
         return getCookieEntries().some(({ name, value }) => {
-            if (name.startsWith(STORAGE_KEY)) {
-                return value === 'true';
-            }
-            return false;
+            return name.startsWith(STORAGE_KEY) && value === 'true';
         });
     }
 
@@ -50,13 +56,6 @@ const VerdisWalkthrough = (() => {
 
         const hostKey = `${STORAGE_KEY}_${window.location.hostname}`;
         document.cookie = `${encodeURIComponent(hostKey)}=true; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
-
-        const hostParts = window.location.hostname.split('.');
-        if (hostParts.length > 1 && !isLocalHostname(window.location.hostname)) {
-            const rootDomain = hostParts.slice(-2).join('.');
-            document.cookie = `${encodeURIComponent(STORAGE_KEY)}=true; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax; domain=.${rootDomain}`;
-            document.cookie = `${encodeURIComponent(`${STORAGE_KEY}_${rootDomain}`)}=true; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax; domain=.${rootDomain}`;
-        }
     }
 
     function clearCompletionCookies() {
@@ -78,18 +77,6 @@ const VerdisWalkthrough = (() => {
         }
 
         return false;
-    }
-
-    function isLocalHostname(hostname) {
-        if (hostname === 'localhost') {
-            return true;
-        }
-
-        if (hostname.includes(':')) {
-            return true;
-        }
-
-        return /^\d+\.\d+\.\d+\.\d+$/.test(hostname);
     }
 
     // ═══════════════════════════════════════════
@@ -367,8 +354,8 @@ const VerdisWalkthrough = (() => {
             zoom: 1.3,
             action: () => {
                 // Show fake page first
-                if (typeof showClassroomOverlay === 'function') {
-                    showClassroomOverlay();
+                if (typeof window.showClassroomOverlay === 'function') {
+                    window.showClassroomOverlay();
                 }
                 // Then LOWER its z-index so walkthrough stays on top
                 const fakeOverlay = document.getElementById('classroom-overlay');
@@ -776,8 +763,9 @@ const VerdisWalkthrough = (() => {
         dialog.querySelector('.walkthrough-title').textContent = step.title;
         dialog.querySelector('.walkthrough-description').textContent = step.description;
         dialog.querySelector('.walkthrough-skip-btn').style.display = 'none';
-        dialog.querySelector('.walkthrough-next-btn').innerHTML = '<i class="fas fa-check"></i>&nbsp;&nbsp;Let\'s Go!';
-        dialog.querySelector('.walkthrough-next-btn').onclick = () => completeWalkthrough(false, { reload: true });
+        const nextBtn = dialog.querySelector('.walkthrough-next-btn');
+        nextBtn.innerHTML = '<i class="fas fa-check"></i>&nbsp;&nbsp;Let\'s Go!';
+        nextBtn.onclick = () => completeWalkthrough(false, { reload: true });
 
         // Position center
         positionDialog(null, 'center');
@@ -813,7 +801,7 @@ const VerdisWalkthrough = (() => {
     }
 
     function completeWalkthrough(skipped = false, options = {}) {
-        const { showFakeError = false, reload = true } = options;
+        const { showFakeError = false, reload = false } = options;
         isActive = false;
 
         // Mark as complete
@@ -832,7 +820,6 @@ const VerdisWalkthrough = (() => {
         document.body.style.removeProperty('--focus-y');
         document.body.style.removeProperty('--zoom-level');
 
-        // Fade out overlay and dialog
         if (overlay) {
             overlay.style.opacity = '0';
             overlay.style.transition = 'opacity 0.5s ease';
@@ -858,10 +845,11 @@ const VerdisWalkthrough = (() => {
             }, 300);
         }
 
-        const shouldShowFakeError = showFakeError && typeof window !== 'undefined' && typeof window.showClassroomOverlay === 'function';
-        const shouldReload = reload;
+        // Skip auto-reload when showing the fake error overlay so it remains visible.
+        const canShowFakeError = showFakeError && typeof window.showClassroomOverlay === 'function';
+        const shouldReload = reload && !showFakeError;
 
-        if (shouldShowFakeError) {
+        if (canShowFakeError) {
             window.showClassroomOverlay();
         }
 

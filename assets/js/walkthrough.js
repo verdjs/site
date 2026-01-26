@@ -428,7 +428,6 @@ const VerdisWalkthrough = (() => {
             <button class="walkthrough-welcome-btn">
                 <i class="fas fa-play"></i>&nbsp;&nbsp;Start Tour
             </button>
-            <button class="walkthrough-welcome-skip">Skip Tutorial</button>
         `;
 
         document.body.appendChild(welcomeScreen);
@@ -443,14 +442,6 @@ const VerdisWalkthrough = (() => {
             }, 400);
         });
 
-        welcomeScreen.querySelector('.walkthrough-welcome-skip').addEventListener('click', () => {
-            welcomeScreen.style.opacity = '0';
-            welcomeScreen.style.transition = 'opacity 0.4s ease';
-            setTimeout(() => {
-                welcomeScreen.remove();
-                completeWalkthrough(true, { showFakeError: true });
-            }, 400);
-        });
     }
 
     // ═══════════════════════════════════════════
@@ -486,7 +477,6 @@ const VerdisWalkthrough = (() => {
             <h3 class="walkthrough-title"></h3>
             <p class="walkthrough-description"></p>
             <div class="walkthrough-actions">
-                <button class="walkthrough-skip-btn">Skip</button>
                 <button class="walkthrough-next-btn">Next</button>
             </div>
         `;
@@ -496,7 +486,6 @@ const VerdisWalkthrough = (() => {
 
         // Button listeners attached to the separate dialog
         dialog.querySelector('.walkthrough-next-btn').addEventListener('click', nextStep);
-        dialog.querySelector('.walkthrough-skip-btn').addEventListener('click', () => completeWalkthrough(true, { showFakeError: true }));
 
         // No need to query dialog from overlay anymore
     }
@@ -740,9 +729,6 @@ const VerdisWalkthrough = (() => {
         if (e.key === 'Enter' || e.key === 'ArrowRight' || e.key === ' ') {
             e.preventDefault();
             nextStep();
-        } else if (e.key === 'Escape') {
-            e.preventDefault();
-            completeWalkthrough(true, { showFakeError: true });
         }
     }
 
@@ -762,7 +748,6 @@ const VerdisWalkthrough = (() => {
         dialog.querySelector('.walkthrough-icon').innerHTML = `<i class="${step.icon}" style="color: #4ade80;"></i>`;
         dialog.querySelector('.walkthrough-title').textContent = step.title;
         dialog.querySelector('.walkthrough-description').textContent = step.description;
-        dialog.querySelector('.walkthrough-skip-btn').style.display = 'none';
         const nextBtn = dialog.querySelector('.walkthrough-next-btn');
         nextBtn.innerHTML = '<i class="fas fa-check"></i>&nbsp;&nbsp;Let\'s Go!';
         nextBtn.onclick = () => completeWalkthrough(false, { reload: true });

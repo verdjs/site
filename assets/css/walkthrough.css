@@ -332,24 +332,6 @@ body:has(.walkthrough-overlay) .game-details-modal:not(.settings-hidden) {
     transform: translateY(0);
 }
 
-.walkthrough-skip-btn {
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.walkthrough-skip-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.9);
-    border-color: rgba(255, 255, 255, 0.25);
-}
-
 /* ═══════════════════════════════════════════
    STEP COUNTER
    ═══════════════════════════════════════════ */

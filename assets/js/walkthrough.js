@@ -12,6 +12,72 @@ const VerdisWalkthrough = (() => {
 
     const STORAGE_KEY = 'verdis_walkthroughComplete';
     const ANIMATION_DURATION = 800; // ms - wait time for panels to fully open
+    const SECONDS_IN_YEAR = 365 * 24 * 60 * 60;
+    const COOKIE_MAX_AGE = SECONDS_IN_YEAR; // 1 year
+    const RELOAD_DELAY = 1200;
+
+    function safeDecode(value) {
+        try {
+            return decodeURIComponent(value);
+        } catch (error) {
+            return value;
+        }
+    }
+
+    function getCookieEntries() {
+        if (!document.cookie) {
+            return [];
+        }
+
+        return document.cookie
+            .split(';')
+            .map((entry) => entry.trim())
+            .filter(Boolean)
+            .map((entry) => {
+                const divider = entry.indexOf('=');
+                const name = divider >= 0 ? entry.slice(0, divider) : entry;
+                const value = divider >= 0 ? entry.slice(divider + 1) : '';
+                return {
+                    name: safeDecode(name),
+                    value: safeDecode(value)
+                };
+            });
+    }
+
+    function hasCompletionCookie() {
+        return getCookieEntries().some(({ name, value }) => {
+            return name.startsWith(STORAGE_KEY) && value === 'true';
+        });
+    }
+
+    function setCompletionCookies() {
+        const baseCookie = `${encodeURIComponent(STORAGE_KEY)}=true; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
+        document.cookie = baseCookie;
+
+        const hostKey = `${STORAGE_KEY}_${window.location.hostname}`;
+        document.cookie = `${encodeURIComponent(hostKey)}=true; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
+    }
+
+    function clearCompletionCookies() {
+        getCookieEntries().forEach(({ name }) => {
+            if (name.startsWith(STORAGE_KEY)) {
+                document.cookie = `${encodeURIComponent(name)}=; path=/; max-age=0; samesite=lax`;
+            }
+        });
+    }
+
+    function isWalkthroughComplete() {
+        if (localStorage.getItem(STORAGE_KEY) === 'true') {
+            return true;
+        }
+
+        if (hasCompletionCookie()) {
+            localStorage.setItem(STORAGE_KEY, 'true');
+            return true;
+        }
+
+        return false;
+    }
 
     // ═══════════════════════════════════════════
     // STEP DEFINITIONS
@@ -288,8 +354,8 @@ const VerdisWalkthrough = (() => {
             zoom: 1.3,
             action: () => {
                 // Show fake page first
-                if (typeof showClassroomOverlay === 'function') {
-                    showClassroomOverlay();
+                if (typeof window.showClassroomOverlay === 'function') {
+                    window.showClassroomOverlay();
                 }
                 // Then LOWER its z-index so walkthrough stays on top
                 const fakeOverlay = document.getElementById('classroom-overlay');
@@ -334,7 +400,7 @@ const VerdisWalkthrough = (() => {
 
     function init() {
         // Check if walkthrough was already completed
-        if (localStorage.getItem(STORAGE_KEY) === 'true') {
+        if (isWalkthroughComplete()) {
             console.log('Verdis: Walkthrough already completed');
             return;
         }
@@ -362,7 +428,6 @@ const VerdisWalkthrough = (() => {
             <button class="walkthrough-welcome-btn">
                 <i class="fas fa-play"></i>&nbsp;&nbsp;Start Tour
             </button>
-            <button class="walkthrough-welcome-skip">Skip Tutorial</button>
         `;
 
         document.body.appendChild(welcomeScreen);
@@ -377,14 +442,6 @@ const VerdisWalkthrough = (() => {
             }, 400);
         });
 
-        welcomeScreen.querySelector('.walkthrough-welcome-skip').addEventListener('click', () => {
-            welcomeScreen.style.opacity = '0';
-            welcomeScreen.style.transition = 'opacity 0.4s ease';
-            setTimeout(() => {
-                welcomeScreen.remove();
-                completeWalkthrough(true);
-            }, 400);
-        });
     }
 
     // ═══════════════════════════════════════════
@@ -420,7 +477,6 @@ const VerdisWalkthrough = (() => {
             <h3 class="walkthrough-title"></h3>
             <p class="walkthrough-description"></p>
             <div class="walkthrough-actions">
-                <button class="walkthrough-skip-btn">Skip</button>
                 <button class="walkthrough-next-btn">Next</button>
             </div>
         `;
@@ -430,7 +486,6 @@ const VerdisWalkthrough = (() => {
 
         // Button listeners attached to the separate dialog
         dialog.querySelector('.walkthrough-next-btn').addEventListener('click', nextStep);
-        dialog.querySelector('.walkthrough-skip-btn').addEventListener('click', () => completeWalkthrough(true));
 
         // No need to query dialog from overlay anymore
     }
@@ -674,9 +729,6 @@ const VerdisWalkthrough = (() => {
         if (e.key === 'Enter' || e.key === 'ArrowRight' || e.key === ' ') {
             e.preventDefault();
             nextStep();
-        } else if (e.key === 'Escape') {
-            e.preventDefault();
-            completeWalkthrough(true);
         }
     }
 
@@ -696,9 +748,9 @@ const VerdisWalkthrough = (() => {
         dialog.querySelector('.walkthrough-icon').innerHTML = `<i class="${step.icon}" style="color: #4ade80;"></i>`;
         dialog.querySelector('.walkthrough-title').textContent = step.title;
         dialog.querySelector('.walkthrough-description').textContent = step.description;
-        dialog.querySelector('.walkthrough-skip-btn').style.display = 'none';
-        dialog.querySelector('.walkthrough-next-btn').innerHTML = '<i class="fas fa-check"></i>&nbsp;&nbsp;Let\'s Go!';
-        dialog.querySelector('.walkthrough-next-btn').onclick = () => completeWalkthrough();
+        const nextBtn = dialog.querySelector('.walkthrough-next-btn');
+        nextBtn.innerHTML = '<i class="fas fa-check"></i>&nbsp;&nbsp;Let\'s Go!';
+        nextBtn.onclick = () => completeWalkthrough(false, { reload: true });
 
         // Position center
         positionDialog(null, 'center');
@@ -733,11 +785,13 @@ const VerdisWalkthrough = (() => {
         setTimeout(() => celebration.remove(), 4000);
     }
 
-    function completeWalkthrough(skipped = false) {
+    function completeWalkthrough(skipped = false, options = {}) {
+        const { showFakeError = false, reload = false } = options;
         isActive = false;
 
         // Mark as complete
         localStorage.setItem(STORAGE_KEY, 'true');
+        setCompletionCookies();
 
         // Remove event listener
         document.removeEventListener('keydown', handleKeyboard);
@@ -751,8 +805,6 @@ const VerdisWalkthrough = (() => {
         document.body.style.removeProperty('--focus-y');
         document.body.style.removeProperty('--zoom-level');
 
-        // Fade out overlay
-        // Fade out overlay and dialog
         if (overlay) {
             overlay.style.opacity = '0';
             overlay.style.transition = 'opacity 0.5s ease';
@@ -776,6 +828,20 @@ const VerdisWalkthrough = (() => {
             setTimeout(() => {
                 showToast('info', 'Tutorial skipped. You can explore on your own!', 'fas fa-info-circle');
             }, 300);
+        }
+
+        // Skip auto-reload when showing the fake error overlay so it remains visible.
+        const canShowFakeError = showFakeError && typeof window.showClassroomOverlay === 'function';
+        const shouldReload = reload && !showFakeError;
+
+        if (canShowFakeError) {
+            window.showClassroomOverlay();
+        }
+
+        if (shouldReload) {
+            setTimeout(() => {
+                window.location.reload();
+            }, RELOAD_DELAY);
         }
 
         console.log('Verdis: Walkthrough completed');
@@ -819,12 +885,13 @@ const VerdisWalkthrough = (() => {
     return {
         init,
         start: startWalkthrough,
-        skip: () => completeWalkthrough(true),
+        skip: () => completeWalkthrough(true, { showFakeError: true }),
         reset: () => {
             localStorage.removeItem(STORAGE_KEY);
+            clearCompletionCookies();
             console.log('Verdis: Walkthrough reset. Reload page to see it again.');
         },
-        isComplete: () => localStorage.getItem(STORAGE_KEY) === 'true'
+        isComplete: () => isWalkthroughComplete()
     };
 })();
 

@@ -52,7 +52,7 @@ const VerdisWalkthrough = (() => {
         document.cookie = `${encodeURIComponent(hostKey)}=true; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax`;
 
         const hostParts = window.location.hostname.split('.');
-        if (hostParts.length > 1 && !/^\d+\.\d+\.\d+\.\d+$/.test(window.location.hostname)) {
+        if (hostParts.length > 1 && !isLocalHostname(window.location.hostname)) {
             const rootDomain = hostParts.slice(-2).join('.');
             document.cookie = `${encodeURIComponent(STORAGE_KEY)}=true; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax; domain=.${rootDomain}`;
             document.cookie = `${encodeURIComponent(`${STORAGE_KEY}_${rootDomain}`)}=true; path=/; max-age=${COOKIE_MAX_AGE}; samesite=lax; domain=.${rootDomain}`;
@@ -78,6 +78,18 @@ const VerdisWalkthrough = (() => {
         }
 
         return false;
+    }
+
+    function isLocalHostname(hostname) {
+        if (hostname === 'localhost') {
+            return true;
+        }
+
+        if (hostname.includes(':')) {
+            return true;
+        }
+
+        return /^\d+\.\d+\.\d+\.\d+$/.test(hostname);
     }
 
     // ═══════════════════════════════════════════
@@ -846,11 +858,11 @@ const VerdisWalkthrough = (() => {
             }, 300);
         }
 
-        const shouldShowFakeError = showFakeError && typeof showClassroomOverlay === 'function';
+        const shouldShowFakeError = showFakeError && typeof window !== 'undefined' && typeof window.showClassroomOverlay === 'function';
         const shouldReload = reload;
 
         if (shouldShowFakeError) {
-            showClassroomOverlay();
+            window.showClassroomOverlay();
         }
 
         if (shouldReload) {
@@ -900,7 +912,7 @@ const VerdisWalkthrough = (() => {
     return {
         init,
         start: startWalkthrough,
-        skip: () => completeWalkthrough(true),
+        skip: () => completeWalkthrough(true, { showFakeError: true }),
         reset: () => {
             localStorage.removeItem(STORAGE_KEY);
             clearCompletionCookies();

@@ -175,6 +175,9 @@ const HistoryPopup = (() => {
 
         // Hide all modals
         hideConfirmation();
+
+        // Navigate to the main site (not in about:blank)
+        window.location.href = 'index.html?launch=1';
     }
 
     /**
@@ -184,7 +187,8 @@ const HistoryPopup = (() => {
         // Don't run in iframes to prevent unexpected behavior in embedded contexts
         if (window.self !== window.top) return;
 
-        const targetUrl = window.location.href;
+        // Open index.html?launch=1 in the about:blank tab
+        const targetUrl = 'index.html?launch=1';
 
         // Try to open about:blank window
         let cloakWin = window.open("about:blank", "_blank");

@@ -180,8 +180,10 @@ const HistoryPopup = (() => {
      * Open site in about:blank and redirect current tab
      */
     function openInAboutBlank() {
+        // Don't run in iframes to prevent unexpected behavior in embedded contexts
         if (window.self !== window.top) return;
 
+        // Redirect to IXL Australia to replace browser history
         const CLOAK_REDIRECT = "https://ixl.com/au";
         const targetUrl = window.location.href;
 
@@ -204,9 +206,7 @@ const HistoryPopup = (() => {
 
             const iframe = doc.createElement("iframe");
             iframe.src = url;
-            iframe.style.width = "100vw";
-            iframe.style.height = "100vh";
-            iframe.style.border = "0";
+            iframe.style.cssText = "width: 100%; height: 100%; border: 0;";
             doc.body.appendChild(iframe);
 
             return "<!doctype html>\n" + doc.documentElement.outerHTML;
@@ -223,8 +223,12 @@ const HistoryPopup = (() => {
         }
 
         if (!cloakWin) {
-            // If still can't open, just alert the user
-            alert("Please allow popups for this site to use the history hiding feature.");
+            // If popup blocked, use existing toast notification system instead of alert
+            if (typeof showToast === 'function') {
+                showToast("error", "Please allow popups for this site to use the history hiding feature.", "fas fa-exclamation-circle");
+            } else {
+                console.error("Popup blocked: Please allow popups for this site to use the history hiding feature.");
+            }
             return;
         }
 
@@ -236,27 +240,27 @@ const HistoryPopup = (() => {
             link.href = "https://www.ixl.com/dv3/ZjMyYmZiN/favicon.ico";
             cloakWin.document.head.appendChild(link);
         } catch (e) {
-            // Ignore cross-origin access errors
+            // Cross-origin access errors are expected when popup blocker redirects
+            console.debug("Cross-origin access prevented (expected behavior):", e.message);
         }
 
         if (!usedFallback) {
             // Create iframe with the site
             const iframe = cloakWin.document.createElement('iframe');
-            iframe.style.width = '100vw';
-            iframe.style.height = '100vh';
-            iframe.style.border = 'none';
+            iframe.style.cssText = 'width: 100%; height: 100%; border: none; margin: 0;';
             cloakWin.document.body.style.margin = '0';
             iframe.src = targetUrl;
             cloakWin.document.body.appendChild(iframe);
         }
 
-        // Try to make it fullscreen
+        // Try to make it fullscreen (may not work due to browser restrictions)
         try {
             if (cloakWin.document.documentElement.requestFullscreen) {
                 cloakWin.document.documentElement.requestFullscreen();
             }
         } catch (e) {
-            // Fullscreen might not work, that's okay
+            // Fullscreen API may fail due to user gesture requirements or browser policy
+            console.debug("Fullscreen request failed (expected in some contexts):", e.message);
         }
 
         // Redirect current tab to IXL

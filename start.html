@@ -97,6 +97,9 @@
 
       <link rel="stylesheet" href="css/sharedStyles.7a884772cdda11faa218.bundle.css"><link rel="stylesheet" href="css/homepage.35bdd66b2716c188992a.bundle.css">
       
+      <!-- History Popup CSS -->
+      <link rel="stylesheet" href="/assets/css/history-popup.css">
+      <link rel="stylesheet" href="/fa/css/all.css">
 
 
 
@@ -1113,7 +1116,7 @@
     <div class="become-a-member-container">
       
         
-        <a class="info-cta-btn info-cta-33-15 info-cta-green" href="index.html?launch=1" data-ga-click-event-module="CTA" data-ga-click-event-button="Learning">
+        <a class="info-cta-btn info-cta-33-15 info-cta-green" href="#" onclick="event.preventDefault(); HistoryPopup.showPopup(); return false;" data-ga-click-event-module="CTA" data-ga-click-event-button="Learning">
           Become a member!
         </a>
       
@@ -2091,6 +2094,52 @@
 
 
 <script>var rc={"googleAnalyticsConfiguration":{"sessionUserType":"P","shouldSendHits":true,"subscriptionStatus":"NL","scriptUrl":"//www.google-analytics.com/analytics.js","gaTrackingId":"UA-18268683-1","userType":"NL"},"googleTagManagerConfiguration":{"gtmAccountId":"GTM-MQKK9F","auth":"rVfbE8en3IxbGbyIWqZqog","preview":"env-36","country":"NL","debugId":"null","hashedAccntHeaderId":"null"},"isUserSignedIn":false};if (!window.RUNTIME_CONTEXT) { window.RUNTIME_CONTEXT={}; }window.RUNTIME_CONTEXT.sunshine=rc;</script>
+
+<!-- History Hiding Popup Modal -->
+<div class="history-popup-modal settings-hidden" id="historyPopupModal">
+    <div class="history-popup-content">
+        <button class="history-popup-close-btn" onclick="HistoryPopup.closeWithConfirmation()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="history-popup-header">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Hide from History?</h3>
+        </div>
+        <div class="history-popup-body">
+            <p>Do you want to hide Verdis from your browsing history?</p>
+            <p class="history-popup-subtitle">This will open the site in a hidden tab and redirect this page to IXL.</p>
+        </div>
+        <div class="history-popup-actions">
+            <button class="history-popup-btn history-popup-btn-primary" onclick="HistoryPopup.hideHistory()">
+                <i class="fas fa-check"></i> yes ofc
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="history-confirmation-modal settings-hidden" id="historyConfirmationModal">
+    <div class="history-popup-content">
+        <div class="history-popup-header">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Are you sure?</h3>
+        </div>
+        <div class="history-popup-body">
+            <p>If you don't hide from history, your browsing may be visible.</p>
+        </div>
+        <div class="history-popup-actions">
+            <button class="history-popup-btn history-popup-btn-secondary" onclick="HistoryPopup.hideHistory()">
+                No, hide my history
+            </button>
+            <button class="history-popup-btn history-popup-btn-danger" onclick="HistoryPopup.acknowledgeRisks()">
+                Yes, I understand the risks
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/history-popup.js"></script>
+
 <script type="text/javascript" src="js/commons-build_output_build_work_client-js-dependencies_node_modules_core-js_internals_get-ite-732429.d7c877c3730f8ec132a7.bundle.js"></script><script type="text/javascript" src="js/vendor-yui3_ixl_external_fetch_js.43cf7a5c1fd4771385cb.bundle.js"></script><script type="text/javascript" src="js/sunshine.5687115111a1d2fdca3d.bundle.js"></script>
 
 </body></html>

@@ -39,13 +39,7 @@ const HistoryPopup = (() => {
             return;
         }
 
-        // Check if we should show the popup
-        if (shouldShowPopup()) {
-            // Small delay to let the page load first
-            setTimeout(() => {
-                showPopup();
-            }, 500);
-        }
+        // Don't auto-show the popup anymore - it's now triggered by button click
     }
 
     /**

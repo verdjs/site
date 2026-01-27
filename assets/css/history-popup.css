@@ -9,9 +9,11 @@
     transform: translate(-50%, -50%);
     width: 450px;
     max-width: 90vw;
-    background: color-mix(in srgb, var(--bg) 85%, transparent 15%);
+    background: rgba(20, 25, 35, 0.95);
+    background: color-mix(in srgb, var(--bg, #141923) 85%, transparent 15%);
     backdrop-filter: blur(20px);
-    border: 1px solid var(--border-4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-4, rgba(255, 255, 255, 0.1));
     border-radius: 20px;
     padding: 0;
     z-index: 100001;
@@ -71,7 +73,8 @@
     right: 16px;
     background: transparent;
     border: none;
-    color: var(--text);
+    color: #ffffff;
+    color: var(--text, #ffffff);
     font-size: 20px;
     cursor: pointer;
     width: 32px;
@@ -84,8 +87,10 @@
 }
 
 .history-popup-close-btn:hover {
-    background: var(--bg-3);
-    color: var(--bright-text);
+    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-3, rgba(255, 255, 255, 0.1));
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
 }
 
 /* Header */
@@ -98,13 +103,15 @@
 
 .history-popup-header i {
     font-size: 28px;
-    color: var(--accent);
+    color: #3b82f6;
+    color: var(--accent, #3b82f6);
 }
 
 .history-popup-header h3 {
     font-size: 22px;
     font-weight: 600;
-    color: var(--bright-text);
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
     margin: 0;
 }
 
@@ -119,7 +126,8 @@
 
 .history-popup-body p {
     margin: 0 0 12px 0;
-    color: var(--text);
+    color: #e5e7eb;
+    color: var(--text, #e5e7eb);
     font-size: 15px;
     line-height: 1.6;
 }
@@ -162,8 +170,10 @@
 
 /* Primary Button (Yes ofc) */
 .history-popup-btn-primary {
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-    color: var(--bright-text);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, var(--accent, #3b82f6) 0%, var(--accent-2, #2563eb) 100%);
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
     border: 1px solid transparent;
 }
 
@@ -174,20 +184,26 @@
 
 /* Secondary Button (No, hide my history) */
 .history-popup-btn-secondary {
-    background: var(--bg-2);
-    color: var(--bright-text);
-    border: 1px solid var(--border-4);
+    background: rgba(30, 41, 59, 0.8);
+    background: var(--bg-2, rgba(30, 41, 59, 0.8));
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-4, rgba(255, 255, 255, 0.1));
 }
 
 .history-popup-btn-secondary:hover {
-    background: var(--bg-3);
-    border-color: var(--border-3);
+    background: rgba(51, 65, 85, 0.8);
+    background: var(--bg-3, rgba(51, 65, 85, 0.8));
+    border-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--border-3, rgba(255, 255, 255, 0.2));
 }
 
 /* Danger Button (Yes I understand the risks) */
 .history-popup-btn-danger {
     background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-    color: var(--bright-text);
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
     border: 1px solid rgba(239, 68, 68, 0.6);
     position: relative;
     overflow: visible;

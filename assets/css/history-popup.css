@@ -1,0 +1,282 @@
+/* History Hiding Popup Styles */
+
+/* Popup Modal Container */
+.history-popup-modal,
+.history-confirmation-modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    max-width: 90vw;
+    background: rgba(20, 25, 35, 0.95);
+    background: color-mix(in srgb, var(--bg, #141923) 85%, transparent 15%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-4, rgba(255, 255, 255, 0.1));
+    border-radius: 20px;
+    padding: 0;
+    z-index: 100001;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.history-popup-modal.settings-hidden,
+.history-confirmation-modal.settings-hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.history-popup-modal.settings-shown,
+.history-confirmation-modal.settings-shown {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+    animation: fadeInScale 0.3s ease;
+}
+
+/* Fade in and scale animation for modals */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Backdrop overlay */
+.history-popup-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    z-index: 100000;
+    transition: opacity 0.3s ease;
+    animation: fadeIn 0.3s ease;
+}
+
+.history-popup-backdrop.settings-hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.history-popup-backdrop.settings-shown {
+    opacity: 1;
+    pointer-events: all;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Popup Content */
+.history-popup-content {
+    padding: 28px;
+    position: relative;
+}
+
+/* Close Button */
+.history-popup-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    color: var(--text, #ffffff);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-weight: 300;
+}
+
+.history-popup-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-3, rgba(255, 255, 255, 0.1));
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
+}
+
+/* Header */
+.history-popup-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.history-popup-header .history-popup-icon {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.history-popup-header h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
+    margin: 0;
+}
+
+.history-confirmation-modal .history-popup-header .history-popup-icon {
+    color: #f59e0b;
+}
+
+/* Body */
+.history-popup-body {
+    margin-bottom: 24px;
+}
+
+.history-popup-body p {
+    margin: 0 0 12px 0;
+    color: #e5e7eb;
+    color: var(--text, #e5e7eb);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.history-popup-body p:last-child {
+    margin-bottom: 0;
+}
+
+.history-popup-subtitle {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* Actions */
+.history-popup-actions {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}
+
+/* Buttons */
+.history-popup-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Primary Button (Yes ofc) */
+.history-popup-btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, var(--accent, #3b82f6) 0%, var(--accent-2, #2563eb) 100%);
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
+    border: 1px solid transparent;
+}
+
+.history-popup-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Secondary Button (No, hide my history) */
+.history-popup-btn-secondary {
+    background: rgba(30, 41, 59, 0.8);
+    background: var(--bg-2, rgba(30, 41, 59, 0.8));
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-4, rgba(255, 255, 255, 0.1));
+}
+
+.history-popup-btn-secondary:hover {
+    background: rgba(51, 65, 85, 0.8);
+    background: var(--bg-3, rgba(51, 65, 85, 0.8));
+    border-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--border-3, rgba(255, 255, 255, 0.2));
+}
+
+/* Danger Button (Yes I understand the risks) */
+.history-popup-btn-danger {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: #ffffff;
+    color: var(--bright-text, #ffffff);
+    border: 1px solid rgba(239, 68, 68, 0.6);
+    position: relative;
+    overflow: visible;
+}
+
+.history-popup-btn-danger::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: rgba(239, 68, 68, 0.5);
+    animation: pulse-red 2s ease-in-out infinite;
+    z-index: -1;
+}
+
+.history-popup-btn-danger:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+    border-color: rgba(239, 68, 68, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* Pulse animation for danger button */
+@keyframes pulse-red {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.15);
+        opacity: 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .history-popup-modal,
+    .history-confirmation-modal {
+        width: 95vw;
+        padding: 0;
+    }
+
+    .history-popup-content {
+        padding: 20px;
+    }
+
+    .history-popup-header h3 {
+        font-size: 20px;
+    }
+
+    .history-popup-body p {
+        font-size: 14px;
+    }
+}

@@ -8,6 +8,8 @@
 const HistoryPopup = (() => {
     const STORAGE_KEY = 'verdis_historyPopupDismissed';
     const WALKTHROUGH_KEY = 'verdis_walkthroughComplete';
+    const CLOAK_TITLE = 'IXL | Maths, English and Science Practice';
+    const CLOAK_REDIRECT = 'https://ixl.com/au';
 
     let modal = null;
     let confirmationModal = null;
@@ -71,7 +73,12 @@ const HistoryPopup = (() => {
         }
 
         return document.cookie.split(';').some(cookie => {
-            const [name, value] = cookie.trim().split('=');
+            const trimmed = cookie.trim();
+            const equalIndex = trimmed.indexOf('=');
+            if (equalIndex === -1) return false;
+            
+            const name = trimmed.slice(0, equalIndex);
+            const value = trimmed.slice(equalIndex + 1);
             return name.startsWith(WALKTHROUGH_KEY) && value === 'true';
         });
     }
@@ -183,8 +190,6 @@ const HistoryPopup = (() => {
         // Don't run in iframes to prevent unexpected behavior in embedded contexts
         if (window.self !== window.top) return;
 
-        // Redirect to IXL Australia to replace browser history
-        const CLOAK_REDIRECT = "https://ixl.com/au";
         const targetUrl = window.location.href;
 
         // Try to open about:blank window
@@ -193,7 +198,7 @@ const HistoryPopup = (() => {
 
         // Build the HTML for the about:blank page
         const buildBlobHtml = (url) => {
-            const doc = document.implementation.createHTMLDocument("IXL | Maths, English and Science Practice");
+            const doc = document.implementation.createHTMLDocument(CLOAK_TITLE);
             doc.documentElement.lang = "en";
             
             const link = doc.createElement("link");
@@ -234,7 +239,7 @@ const HistoryPopup = (() => {
 
         try {
             // Set title and favicon
-            cloakWin.document.title = "IXL | Maths, English and Science Practice";
+            cloakWin.document.title = CLOAK_TITLE;
             const link = cloakWin.document.createElement("link");
             link.rel = "icon";
             link.href = "https://www.ixl.com/dv3/ZjMyYmZiN/favicon.ico";
@@ -253,18 +258,17 @@ const HistoryPopup = (() => {
             cloakWin.document.body.appendChild(iframe);
         }
 
-        // Try to make it fullscreen (may not work due to browser restrictions)
-        try {
-            if (cloakWin.document.documentElement.requestFullscreen) {
-                cloakWin.document.documentElement.requestFullscreen();
-            }
-        } catch (e) {
-            // Fullscreen API may fail due to user gesture requirements or browser policy
-            console.debug("Fullscreen request failed (expected in some contexts):", e.message);
-        }
+        // Note: Fullscreen API is intentionally not used here because it requires
+        // direct user interaction to work in modern browsers. The fullscreen request
+        // would fail silently since this code runs after a user clicked a button
+        // (indirect interaction). Users can manually fullscreen if desired using F11 or browser controls.
 
-        // Redirect current tab to IXL
-        window.location.replace(CLOAK_REDIRECT);
+        // Redirect current tab to IXL (validates URL is HTTPS to prevent security issues)
+        if (CLOAK_REDIRECT.startsWith('https://')) {
+            window.location.replace(CLOAK_REDIRECT);
+        } else {
+            console.error("Invalid redirect URL - must be HTTPS");
+        }
     }
 
     // Initialize on load

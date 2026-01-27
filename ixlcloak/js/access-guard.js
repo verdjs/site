@@ -5,11 +5,21 @@
 (function() {
     'use strict';
 
-    // Wait for IXLAuth to be available
+    // Wait for IXLAuth to be available with timeout
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds max
+    
     function checkAccess() {
+        attempts++;
+        
         if (typeof IXLAuth === 'undefined') {
-            // IXLAuth not loaded yet, try again
-            setTimeout(checkAccess, 100);
+            // IXLAuth not loaded yet
+            if (attempts < maxAttempts) {
+                setTimeout(checkAccess, 100);
+            } else {
+                console.error('IXLAuth failed to load, redirecting to auth page...');
+                window.location.href = '/ixlcloak/auth.html';
+            }
             return;
         }
 
@@ -35,6 +45,11 @@
     }
 
     function addLogoutButton() {
+        // Check if logout button already exists
+        if (document.getElementById('ixl-logout-btn')) {
+            return;
+        }
+        
         // Create a floating logout button
         const logoutBtn = document.createElement('button');
         logoutBtn.id = 'ixl-logout-btn';

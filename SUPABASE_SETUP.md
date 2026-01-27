@@ -122,7 +122,7 @@ GRANT EXECUTE ON FUNCTION register_user TO anon, authenticated;
 
 ## Step 4: Update Your Site Configuration
 
-1. Open the file `/home/runner/work/site/site/assets/js/backend/supabase-client.js`
+1. Open the file `assets/js/backend/supabase-client.js`
 2. Update lines 10-11 with your credentials from Step 2:
 
 ```javascript

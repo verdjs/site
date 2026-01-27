@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IXL Access - Sign In</title>
-    <link rel="icon" href="/images/ixl-favicon.png">
+    <link rel="icon" href="../images/ixl-favicon.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/backend/ixl-auth.js"></script>
     <style>
@@ -357,20 +357,27 @@
             }
         });
 
-        // Check if already logged in
-        window.addEventListener('DOMContentLoaded', () => {
-            // Give IXLAuth time to initialize
-            setTimeout(() => {
-                if (IXLAuth.isAuthenticated()) {
-                    if (IXLAuth.hasAccess()) {
-                        window.location.href = '/ixlcloak/index.html';
-                    } else if (IXLAuth.isInQueue()) {
-                        const user = IXLAuth.getCurrentUser();
-                        showQueue(user.queuePosition);
-                    }
+        // Check if already logged in with timeout
+        let checkAttempts = 0;
+        const maxAttempts = 20; // 10 seconds max (500ms * 20)
+        
+        const checkAuth = () => {
+            checkAttempts++;
+            
+            if (typeof IXLAuth !== 'undefined' && IXLAuth.isAuthenticated()) {
+                if (IXLAuth.hasAccess()) {
+                    window.location.href = '/ixlcloak/index.html';
+                } else if (IXLAuth.isInQueue()) {
+                    const user = IXLAuth.getCurrentUser();
+                    showQueue(user.queuePosition);
                 }
-            }, 500);
-        });
+            } else if (checkAttempts < maxAttempts) {
+                setTimeout(checkAuth, 500);
+            }
+            // If max attempts reached and still not loaded, do nothing (user can manually login)
+        };
+        
+        checkAuth();
     </script>
 </body>
 </html>

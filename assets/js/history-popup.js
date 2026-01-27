@@ -264,8 +264,9 @@ const HistoryPopup = (() => {
         // (indirect interaction). Users can manually fullscreen if desired using F11 or browser controls.
 
         // Redirect current tab to IXL (validates URL is HTTPS to prevent security issues)
+        // Using href instead of replace to avoid adding current URL to history
         if (CLOAK_REDIRECT.startsWith('https://')) {
-            window.location.replace(CLOAK_REDIRECT);
+            window.location.href = CLOAK_REDIRECT;
         } else {
             console.error("Invalid redirect URL - must be HTTPS");
         }

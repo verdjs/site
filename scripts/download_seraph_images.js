@@ -47,7 +47,7 @@ async function run() {
         if (entry && entry.thumbnail) {
             const thumbPath = entry.thumbnail;
             const filename = thumbPath.split('/').pop();
-            const fullUrl = `https://idkrly1919.github.io/seraph${thumbPath}`;
+            const fullUrl = `https://verdjs.github.io/seraph${thumbPath}`;
             const dest = path.join(imgDestDir, filename);
 
             try {

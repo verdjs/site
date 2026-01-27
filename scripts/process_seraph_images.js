@@ -13,7 +13,7 @@ const updatedSeraphData = [];
 
 seraphData.forEach(game => {
     // Extract the relative path from the full URL to match directories.json key
-    // URL: https://idkrly1919.github.io/seraph/games/slope/index.html
+    // URL: https://verdjs.github.io/seraph/games/slope/index.html
     // Key: slope/index.html
     const match = game.url.match(/\/seraph\/games\/(.+)$/);
     if (!match) {
@@ -27,7 +27,7 @@ seraphData.forEach(game => {
     if (entry && entry.thumbnail) {
         const thumbPath = entry.thumbnail; // e.g. /images/thumbnails/slope.jpg
         const filename = thumbPath.split('/').pop();
-        const fullUrl = `https://idkrly1919.github.io/seraph${thumbPath}`;
+        const fullUrl = `https://verdjs.github.io/seraph${thumbPath}`;
 
         // Update the game object with the correct local image path and extension
         game.img = `/assets/img/games/seraph/${filename}`;

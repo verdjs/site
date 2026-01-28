@@ -437,7 +437,7 @@ const VerdisWalkthrough = (() => {
             <button class="walkthrough-welcome-btn">
                 <i class="fas fa-play"></i>&nbsp;&nbsp;Start Tour
             </button>
-            <button class="walkthrough-welcome-skip">Skip Tutorial</button>
+            <button class="walkthrough-welcome-skip" aria-label="Skip walkthrough tutorial">Skip Tutorial</button>
         `;
 
         document.body.appendChild(welcomeScreen);
@@ -458,7 +458,7 @@ const VerdisWalkthrough = (() => {
             welcomeScreen.style.transition = 'opacity 0.4s ease';
             setTimeout(() => {
                 welcomeScreen.remove();
-                completeWalkthrough();
+                completeWalkthrough(true);
             }, 400);
         });
 

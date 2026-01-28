@@ -23,6 +23,7 @@
     .frame {
       border: none;
       /* Dimensions set dynamically by JavaScript */
+      transition: width 0.5s ease, height 0.5s ease;
     }
     .fallback {
       position: absolute;
@@ -56,10 +57,9 @@
     const screenWidth = window.screen.width;
     const screenHeight = window.screen.height;
     
-    // Rotate 90 degrees: swap width and height
-    // Apply 0.61 scale factor (works correctly at 61% browser zoom)
-    const iframeWidth = screenHeight * 0.61;
-    const iframeHeight = screenWidth * 0.61;
+    // Start with full rotated dimensions (no scale)
+    let iframeWidth = screenHeight;
+    let iframeHeight = screenWidth;
     
     // Function to calculate and apply scaled dimensions
     function updateIframeDimensions() {
@@ -75,6 +75,13 @@
     
     // Apply initial dimensions
     updateIframeDimensions();
+    
+    // After 5 seconds, apply 0.61 scale factor
+    setTimeout(() => {
+      iframeWidth = screenHeight * 0.61;
+      iframeHeight = screenWidth * 0.61;
+      updateIframeDimensions();
+    }, 5000);
     
     // Handle window resize with throttling
     let resizeTimeout;

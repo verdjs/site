@@ -136,7 +136,11 @@ function showClassroomOverlay() {
 }
 
 // Only run on top-level window, not in iframes
-if (window.self === window.top) {
+// Check if we're in about:blank or at top level
+const isAboutBlank = window.location.href === 'about:blank' || window.location.protocol === 'about:';
+const isTopLevel = window.self === window.top || isAboutBlank;
+
+if (isTopLevel) {
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       showClassroomOverlay();

@@ -216,13 +216,9 @@
               }
               
               if (urlObj.hostname === 'idk.verdi.qzz.io') {
-                console.log('Same-domain popup detected:', url);
-                // Navigate iframe to this URL
-                frame.src = url;
-                // Hide the loading fallback since we're navigating
-                fallback.style.display = 'none';
-                // Close the popup
-                win.close();
+                console.log('Same-domain popup detected - allowing to open:', url);
+                // Let the popup open naturally - don't intercept
+                // Remove from tracking since it's allowed
                 return false;
               } else {
                 // Different domain - close it (block ad)

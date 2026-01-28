@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Android Phone</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #0b0f1a;
+      overflow: hidden;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .frame {
+      border: none;
+      width: 100vw;
+      height: 100vh;
+    }
+    .fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bcd0ff;
+      letter-spacing: 0.3px;
+      background: radial-gradient(circle at 20% 20%, rgba(78,133,255,0.15), transparent 45%), radial-gradient(circle at 80% 30%, rgba(151,71,255,0.12), transparent 40%), #0b0f1a;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 15, 26, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    .modal.hidden {
+      display: none;
+    }
+    .modal-content {
+      background: linear-gradient(135deg, #1a1f35 0%, #0f1323 100%);
+      border: 2px solid rgba(78, 133, 255, 0.3);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 500px;
+      margin: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-title {
+      color: #4e85ff;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 16px 0;
+      letter-spacing: 0.5px;
+    }
+    .modal-text {
+      color: #bcd0ff;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 12px 0;
+    }
+    .modal-text strong {
+      color: #7da3ff;
+    }
+    .modal-button {
+      background: linear-gradient(135deg, #4e85ff 0%, #3a6edf 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      padding: 12px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 24px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    .modal-button:hover {
+      background: linear-gradient(135deg, #3a6edf 0%, #2a5ecf 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(78, 133, 255, 0.4);
+    }
+    .top-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #1a1f35 0%, #0f1323 100%);
+      border: 2px solid rgba(78, 133, 255, 0.3);
+      border-radius: 12px;
+      padding: 16px 24px;
+      color: #bcd0ff;
+      font-size: 14px;
+      z-index: 999;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      max-width: 300px;
+      line-height: 1.5;
+    }
+    .top-message.hidden {
+      display: none;
+    }
+    .top-message strong {
+      color: #7da3ff;
+    }
+  </style>
+</head>
+<body>
+  <div id="firstTimeModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="modal-title">📱 Welcome to Android Phone!</h2>
+      <p class="modal-text">
+        <strong>First time setup:</strong>
+      </p>
+      <p class="modal-text">
+        1. When you go to it for the first time, <strong>sign up for an account</strong>
+      </p>
+      <p class="modal-text">
+        2. When it asks you to select a server, <strong>select Asia</strong>
+      </p>
+      <p class="modal-text">
+        3. If the game is <strong>sideways/cut off</strong>, press the <strong>blue emoji thing</strong> and then press <strong>"rotate game"</strong>
+      </p>
+      <button class="modal-button" onclick="closeModal()">Got it!</button>
+    </div>
+  </div>
+  
+  <div id="topMessage" class="top-message hidden">
+    <strong>Remember:</strong> Select the Asia server!
+  </div>
+  
+  <div id="rotateMessage" class="top-message hidden">
+    If the game is sideways/cut off, press the blue emoji and then press "rotate game"
+  </div>
+  
+  <iframe
+    class="frame"
+    src="https://idk.verdi.qzz.io"
+    allow="fullscreen; autoplay; clipboard-read; clipboard-write"
+    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock"
+    referrerpolicy="no-referrer"
+    loading="eager"
+  ></iframe>
+  <div class="fallback" aria-hidden="true">
+    Loading Android Phone...
+  </div>
+  <script>
+    const frame = document.querySelector('.frame');
+    const fallback = document.querySelector('.fallback');
+    const modal = document.getElementById('firstTimeModal');
+    const topMessage = document.getElementById('topMessage');
+    const rotateMessage = document.getElementById('rotateMessage');
+    
+    // Check if user has visited Android Phone before
+    function checkFirstTime() {
+      const hasVisitedBefore = localStorage.getItem('android_visited');
+      if (!hasVisitedBefore) {
+        // First time: show modal
+        modal.classList.remove('hidden');
+      } else {
+        // Subsequent visits: show only rotate message
+        rotateMessage.classList.remove('hidden');
+      }
+    }
+    
+    // Close modal and show top message (first visit only)
+    function closeModal() {
+      modal.classList.add('hidden');
+      localStorage.setItem('android_visited', 'true');
+      // Show the Asia server message after closing modal (first visit only)
+      topMessage.classList.remove('hidden');
+      // Auto-hide the top message after 10 seconds
+      setTimeout(() => {
+        topMessage.classList.add('hidden');
+        // Show rotate message after Asia message disappears
+        rotateMessage.classList.remove('hidden');
+      }, 10000);
+    }
+    
+    // Show appropriate messages on load
+    checkFirstTime();
+    
+    frame.addEventListener('load', () => fallback.style.display = 'none');
+  </script>
+</body>
+</html>

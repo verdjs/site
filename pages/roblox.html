@@ -22,10 +22,9 @@
     }
     .frame {
       border: none;
-      width: 75vh;
-      height: 100vh;
-      max-width: 100%;
-      max-height: 133.33vw;
+      width: min(75vh, 100vw);
+      height: min(100vh, 133.33vw);
+      aspect-ratio: 3 / 4;
     }
     .fallback {
       position: absolute;

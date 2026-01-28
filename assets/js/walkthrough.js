@@ -309,6 +309,15 @@ const VerdisWalkthrough = (() => {
             zoom: 1.3
         },
         {
+            id: 'android-button',
+            target: '[data-page="android"]',
+            title: 'Android Phone',
+            description: 'Play 20 mobile games right in your browser! Full Android emulation for mobile gaming.',
+            icon: 'ri-smartphone-line',
+            position: 'bottom',
+            zoom: 1.3
+        },
+        {
             id: 'ai-button',
             target: '[data-page="ai"]',
             title: 'AI Assistant',
@@ -428,6 +437,7 @@ const VerdisWalkthrough = (() => {
             <button class="walkthrough-welcome-btn">
                 <i class="fas fa-play"></i>&nbsp;&nbsp;Start Tour
             </button>
+            <button class="walkthrough-welcome-skip" aria-label="Skip walkthrough tutorial">Skip Tutorial</button>
         `;
 
         document.body.appendChild(welcomeScreen);
@@ -439,6 +449,16 @@ const VerdisWalkthrough = (() => {
             setTimeout(() => {
                 welcomeScreen.remove();
                 startWalkthrough();
+            }, 400);
+        });
+
+        // Skip button listener
+        welcomeScreen.querySelector('.walkthrough-welcome-skip').addEventListener('click', () => {
+            welcomeScreen.style.opacity = '0';
+            welcomeScreen.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => {
+                welcomeScreen.remove();
+                completeWalkthrough(true);
             }, 400);
         });
 

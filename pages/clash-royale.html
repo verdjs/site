@@ -22,8 +22,12 @@
     }
     .frame {
       border: none;
-      /* Dimensions set dynamically by JavaScript */
-      transition: width 0.5s ease, height 0.5s ease;
+      width: 100vw;
+      height: 100vh;
+      transition: transform 2s ease;
+    }
+    .frame.rotated {
+      transform: rotate(90deg);
     }
     .fallback {
       position: absolute;
@@ -53,42 +57,10 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     
-    // Get screen resolution and rotate 90 degrees (swap width and height)
-    const screenWidth = window.screen.width;
-    const screenHeight = window.screen.height;
-    
-    // Start with full rotated dimensions (no scale)
-    let iframeWidth = screenHeight;
-    let iframeHeight = screenWidth;
-    
-    // Function to calculate and apply scaled dimensions
-    function updateIframeDimensions() {
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const scaleWidth = viewportWidth / iframeWidth;
-      const scaleHeight = viewportHeight / iframeHeight;
-      const scale = Math.min(scaleWidth, scaleHeight);
-      
-      frame.style.width = `${iframeWidth * scale}px`;
-      frame.style.height = `${iframeHeight * scale}px`;
-    }
-    
-    // Apply initial dimensions
-    updateIframeDimensions();
-    
-    // After 5 seconds, apply 0.61 scale factor
+    // After 5 seconds, rotate the iframe 90 degrees
     setTimeout(() => {
-      iframeWidth = screenHeight * 0.61;
-      iframeHeight = screenWidth * 0.61;
-      updateIframeDimensions();
+      frame.classList.add('rotated');
     }, 5000);
-    
-    // Handle window resize with throttling
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(updateIframeDimensions, 100);
-    });
     
     frame.addEventListener('load', () => fallback.style.display = 'none');
   </script>

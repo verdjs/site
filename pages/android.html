@@ -174,10 +174,12 @@
     let urlCheckInterval = null;
     let popupMonitorInterval = null;
     let openedWindows = [];
+    let rotateMessageTimer = null; // Timer for auto-hiding rotate message
     
     // Constants for popup monitoring
     const POPUP_CHECK_INTERVAL_MS = 150;
     const POPUP_ACCESS_TIMEOUT_MS = 3000;
+    const ROTATE_MESSAGE_TIMEOUT_MS = 10000; // 10 seconds
     
     // Monitor for popups and handle same-domain navigation
     function monitorPopups() {
@@ -375,6 +377,24 @@
       }, 10000);
     }
     
+    // Helper function to show rotate message with auto-hide after 10 seconds
+    function showRotateMessage() {
+      // Clear any existing timer
+      if (rotateMessageTimer) {
+        clearTimeout(rotateMessageTimer);
+        rotateMessageTimer = null;
+      }
+      
+      // Show the message
+      rotateMessage.classList.remove('hidden');
+      
+      // Auto-hide after 10 seconds
+      rotateMessageTimer = setTimeout(() => {
+        rotateMessage.classList.add('hidden');
+        rotateMessageTimer = null;
+      }, ROTATE_MESSAGE_TIMEOUT_MS);
+    }
+    
     // Check iframe URL and show/hide rotate message accordingly
     // Note: The iframe itself allows navigation to any path
     // We only hide the rotate message when NOT on the main site
@@ -387,10 +407,15 @@
         // Show rotate message ONLY if on main site (root path "/" or empty)
         // Hide the message when on any subpath like /games, /settings, etc.
         if (url.pathname === '/' || url.pathname === '') {
-          rotateMessage.classList.remove('hidden');
+          showRotateMessage();
         } else {
           // User navigated to a subpath - hide the rotate message
           rotateMessage.classList.add('hidden');
+          // Clear any pending timer
+          if (rotateMessageTimer) {
+            clearTimeout(rotateMessageTimer);
+            rotateMessageTimer = null;
+          }
         }
       } catch (e) {
         // Cross-origin restriction - can't access iframe URL
@@ -398,7 +423,7 @@
         // (this is a limitation of cross-origin iframe security)
         const hasVisitedBefore = localStorage.getItem('android_visited');
         if (hasVisitedBefore) {
-          rotateMessage.classList.remove('hidden');
+          showRotateMessage();
         }
       }
     }
@@ -427,6 +452,9 @@
       }
       if (popupMonitorInterval) {
         clearInterval(popupMonitorInterval);
+      }
+      if (rotateMessageTimer) {
+        clearTimeout(rotateMessageTimer);
       }
       // Close any tracked windows
       openedWindows.forEach(win => {

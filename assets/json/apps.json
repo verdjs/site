@@ -6,6 +6,12 @@
       "direct": true
     },
     {
+      "name": "Clash Royale",
+      "url": "/pages/clash-royale.html",
+      "img": "/assets/img/apps/clash-royale.jpeg",
+      "direct": true
+    },
+    {
       "name": "Go back to the old mathx",
       "url": "https://sites.google.com/view/verdisold",
       "img": "/assets/img/apps/google.png",

@@ -101,7 +101,7 @@
     .top-message {
       position: fixed;
       top: 20px;
-      right: 20px;
+      right: 40px;
       background: linear-gradient(135deg, #1a1f35 0%, #0f1323 100%);
       border: 2px solid rgba(78, 133, 255, 0.3);
       border-radius: 12px;
@@ -226,16 +226,20 @@
     }
     
     // Check iframe URL and show/hide rotate message accordingly
+    // Note: The iframe itself allows navigation to any path
+    // We only hide the rotate message when NOT on the main site
     function checkIframeURL() {
       try {
         // Try to access iframe's location
         const iframeURL = frame.contentWindow.location.href;
         const url = new URL(iframeURL);
         
-        // Show rotate message only if on main site (no pathname or just "/")
+        // Show rotate message ONLY if on main site (root path "/" or empty)
+        // Hide the message when on any subpath like /games, /settings, etc.
         if (url.pathname === '/' || url.pathname === '') {
           rotateMessage.classList.remove('hidden');
         } else {
+          // User navigated to a subpath - hide the rotate message
           rotateMessage.classList.add('hidden');
         }
       } catch (e) {

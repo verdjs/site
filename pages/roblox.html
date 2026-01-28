@@ -52,9 +52,13 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     
-    // Fixed resolution: 1080x1920
-    const iframeWidth = 1080;
-    const iframeHeight = 1920;
+    // Get screen resolution and rotate 90 degrees (swap width and height)
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+    
+    // Rotate 90 degrees: swap width and height
+    const iframeWidth = screenHeight;
+    const iframeHeight = screenWidth;
     
     // Function to calculate and apply scaled dimensions
     function updateIframeDimensions() {

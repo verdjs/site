@@ -170,6 +170,7 @@
     const rotateMessage = document.getElementById('rotateMessage');
     
     let countdownInterval = null;
+    let urlCheckInterval = null;
     
     // Check if user has visited Android Phone before
     function checkFirstTime() {
@@ -198,6 +199,7 @@
           modalButton.textContent = 'Got it!';
           modalButton.disabled = false;
           clearInterval(countdownInterval);
+          countdownInterval = null;
         }
       }, 1000);
     }
@@ -208,6 +210,7 @@
       
       if (countdownInterval) {
         clearInterval(countdownInterval);
+        countdownInterval = null;
       }
       
       modal.classList.add('hidden');
@@ -236,40 +239,47 @@
           rotateMessage.classList.add('hidden');
         }
       } catch (e) {
-        // If we can't access iframe URL (cross-origin), assume we're on main site initially
-        // The message will be shown, but we'll monitor for changes
-        if (!localStorage.getItem('android_visited')) {
-          // Don't show on first visit until after Asia message
-        } else {
+        // Cross-origin restriction - can't access iframe URL
+        // Fallback: show the message by default for returning visitors
+        // (this is a limitation of cross-origin iframe security)
+        const hasVisitedBefore = localStorage.getItem('android_visited');
+        if (hasVisitedBefore) {
           rotateMessage.classList.remove('hidden');
         }
       }
     }
     
-    // Monitor iframe URL changes (using message passing for cross-origin)
-    // Note: This won't work for cross-origin iframes, but we can monitor navigation attempts
-    let lastURL = frame.src;
-    setInterval(() => {
-      try {
-        const currentURL = frame.contentWindow.location.href;
-        if (currentURL !== lastURL) {
-          lastURL = currentURL;
-          checkIframeURL();
-        }
-      } catch (e) {
-        // Cross-origin restriction - can't access iframe URL
-        // Fall back to monitoring src attribute changes
-      }
-    }, 1000);
+    // Monitor iframe URL changes with reduced frequency (every 2 seconds)
+    // Note: This won't work for cross-origin iframes due to security restrictions
+    function startURLMonitoring() {
+      urlCheckInterval = setInterval(() => {
+        checkIframeURL();
+      }, 2000); // Check every 2 seconds instead of 1 for better performance
+    }
     
-    // Listen for iframe navigation (this also won't work for cross-origin)
+    // Listen for iframe load events
     frame.addEventListener('load', () => {
       fallback.style.display = 'none';
       checkIframeURL();
     });
     
+    // Clean up intervals when page unloads
+    window.addEventListener('beforeunload', () => {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
+      if (urlCheckInterval) {
+        clearInterval(urlCheckInterval);
+      }
+    });
+    
     // Show appropriate messages on load
     checkFirstTime();
+    
+    // Start URL monitoring for subsequent visits
+    if (localStorage.getItem('android_visited')) {
+      startURLMonitoring();
+    }
   </script>
 </body>
 </html>

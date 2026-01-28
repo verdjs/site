@@ -175,6 +175,10 @@
     let popupMonitorInterval = null;
     let openedWindows = [];
     
+    // Constants for popup monitoring
+    const POPUP_CHECK_INTERVAL_MS = 150;
+    const POPUP_ACCESS_TIMEOUT_MS = 3000;
+    
     // Monitor for popups and handle same-domain navigation
     function monitorPopups() {
       // Use WeakMap to track metadata for windows without polluting the window object
@@ -195,7 +199,7 @@
             const url = win.location.href;
             
             // Skip about:blank or empty URLs - popup hasn't navigated yet
-            if (!url || url === 'about:blank' || url.startsWith('chrome-error://')) {
+            if (!url || url === '' || url === 'about:blank' || url.startsWith('chrome-error://')) {
               return true; // Keep monitoring
             }
             
@@ -224,12 +228,14 @@
                   win.document.title = "IXL | Maths, English and Science Practice";
                   
                   // Set the favicon to IXL/Classroom icon
+                  // Note: Using external Google favicon - if unavailable, cloaking still works
                   const link = win.document.createElement("link");
                   link.rel = "icon";
                   link.href = "https://ssl.gstatic.com/classroom/favicon.png";
                   win.document.head.appendChild(link);
                   
-                  // Clear the body and set up for iframe
+                  // Clear the body - using innerHTML for complete reset
+                  // This is intentional to remove all existing content and scripts
                   win.document.body.innerHTML = '';
                   win.document.body.style.margin = '0';
                   win.document.body.style.overflow = 'hidden';
@@ -240,6 +246,9 @@
                   iframe.style.width = '100vw';
                   iframe.style.height = '100vh';
                   iframe.style.border = '0';
+                  // Add permissions that games might need
+                  iframe.setAttribute('allow', 'fullscreen; autoplay; clipboard-read; clipboard-write');
+                  iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups-to-escape-sandbox');
                   win.document.body.appendChild(iframe);
                   
                   // Mark as cloaked
@@ -278,9 +287,9 @@
             if (!metadata) {
               metadata = { openTime: Date.now() };
               windowMetadata.set(win, metadata);
-            } else if (Date.now() - metadata.openTime > 3000) {
-              // If we can't access it after 3 seconds, likely a cross-origin ad
-              console.log('Closing inaccessible popup after 3 seconds');
+            } else if (Date.now() - metadata.openTime > POPUP_ACCESS_TIMEOUT_MS) {
+              // If we can't access it after timeout, likely a cross-origin ad
+              console.log('Closing inaccessible popup after', POPUP_ACCESS_TIMEOUT_MS, 'ms');
               try {
                 win.close();
               } catch (closeError) {
@@ -291,7 +300,7 @@
             return true; // Keep monitoring
           }
         });
-      }, 150); // Check every 150ms - balance between responsiveness and performance
+      }, POPUP_CHECK_INTERVAL_MS);
       
       // Intercept window.open calls at the parent level
       // Note: This won't catch calls from within the iframe due to cross-origin

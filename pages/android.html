@@ -154,7 +154,7 @@
     id="androidFrame"
     src="https://idk.verdi.qzz.io"
     allow="fullscreen; autoplay; clipboard-read; clipboard-write"
-    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups"
+    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups-to-escape-sandbox"
     referrerpolicy="no-referrer"
     loading="eager"
     title="Android Phone Emulator"
@@ -177,8 +177,14 @@
     
     // Monitor for popups and handle same-domain navigation
     function monitorPopups() {
+      // Track all window references to detect new popups
+      let knownWindows = new Set();
+      
       // Check for new windows periodically
       popupMonitorInterval = setInterval(() => {
+        // Try to find newly opened windows by checking window.length
+        // This is a heuristic approach since we can't directly intercept iframe's window.open
+        
         // Check if any windows in our tracking list are still open
         openedWindows = openedWindows.filter(win => {
           if (!win || win.closed) {
@@ -207,29 +213,37 @@
               }
             } catch (urlError) {
               // Invalid URL - close it
+              console.log('Invalid URL in popup, closing');
               win.close();
               return false;
             }
           } catch (e) {
-            // Cross-origin - can't access location
-            // Close it to be safe (likely an ad)
-            try {
-              win.close();
-            } catch (closeError) {
-              // Can't close it
+            // Cross-origin - can't access location yet
+            // Keep it in the list and try again next time
+            // But if it's been too long, close it to be safe
+            if (!win.openTime) {
+              win.openTime = Date.now();
+            } else if (Date.now() - win.openTime > 2000) {
+              // If we can't access it after 2 seconds, likely a cross-origin ad
+              console.log('Closing inaccessible popup after 2 seconds');
+              try {
+                win.close();
+              } catch (closeError) {
+                // Can't close it
+              }
+              return false;
             }
-            return false;
+            return true; // Keep monitoring
           }
         });
-      }, 200); // Check every 200ms for faster response
+      }, 100); // Check every 100ms for faster response
       
       // Intercept window.open calls at the parent level
       // Note: This won't catch calls from within the iframe due to cross-origin
-      // We intercept here to track windows, but let them open so the embedded site's
-      // game launch logic can complete properly
+      // But we keep it for any parent-level popups
       const originalOpen = window.open;
       window.open = function(url, target, features) {
-        console.log('window.open intercepted:', url);
+        console.log('window.open intercepted at parent level:', url);
         
         // Let the window open normally
         const newWindow = originalOpen.call(window, url, target, features);

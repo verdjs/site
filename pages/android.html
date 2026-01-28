@@ -88,7 +88,12 @@
       width: 100%;
       transition: all 0.3s ease;
     }
-    .modal-button:hover {
+    .modal-button:disabled {
+      background: linear-gradient(135deg, #666 0%, #555 100%);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    .modal-button:hover:not(:disabled) {
       background: linear-gradient(135deg, #3a6edf 0%, #2a5ecf 100%);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(78, 133, 255, 0.4);
@@ -132,7 +137,7 @@
       <p class="modal-text">
         3. If the game is <strong>sideways/cut off</strong>, press the <strong>blue emoji thing</strong> and then press <strong>"rotate game"</strong>
       </p>
-      <button class="modal-button" onclick="closeModal()">Got it!</button>
+      <button id="modalButton" class="modal-button" onclick="closeModal()" disabled>Wait 10s...</button>
     </div>
   </div>
   
@@ -160,23 +165,51 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     const modal = document.getElementById('firstTimeModal');
+    const modalButton = document.getElementById('modalButton');
     const topMessage = document.getElementById('topMessage');
     const rotateMessage = document.getElementById('rotateMessage');
+    
+    let countdownInterval = null;
     
     // Check if user has visited Android Phone before
     function checkFirstTime() {
       const hasVisitedBefore = localStorage.getItem('android_visited');
       if (!hasVisitedBefore) {
-        // First time: show modal
+        // First time: show modal with countdown
         modal.classList.remove('hidden');
+        startCountdown();
       } else {
-        // Subsequent visits: show only rotate message
-        rotateMessage.classList.remove('hidden');
+        // Subsequent visits: check iframe URL and show rotate message if on main site
+        checkIframeURL();
       }
+    }
+    
+    // Countdown timer for first-time modal
+    function startCountdown() {
+      let timeLeft = 10;
+      modalButton.disabled = true;
+      modalButton.textContent = `Wait ${timeLeft}s...`;
+      
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+          modalButton.textContent = `Wait ${timeLeft}s...`;
+        } else {
+          modalButton.textContent = 'Got it!';
+          modalButton.disabled = false;
+          clearInterval(countdownInterval);
+        }
+      }, 1000);
     }
     
     // Close modal and show top message (first visit only)
     function closeModal() {
+      if (modalButton.disabled) return; // Prevent closing if still counting down
+      
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
+      
       modal.classList.add('hidden');
       localStorage.setItem('android_visited', 'true');
       // Show the Asia server message after closing modal (first visit only)
@@ -184,15 +217,59 @@
       // Auto-hide the top message after 10 seconds
       setTimeout(() => {
         topMessage.classList.add('hidden');
-        // Show rotate message after Asia message disappears
-        rotateMessage.classList.remove('hidden');
+        // Check iframe URL and show rotate message if on main site
+        checkIframeURL();
       }, 10000);
     }
     
+    // Check iframe URL and show/hide rotate message accordingly
+    function checkIframeURL() {
+      try {
+        // Try to access iframe's location
+        const iframeURL = frame.contentWindow.location.href;
+        const url = new URL(iframeURL);
+        
+        // Show rotate message only if on main site (no pathname or just "/")
+        if (url.pathname === '/' || url.pathname === '') {
+          rotateMessage.classList.remove('hidden');
+        } else {
+          rotateMessage.classList.add('hidden');
+        }
+      } catch (e) {
+        // If we can't access iframe URL (cross-origin), assume we're on main site initially
+        // The message will be shown, but we'll monitor for changes
+        if (!localStorage.getItem('android_visited')) {
+          // Don't show on first visit until after Asia message
+        } else {
+          rotateMessage.classList.remove('hidden');
+        }
+      }
+    }
+    
+    // Monitor iframe URL changes (using message passing for cross-origin)
+    // Note: This won't work for cross-origin iframes, but we can monitor navigation attempts
+    let lastURL = frame.src;
+    setInterval(() => {
+      try {
+        const currentURL = frame.contentWindow.location.href;
+        if (currentURL !== lastURL) {
+          lastURL = currentURL;
+          checkIframeURL();
+        }
+      } catch (e) {
+        // Cross-origin restriction - can't access iframe URL
+        // Fall back to monitoring src attribute changes
+      }
+    }, 1000);
+    
+    // Listen for iframe navigation (this also won't work for cross-origin)
+    frame.addEventListener('load', () => {
+      fallback.style.display = 'none';
+      checkIframeURL();
+    });
+    
     // Show appropriate messages on load
     checkFirstTime();
-    
-    frame.addEventListener('load', () => fallback.style.display = 'none');
   </script>
 </body>
 </html>

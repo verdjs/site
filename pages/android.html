@@ -177,14 +177,13 @@
     
     // Monitor for popups and handle same-domain navigation
     function monitorPopups() {
-      // Track all window references to detect new popups
-      let knownWindows = new Set();
+      // Use WeakMap to track metadata for windows without polluting the window object
+      const windowMetadata = new WeakMap();
       
       // Check for new windows periodically
+      // Note: We can't directly detect popups from cross-origin iframes
+      // but we can monitor any popups that do get opened
       popupMonitorInterval = setInterval(() => {
-        // Try to find newly opened windows by checking window.length
-        // This is a heuristic approach since we can't directly intercept iframe's window.open
-        
         // Check if any windows in our tracking list are still open
         openedWindows = openedWindows.filter(win => {
           if (!win || win.closed) {
@@ -221,9 +220,12 @@
             // Cross-origin - can't access location yet
             // Keep it in the list and try again next time
             // But if it's been too long, close it to be safe
-            if (!win.openTime) {
-              win.openTime = Date.now();
-            } else if (Date.now() - win.openTime > 2000) {
+            
+            let metadata = windowMetadata.get(win);
+            if (!metadata) {
+              metadata = { openTime: Date.now() };
+              windowMetadata.set(win, metadata);
+            } else if (Date.now() - metadata.openTime > 2000) {
               // If we can't access it after 2 seconds, likely a cross-origin ad
               console.log('Closing inaccessible popup after 2 seconds');
               try {
@@ -236,7 +238,7 @@
             return true; // Keep monitoring
           }
         });
-      }, 100); // Check every 100ms for faster response
+      }, 150); // Check every 150ms - balance between responsiveness and performance
       
       // Intercept window.open calls at the parent level
       // Note: This won't catch calls from within the iframe due to cross-origin

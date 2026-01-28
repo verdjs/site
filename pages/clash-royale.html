@@ -16,13 +16,18 @@
       background: #0b0f1a;
       overflow: hidden;
       font-family: "Inter", system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .frame {
-      position: fixed;
-      inset: 0;
       border: none;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
+      transition: transform 2s ease;
+    }
+    .frame.rotated {
+      transform: rotate(90deg) scale(0.56);
     }
     .fallback {
       position: absolute;
@@ -34,9 +39,80 @@
       letter-spacing: 0.3px;
       background: radial-gradient(circle at 20% 20%, rgba(78,133,255,0.15), transparent 45%), radial-gradient(circle at 80% 30%, rgba(151,71,255,0.12), transparent 40%), #0b0f1a;
     }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 15, 26, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    .modal.hidden {
+      display: none;
+    }
+    .modal-content {
+      background: linear-gradient(135deg, #1a1f35 0%, #0f1323 100%);
+      border: 2px solid rgba(78, 133, 255, 0.3);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 500px;
+      margin: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+    .modal-title {
+      color: #4e85ff;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 16px 0;
+      letter-spacing: 0.5px;
+    }
+    .modal-text {
+      color: #bcd0ff;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 12px 0;
+    }
+    .modal-text strong {
+      color: #7da3ff;
+    }
+    .modal-button {
+      background: linear-gradient(135deg, #4e85ff 0%, #3a6edf 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      padding: 12px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 24px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    .modal-button:hover {
+      background: linear-gradient(135deg, #3a6edf 0%, #2a5ecf 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(78, 133, 255, 0.4);
+    }
   </style>
 </head>
 <body>
+  <div id="firstTimeModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="modal-title">⚠️ Important: Account Information</h2>
+      <p class="modal-text">
+        When you start the game, it will ask if you have an account.
+      </p>
+      <p class="modal-text">
+        <strong>If you don't have an account:</strong> Type <strong>'n'</strong> to create a new one.
+      </p>
+      <p class="modal-text">
+        <strong>⚠️ IMPORTANT:</strong> Make sure to write down your username and password somewhere safe! If the game resets, you will lose all your progress without this information.
+      </p>
+      <button class="modal-button" onclick="closeModal()">Got it, let's play!</button>
+    </div>
+  </div>
   <iframe
     class="frame"
     src="https://idk.verdi.qzz.io/embed/truffled/clash-royale"
@@ -51,6 +127,30 @@
   <script>
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
+    const modal = document.getElementById('firstTimeModal');
+    
+    // Check if user has played Clash Royale before
+    function checkFirstTime() {
+      const hasPlayedBefore = localStorage.getItem('clash_royale_played');
+      if (!hasPlayedBefore) {
+        modal.classList.remove('hidden');
+      }
+    }
+    
+    // Close modal and mark as played
+    function closeModal() {
+      modal.classList.add('hidden');
+      localStorage.setItem('clash_royale_played', 'true');
+    }
+    
+    // Show modal on first visit
+    checkFirstTime();
+    
+    // After 5 seconds, rotate the iframe 90 degrees
+    setTimeout(() => {
+      frame.classList.add('rotated');
+    }, 5000);
+    
     frame.addEventListener('load', () => fallback.style.display = 'none');
   </script>
 </body>

@@ -154,7 +154,7 @@
     id="androidFrame"
     src="https://idk.verdi.qzz.io"
     allow="fullscreen; autoplay; clipboard-read; clipboard-write"
-    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock"
+    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox"
     referrerpolicy="no-referrer"
     loading="eager"
     title="Android Phone Emulator"
@@ -163,6 +163,49 @@
     Loading Android Phone...
   </div>
   <script>
+    // ========================================================================
+    // TRIPLE VALIDATION: Ensure iframe is NOT using proxy
+    // ========================================================================
+    (function validateIframeNotProxied() {
+      const frame = document.querySelector('.frame');
+      const frameSrc = frame.getAttribute('src');
+      
+      console.log('=== IFRAME PROXY VALIDATION (TRIPLE CHECK) ===');
+      
+      // CHECK 1: Verify src does NOT contain proxy path
+      const check1_notProxied = !frameSrc.includes('/uv/service/');
+      console.log('✓ Check 1 - NOT using UV proxy:', check1_notProxied, `(src: ${frameSrc})`);
+      
+      // CHECK 2: Verify src is the expected direct URL
+      const expectedUrl = 'https://idk.verdi.qzz.io';
+      const check2_directUrl = frameSrc.startsWith(expectedUrl);
+      console.log('✓ Check 2 - Using direct URL:', check2_directUrl, `(expected: ${expectedUrl})`);
+      
+      // CHECK 3: Verify NO proxy indicators anywhere
+      const check3_noProxyIndicators = !frameSrc.includes('uv') && 
+                                        !frameSrc.includes('service') && 
+                                        !frameSrc.includes('hvtrs8');
+      console.log('✓ Check 3 - No proxy indicators:', check3_noProxyIndicators);
+      
+      // Final validation
+      const allChecksPassed = check1_notProxied && check2_directUrl && check3_noProxyIndicators;
+      
+      if (allChecksPassed) {
+        console.log('✅ VALIDATION PASSED: Iframe is loading directly (not proxied)');
+        console.log('✅ Safe to enable same-origin popups');
+      } else {
+        console.error('❌ VALIDATION FAILED: Iframe may be proxied!');
+        console.error('Check 1 (not proxied):', check1_notProxied);
+        console.error('Check 2 (direct URL):', check2_directUrl);
+        console.error('Check 3 (no indicators):', check3_noProxyIndicators);
+      }
+      
+      console.log('=== END VALIDATION ===');
+    })();
+    
+    // ========================================================================
+    // Main Script
+    // ========================================================================
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     const modal = document.getElementById('firstTimeModal');

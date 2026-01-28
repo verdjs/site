@@ -52,22 +52,9 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     
-    // Get device screen resolution (physical screen dimensions)
-    let screenWidth = window.screen.width;
-    let screenHeight = window.screen.height;
-    
-    // If width > height (landscape), reverse the dimensions to make portrait
-    // If height >= width (portrait or square), keep dimensions as is
-    let iframeWidth, iframeHeight;
-    if (screenWidth > screenHeight) {
-      // Landscape device - swap to make portrait
-      iframeWidth = screenHeight;
-      iframeHeight = screenWidth;
-    } else {
-      // Already portrait or square - keep as is
-      iframeWidth = screenWidth;
-      iframeHeight = screenHeight;
-    }
+    // Fixed resolution: 1080x1920
+    const iframeWidth = 1080;
+    const iframeHeight = 1920;
     
     // Function to calculate and apply scaled dimensions
     function updateIframeDimensions() {

@@ -177,9 +177,6 @@
     
     // Monitor for popups and handle same-domain navigation
     function monitorPopups() {
-      // Store original window.open to detect when new windows are created
-      const originalWindowCount = window.length;
-      
       // Check for new windows periodically
       popupMonitorInterval = setInterval(() => {
         // Check if any windows in our tracking list are still open
@@ -192,17 +189,24 @@
             // Try to access the window's location
             const url = win.location.href;
             
-            // Check if it's from the same domain
-            if (url.includes('idk.verdi.qzz.io')) {
-              console.log('Same-domain popup detected:', url);
-              // Navigate iframe to this URL
-              frame.src = url;
-              // Close the popup
-              win.close();
-              return false;
-            } else {
-              // Different domain - close it (block ad)
-              console.log('Blocking popup from different domain');
+            // Check if it's from the same domain using proper URL parsing
+            try {
+              const urlObj = new URL(url);
+              if (urlObj.hostname === 'idk.verdi.qzz.io') {
+                console.log('Same-domain popup detected:', url);
+                // Navigate iframe to this URL
+                frame.src = url;
+                // Close the popup
+                win.close();
+                return false;
+              } else {
+                // Different domain - close it (block ad)
+                console.log('Blocking popup from different domain:', urlObj.hostname);
+                win.close();
+                return false;
+              }
+            } catch (urlError) {
+              // Invalid URL - close it
               win.close();
               return false;
             }
@@ -217,24 +221,42 @@
             return false;
           }
         });
-      }, 100); // Check frequently (every 100ms)
+      }, 500); // Check every 500ms (reduced from 100ms for better performance)
       
       // Intercept window.open calls at the parent level
-      // This catches any popups opened by the iframe
+      // Note: This won't catch calls from within the iframe, but the monitoring will
       const originalOpen = window.open;
       window.open = function(url, target, features) {
         console.log('window.open intercepted:', url);
         
-        // Check if URL is from same domain
-        if (url && (url.includes('idk.verdi.qzz.io') || url.startsWith('/'))) {
-          // Navigate iframe instead of opening popup
-          const fullUrl = url.startsWith('/') ? 'https://idk.verdi.qzz.io' + url : url;
-          console.log('Navigating iframe to:', fullUrl);
-          frame.src = fullUrl;
-          return null; // Don't open popup
+        // Validate and check if URL is from same domain
+        if (url) {
+          try {
+            // Handle relative URLs
+            if (url.startsWith('/') && !url.startsWith('//')) {
+              // Relative path - safe to navigate
+              const fullUrl = 'https://idk.verdi.qzz.io' + url;
+              console.log('Navigating iframe to:', fullUrl);
+              frame.src = fullUrl;
+              return null; // Don't open popup
+            }
+            
+            // Parse absolute URL and check domain
+            const urlObj = new URL(url);
+            if (urlObj.hostname === 'idk.verdi.qzz.io') {
+              // Same domain - navigate iframe instead of opening popup
+              console.log('Navigating iframe to:', url);
+              frame.src = url;
+              return null; // Don't open popup
+            }
+          } catch (urlError) {
+            // Invalid URL - block it
+            console.log('Blocked invalid URL:', url);
+            return null;
+          }
         }
         
-        // For other cases, let it open but track it
+        // For other domains, let it open but track it
         const newWindow = originalOpen.call(window, url, target, features);
         if (newWindow) {
           openedWindows.push(newWindow);

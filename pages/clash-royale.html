@@ -52,20 +52,6 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     frame.addEventListener('load', () => fallback.style.display = 'none');
-    
-    // Block popup ads from iframe
-    window.addEventListener('beforeunload', function(e) {
-      // Prevent popup ads
-      e.preventDefault();
-      e.returnValue = '';
-    });
-    
-    // Block window.open from iframe content
-    const originalOpen = window.open;
-    window.open = function() {
-      console.log('Blocked popup ad attempt');
-      return null;
-    };
   </script>
 </body>
 </html>

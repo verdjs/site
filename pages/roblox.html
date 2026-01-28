@@ -22,9 +22,7 @@
     }
     .frame {
       border: none;
-      width: min(75vh, 100vw);
-      height: min(100vh, 133.33vw);
-      aspect-ratio: 3 / 4;
+      /* Dimensions set dynamically by JavaScript */
     }
     .fallback {
       position: absolute;
@@ -53,6 +51,46 @@
   <script>
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
+    
+    // Get device screen resolution
+    let screenWidth = window.screen.width;
+    let screenHeight = window.screen.height;
+    
+    // If width > height (landscape), reverse the dimensions
+    // If height > width (portrait), keep as is
+    let iframeWidth, iframeHeight;
+    if (screenWidth > screenHeight) {
+      // Landscape device - swap to make portrait
+      iframeWidth = screenHeight;
+      iframeHeight = screenWidth;
+    } else {
+      // Already portrait - keep as is
+      iframeWidth = screenWidth;
+      iframeHeight = screenHeight;
+    }
+    
+    // Calculate scale to fit viewport while maintaining aspect ratio
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const scaleWidth = viewportWidth / iframeWidth;
+    const scaleHeight = viewportHeight / iframeHeight;
+    const scale = Math.min(scaleWidth, scaleHeight);
+    
+    // Apply scaled dimensions
+    frame.style.width = `${iframeWidth * scale}px`;
+    frame.style.height = `${iframeHeight * scale}px`;
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const sw = vw / iframeWidth;
+      const sh = vh / iframeHeight;
+      const s = Math.min(sw, sh);
+      frame.style.width = `${iframeWidth * s}px`;
+      frame.style.height = `${iframeHeight * s}px`;
+    });
+    
     frame.addEventListener('load', () => fallback.style.display = 'none');
   </script>
 </body>

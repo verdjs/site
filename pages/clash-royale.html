@@ -57,8 +57,9 @@
     const screenHeight = window.screen.height;
     
     // Rotate 90 degrees: swap width and height
-    const iframeWidth = screenHeight;
-    const iframeHeight = screenWidth;
+    // Apply 0.61 scale factor (works correctly at 61% browser zoom)
+    const iframeWidth = screenHeight * 0.61;
+    const iframeHeight = screenWidth * 0.61;
     
     // Function to calculate and apply scaled dimensions
     function updateIframeDimensions() {

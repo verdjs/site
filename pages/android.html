@@ -219,6 +219,8 @@
                 console.log('Same-domain popup detected:', url);
                 // Navigate iframe to this URL
                 frame.src = url;
+                // Hide the loading fallback since we're navigating
+                fallback.style.display = 'none';
                 // Close the popup
                 win.close();
                 return false;
@@ -398,6 +400,17 @@
       fallback.style.display = 'none';
       checkIframeURL();
     });
+    
+    // Also hide fallback on error
+    frame.addEventListener('error', () => {
+      fallback.style.display = 'none';
+      console.error('Iframe failed to load');
+    });
+    
+    // Safety timeout: hide fallback after 5 seconds regardless
+    setTimeout(() => {
+      fallback.style.display = 'none';
+    }, 5000);
     
     // Clean up intervals when page unloads
     window.addEventListener('beforeunload', () => {

@@ -52,43 +52,43 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     
-    // Get device screen resolution
+    // Get device screen resolution (physical screen dimensions)
     let screenWidth = window.screen.width;
     let screenHeight = window.screen.height;
     
-    // If width > height (landscape), reverse the dimensions
-    // If height > width (portrait), keep as is
+    // If width > height (landscape), reverse the dimensions to make portrait
+    // If height >= width (portrait or square), keep dimensions as is
     let iframeWidth, iframeHeight;
     if (screenWidth > screenHeight) {
       // Landscape device - swap to make portrait
       iframeWidth = screenHeight;
       iframeHeight = screenWidth;
     } else {
-      // Already portrait - keep as is
+      // Already portrait or square - keep as is
       iframeWidth = screenWidth;
       iframeHeight = screenHeight;
     }
     
-    // Calculate scale to fit viewport while maintaining aspect ratio
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const scaleWidth = viewportWidth / iframeWidth;
-    const scaleHeight = viewportHeight / iframeHeight;
-    const scale = Math.min(scaleWidth, scaleHeight);
+    // Function to calculate and apply scaled dimensions
+    function updateIframeDimensions() {
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const scaleWidth = viewportWidth / iframeWidth;
+      const scaleHeight = viewportHeight / iframeHeight;
+      const scale = Math.min(scaleWidth, scaleHeight);
+      
+      frame.style.width = `${iframeWidth * scale}px`;
+      frame.style.height = `${iframeHeight * scale}px`;
+    }
     
-    // Apply scaled dimensions
-    frame.style.width = `${iframeWidth * scale}px`;
-    frame.style.height = `${iframeHeight * scale}px`;
+    // Apply initial dimensions
+    updateIframeDimensions();
     
-    // Handle window resize
+    // Handle window resize with throttling
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const sw = vw / iframeWidth;
-      const sh = vh / iframeHeight;
-      const s = Math.min(sw, sh);
-      frame.style.width = `${iframeWidth * s}px`;
-      frame.style.height = `${iframeHeight * s}px`;
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateIframeDimensions, 100);
     });
     
     frame.addEventListener('load', () => fallback.style.display = 'none');

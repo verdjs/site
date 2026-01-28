@@ -217,58 +217,11 @@
               
               if (urlObj.hostname === 'idk.verdi.qzz.io') {
                 console.log('Same-domain popup detected:', url);
-                
-                // Check if we've already cloaked this window
-                let metadata = windowMetadata.get(win);
-                if (metadata && metadata.cloaked) {
-                  // Already cloaked, remove from tracking
-                  return false;
-                }
-                
-                // Cloak the popup with IXL branding (about:blank style)
-                try {
-                  // Set the title to match IXL
-                  win.document.title = "IXL | Maths, English and Science Practice";
-                  
-                  // Set the favicon to IXL/Classroom icon
-                  // Note: Using external Google favicon - if unavailable, cloaking still works
-                  const link = win.document.createElement("link");
-                  link.rel = "icon";
-                  link.href = "https://ssl.gstatic.com/classroom/favicon.png";
-                  win.document.head.appendChild(link);
-                  
-                  // Clear the body - using innerHTML for complete reset
-                  // This is intentional to remove all existing content and scripts
-                  win.document.body.innerHTML = '';
-                  win.document.body.style.margin = '0';
-                  win.document.body.style.overflow = 'hidden';
-                  
-                  // Create iframe with the game URL
-                  const iframe = win.document.createElement('iframe');
-                  iframe.src = url;
-                  iframe.style.width = '100vw';
-                  iframe.style.height = '100vh';
-                  iframe.style.border = '0';
-                  // Add permissions that games might need
-                  iframe.setAttribute('allow', 'fullscreen; autoplay; clipboard-read; clipboard-write');
-                  iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups-to-escape-sandbox');
-                  win.document.body.appendChild(iframe);
-                  
-                  // Mark as cloaked
-                  if (!metadata) {
-                    metadata = {};
-                  }
-                  metadata.cloaked = true;
-                  windowMetadata.set(win, metadata);
-                  
-                  console.log('Popup cloaked with IXL branding:', url);
-                } catch (cloakError) {
-                  console.error('Failed to cloak popup:', cloakError);
-                  // If cloaking fails, just leave the popup as is
-                  // Don't close it or navigate the parent iframe
-                }
-                
-                return false; // Remove from tracking
+                // Navigate iframe to this URL
+                frame.src = url;
+                // Close the popup
+                win.close();
+                return false;
               } else {
                 // Different domain - close it (block ad)
                 console.log('Blocking popup from different domain:', urlObj.hostname);

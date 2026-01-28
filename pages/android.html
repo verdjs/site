@@ -175,6 +175,7 @@
     let popupMonitorInterval = null;
     let openedWindows = [];
     let rotateMessageTimer = null; // Timer for auto-hiding rotate message
+    let rotateMessageShown = false; // Track if rotate message has been shown
     
     // Constants for popup monitoring
     const POPUP_CHECK_INTERVAL_MS = 150;
@@ -379,11 +380,13 @@
     
     // Helper function to show rotate message with auto-hide after 10 seconds
     function showRotateMessage() {
-      // Clear any existing timer
-      if (rotateMessageTimer) {
-        clearTimeout(rotateMessageTimer);
-        rotateMessageTimer = null;
+      // Only show if not already shown (prevent refreshing from URL monitoring)
+      if (rotateMessageShown) {
+        return;
       }
+      
+      // Mark as shown
+      rotateMessageShown = true;
       
       // Show the message
       rotateMessage.classList.remove('hidden');
@@ -411,11 +414,12 @@
         } else {
           // User navigated to a subpath - hide the rotate message
           rotateMessage.classList.add('hidden');
-          // Clear any pending timer
+          // Clear any pending timer and reset the shown flag
           if (rotateMessageTimer) {
             clearTimeout(rotateMessageTimer);
             rotateMessageTimer = null;
           }
+          rotateMessageShown = false;
         }
       } catch (e) {
         // Cross-origin restriction - can't access iframe URL

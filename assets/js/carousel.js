@@ -323,11 +323,6 @@ const TopGamesCarousel = (() => {
             VerdisBackend.trackPlay(slugify(game.name), game.name);
         }
 
-        if (game.name === 'Roblox' && typeof handleRoblox === 'function') {
-            handleRoblox();
-            return;
-        }
-
         if (typeof navTo === 'function') navTo(`play.html?launch=${game.url}`, game.name);
     }
 

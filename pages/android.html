@@ -154,7 +154,7 @@
     id="androidFrame"
     src="https://idk.verdi.qzz.io"
     allow="fullscreen; autoplay; clipboard-read; clipboard-write"
-    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups"
     referrerpolicy="no-referrer"
     loading="eager"
     title="Android Phone Emulator"
@@ -172,6 +172,76 @@
     
     let countdownInterval = null;
     let urlCheckInterval = null;
+    let popupMonitorInterval = null;
+    let openedWindows = [];
+    
+    // Monitor for popups and handle same-domain navigation
+    function monitorPopups() {
+      // Store original window.open to detect when new windows are created
+      const originalWindowCount = window.length;
+      
+      // Check for new windows periodically
+      popupMonitorInterval = setInterval(() => {
+        // Check if any windows in our tracking list are still open
+        openedWindows = openedWindows.filter(win => {
+          if (!win || win.closed) {
+            return false;
+          }
+          
+          try {
+            // Try to access the window's location
+            const url = win.location.href;
+            
+            // Check if it's from the same domain
+            if (url.includes('idk.verdi.qzz.io')) {
+              console.log('Same-domain popup detected:', url);
+              // Navigate iframe to this URL
+              frame.src = url;
+              // Close the popup
+              win.close();
+              return false;
+            } else {
+              // Different domain - close it (block ad)
+              console.log('Blocking popup from different domain');
+              win.close();
+              return false;
+            }
+          } catch (e) {
+            // Cross-origin - can't access location
+            // Close it to be safe (likely an ad)
+            try {
+              win.close();
+            } catch (closeError) {
+              // Can't close it
+            }
+            return false;
+          }
+        });
+      }, 100); // Check frequently (every 100ms)
+      
+      // Intercept window.open calls at the parent level
+      // This catches any popups opened by the iframe
+      const originalOpen = window.open;
+      window.open = function(url, target, features) {
+        console.log('window.open intercepted:', url);
+        
+        // Check if URL is from same domain
+        if (url && (url.includes('idk.verdi.qzz.io') || url.startsWith('/'))) {
+          // Navigate iframe instead of opening popup
+          const fullUrl = url.startsWith('/') ? 'https://idk.verdi.qzz.io' + url : url;
+          console.log('Navigating iframe to:', fullUrl);
+          frame.src = fullUrl;
+          return null; // Don't open popup
+        }
+        
+        // For other cases, let it open but track it
+        const newWindow = originalOpen.call(window, url, target, features);
+        if (newWindow) {
+          openedWindows.push(newWindow);
+        }
+        return newWindow;
+      };
+    }
     
     // Check if user has visited Android Phone before
     function checkFirstTime() {
@@ -276,6 +346,17 @@
       if (urlCheckInterval) {
         clearInterval(urlCheckInterval);
       }
+      if (popupMonitorInterval) {
+        clearInterval(popupMonitorInterval);
+      }
+      // Close any tracked windows
+      openedWindows.forEach(win => {
+        try {
+          win.close();
+        } catch (e) {
+          // Ignore errors
+        }
+      });
     });
     
     // Show appropriate messages on load
@@ -285,6 +366,9 @@
     if (localStorage.getItem('android_visited')) {
       startURLMonitoring();
     }
+    
+    // Start monitoring for popups
+    monitorPopups();
   </script>
 </body>
 </html>

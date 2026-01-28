@@ -194,9 +194,20 @@
             // Try to access the window's location
             const url = win.location.href;
             
+            // Skip about:blank or empty URLs - popup hasn't navigated yet
+            if (!url || url === 'about:blank' || url.startsWith('chrome-error://')) {
+              return true; // Keep monitoring
+            }
+            
             // Check if it's from the same domain using proper URL parsing
             try {
               const urlObj = new URL(url);
+              
+              // Skip if hostname is empty (still loading)
+              if (!urlObj.hostname) {
+                return true; // Keep monitoring
+              }
+              
               if (urlObj.hostname === 'idk.verdi.qzz.io') {
                 console.log('Same-domain popup detected:', url);
                 
@@ -241,9 +252,8 @@
                   console.log('Popup cloaked with IXL branding:', url);
                 } catch (cloakError) {
                   console.error('Failed to cloak popup:', cloakError);
-                  // Fallback: navigate iframe and close popup (old behavior)
-                  frame.src = url;
-                  win.close();
+                  // If cloaking fails, just leave the popup as is
+                  // Don't close it or navigate the parent iframe
                 }
                 
                 return false; // Remove from tracking
@@ -268,9 +278,9 @@
             if (!metadata) {
               metadata = { openTime: Date.now() };
               windowMetadata.set(win, metadata);
-            } else if (Date.now() - metadata.openTime > 2000) {
-              // If we can't access it after 2 seconds, likely a cross-origin ad
-              console.log('Closing inaccessible popup after 2 seconds');
+            } else if (Date.now() - metadata.openTime > 3000) {
+              // If we can't access it after 3 seconds, likely a cross-origin ad
+              console.log('Closing inaccessible popup after 3 seconds');
               try {
                 win.close();
               } catch (closeError) {

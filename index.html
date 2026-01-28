@@ -745,7 +745,6 @@
                         // Apps: check if direct flag is set
                         if (item.direct) {
                             // Direct navigation to the page
-                            const targetUrl = item.url.startsWith('http') ? item.url : item.url;
                             clickHandler = `
                                 console.log("Launching app directly: ${item.name.replace(/'/g, "\\'")}");
                                 toggleApps();

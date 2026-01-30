@@ -218,22 +218,9 @@
       // Load in iframe
       frame.src = proxiedUrl;
       
-      // Make iframe fullscreen after load
+      // Hide fallback when loaded
       frame.addEventListener('load', () => {
         fallback.style.display = 'none';
-        try {
-          if (frame.requestFullscreen) {
-            frame.requestFullscreen();
-          } else if (frame.webkitRequestFullscreen) {
-            frame.webkitRequestFullscreen();
-          } else if (frame.mozRequestFullScreen) {
-            frame.mozRequestFullScreen();
-          } else if (frame.msRequestFullscreen) {
-            frame.msRequestFullscreen();
-          }
-        } catch (e) {
-          console.error('Fullscreen request failed:', e);
-        }
       }, { once: true });
       
       // Show first-time modal if needed
@@ -267,6 +254,8 @@
     function closeModal() {
       modal.classList.add('hidden');
       localStorage.setItem('clash_royale_played', 'true');
+      // Reload the page to apply the tutorial completion
+      location.reload();
     }
     
     // Check location preference and show appropriate modal

@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Clash Royale</title>
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
   <style>
     :root {
       color-scheme: dark;
@@ -95,9 +97,43 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(78, 133, 255, 0.4);
     }
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .modal-button-half {
+      background: linear-gradient(135deg, #4e85ff 0%, #3a6edf 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      padding: 12px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+      transition: all 0.3s ease;
+    }
+    .modal-button-half:hover {
+      background: linear-gradient(135deg, #3a6edf 0%, #2a5ecf 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(78, 133, 255, 0.4);
+    }
   </style>
 </head>
 <body>
+  <div id="locationModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="modal-title">🏫 Where are you playing from?</h2>
+      <p class="modal-text">
+        Select your location to optimize your experience:
+      </p>
+      <div class="modal-buttons">
+        <button class="modal-button-half" onclick="selectLocation('home')">🏠 Home</button>
+        <button class="modal-button-half" onclick="selectLocation('school')">🏫 School</button>
+      </div>
+    </div>
+  </div>
   <div id="firstTimeModal" class="modal hidden">
     <div class="modal-content">
       <h2 class="modal-title">⚠️ Important: Account Information</h2>
@@ -128,6 +164,85 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     const modal = document.getElementById('firstTimeModal');
+    const locationModal = document.getElementById('locationModal');
+    
+    // Detect if user is on Mac
+    function isMac() {
+      return /Mac|iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+    
+    // Initialize service worker for UV proxy
+    async function initServiceWorker() {
+      try {
+        await navigator.serviceWorker.register('/sw.js');
+        console.log('Service worker registered');
+      } catch (e) {
+        console.error('Service worker registration failed:', e);
+      }
+    }
+    
+    // Select location (school or home)
+    function selectLocation(location) {
+      locationModal.classList.add('hidden');
+      localStorage.setItem('clash_royale_location', location);
+      
+      if (location === 'school') {
+        loadWithProxy();
+      } else {
+        loadNormally();
+      }
+    }
+    
+    // Load with UV proxy (school mode)
+    async function loadWithProxy() {
+      await initServiceWorker();
+      
+      // Set wisp server to terbinium 2
+      const wispUrl = 'wss://swordartii.online/';
+      
+      // Encode the URL with UV
+      const targetUrl = 'https://idk.verdi.qzz.io/embed/truffled/clash-royale';
+      const proxiedUrl = '/uv/service/' + __uv$config.encodeUrl(targetUrl);
+      
+      // Load in fullscreen mode
+      frame.src = proxiedUrl;
+      
+      // Make iframe fullscreen after load
+      frame.addEventListener('load', () => {
+        fallback.style.display = 'none';
+        try {
+          if (frame.requestFullscreen) {
+            frame.requestFullscreen();
+          } else if (frame.webkitRequestFullscreen) {
+            frame.webkitRequestFullscreen();
+          } else if (frame.mozRequestFullScreen) {
+            frame.mozRequestFullScreen();
+          } else if (frame.msRequestFullscreen) {
+            frame.msRequestFullscreen();
+          }
+        } catch (e) {
+          console.error('Fullscreen request failed:', e);
+        }
+      }, { once: true });
+      
+      // Show first-time modal if needed
+      checkFirstTime();
+    }
+    
+    // Load normally (home mode)
+    function loadNormally() {
+      frame.src = 'https://idk.verdi.qzz.io/embed/truffled/clash-royale';
+      
+      // Show first-time modal if needed
+      checkFirstTime();
+      
+      // After 5 seconds, rotate the iframe 90 degrees
+      setTimeout(() => {
+        frame.classList.add('rotated');
+      }, 5000);
+      
+      frame.addEventListener('load', () => fallback.style.display = 'none');
+    }
     
     // Check if user has played Clash Royale before
     function checkFirstTime() {
@@ -143,15 +258,27 @@
       localStorage.setItem('clash_royale_played', 'true');
     }
     
-    // Show modal on first visit
-    checkFirstTime();
+    // Check location preference and show appropriate modal
+    function init() {
+      const savedLocation = localStorage.getItem('clash_royale_location');
+      
+      // Don't show location modal on Mac
+      if (isMac()) {
+        loadNormally();
+        return;
+      }
+      
+      // If location is already saved, use it
+      if (savedLocation) {
+        selectLocation(savedLocation);
+      } else {
+        // Show location selection modal
+        locationModal.classList.remove('hidden');
+      }
+    }
     
-    // After 5 seconds, rotate the iframe 90 degrees
-    setTimeout(() => {
-      frame.classList.add('rotated');
-    }, 5000);
-    
-    frame.addEventListener('load', () => fallback.style.display = 'none');
+    // Start initialization
+    init();
   </script>
 </body>
 </html>

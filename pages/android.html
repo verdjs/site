@@ -191,7 +191,7 @@
   <iframe
     class="frame"
     id="androidFrame"
-    src="https://idk.verdi.qzz.io"
+    src=""
     allow="fullscreen; autoplay; clipboard-read; clipboard-write"
     sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox"
     referrerpolicy="no-referrer"
@@ -206,7 +206,6 @@
     // Location Selection Logic
     // ========================================================================
     const locationModal = document.getElementById('locationModal');
-    let currentLocation = null; // Track current location without localStorage
     
     // Detect if user is on Mac
     function isMac() {
@@ -226,7 +225,6 @@
     // Select location (school or home)
     function selectLocation(location) {
       locationModal.classList.add('hidden');
-      currentLocation = location; // Store in memory, not localStorage
       
       if (location === 'school') {
         loadWithProxy();
@@ -266,13 +264,8 @@
       
       frame.src = proxiedUrl;
       
-      // Hide fallback when loaded
-      frame.addEventListener('load', () => {
-        const fallback = document.querySelector('.fallback');
-        fallback.style.display = 'none';
-      }, { once: true });
-      
       // Start the rest of the logic (school mode - skip first-time modal)
+      // Note: Load event listener is in initAndroidPageLogic
       initAndroidPageLogic(true); // Pass true to indicate school mode
     }
     

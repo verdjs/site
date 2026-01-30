@@ -195,16 +195,27 @@
     
     // Load with UV proxy (school mode)
     async function loadWithProxy() {
+      // Validate UV config is loaded
+      if (typeof __uv$config === 'undefined' || typeof __uv$config.encodeUrl !== 'function') {
+        console.error('UV config not loaded properly');
+        alert('Proxy configuration error. Please refresh the page.');
+        return;
+      }
+      
+      // Initialize and wait for service worker
       await initServiceWorker();
       
-      // Set wisp server to terbinium 2
-      const wispUrl = 'wss://swordartii.online/';
+      // Wait for service worker to be active
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.ready;
+        console.log('Service worker ready');
+      }
       
       // Encode the URL with UV
       const targetUrl = 'https://idk.verdi.qzz.io/embed/truffled/clash-royale';
       const proxiedUrl = '/uv/service/' + __uv$config.encodeUrl(targetUrl);
       
-      // Load in fullscreen mode
+      // Load in iframe
       frame.src = proxiedUrl;
       
       // Make iframe fullscreen after load

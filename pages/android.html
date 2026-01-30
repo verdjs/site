@@ -176,7 +176,7 @@
       <p class="modal-text">
         3. If the game is <strong>sideways/cut off</strong>, press the <strong>blue emoji thing</strong> and then press <strong>"rotate game"</strong>
       </p>
-      <button id="modalButton" class="modal-button" onclick="closeModal()" disabled>Wait 10s...</button>
+      <button id="modalButton" class="modal-button" disabled>Wait 10s...</button>
     </div>
   </div>
   
@@ -541,6 +541,9 @@
         checkIframeURL();
       }, 10000);
     }
+    
+    // Add event listener for modal button
+    modalButton.addEventListener('click', closeModal);
     
     // Helper function to show rotate message with auto-hide after 10 seconds
     function showRotateMessage() {

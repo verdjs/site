@@ -227,42 +227,6 @@
             opacity: 0.3;
             background: radial-gradient(at top, var(--bg-3) 30%, transparent 70%);
         }
-
-        .recommendations-section {
-            width: 90%;
-            margin: 20px auto;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
-            border-radius: 20px;
-            border: 2px solid var(--border-4);
-        }
-
-        .recommendations-section h2 {
-            color: var(--bright-text);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .recommendations-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .recommended-badge {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #000;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: bold;
-            z-index: 10;
-        }
     </style>
 
     <div id="particles-container"></div>
@@ -271,15 +235,7 @@
         <input style="margin: 3px;" type="text" placeholder="Search for a game..." onkeyup="searchApps(this.value)">
     </div>
 
-    <div class="hcenter" style="top: 180px; width: 90%;">
-        <div class="recommendations-section">
-            <h2>⭐ My Personal Recommendations</h2>
-            <div class="recommendations-container">
-            </div>
-        </div>
-    </div>
-
-    <div class="apps-container hcenter" style="top: 580px;">
+    <div class="apps-container hcenter" style="top: 200px;">
     </div>
 
     <script>
@@ -320,49 +276,9 @@
         })
 
         const acont = document.querySelector('.apps-container');
-        const recCont = document.querySelector('.recommendations-container');
 
         let data
         let res
-
-        // Load recommendations
-        async function loadRecommendations() {
-            try {
-                const recRes = await fetch('/assets/json/recommendations.json');
-                if (!recRes.ok) {
-                    throw new Error(`HTTP ${recRes.status}: ${recRes.statusText}`);
-                }
-                const recData = await recRes.json();
-                console.log('Recommendations loaded:', recData.length);
-
-                recData.forEach(app => {
-                    const appDiv = document.createElement('div');
-                    appDiv.classList.add('app');
-
-                    const queryParams = new URLSearchParams({
-                        launch: app.url,
-                        name: app.name,
-                        img: app.img
-                    });
-
-                    if (app.embed) {
-                        queryParams.set('embed', 'true');
-                    }
-
-                    appDiv.innerHTML = `
-                    <div class="recommended-badge">⭐ PICK</div>
-                    <div class="app-img" style="background: url('${app.img}');" onclick="window.location.href = '/pages/play.html?${queryParams.toString()}'"></div>
-                        <div class="title">
-                        <h2 class="h2-title">${app.name}</h2>
-                    </div>
-                    `;
-
-                    recCont.appendChild(appDiv);
-                });
-            } catch (err) {
-                console.error("Failed to load recommendations:", err);
-            }
-        }
 
         async function getJson() {
             try {
@@ -383,13 +299,32 @@
             }
         }
 
-        function loadApps() {
-            getJson().then(() => {
+        async function loadApps() {
+            try {
+                // Load recommendations first
+                let recommendations = [];
+                try {
+                    const recRes = await fetch('/assets/json/recommendations.json');
+                    if (recRes.ok) {
+                        recommendations = await recRes.json();
+                        console.log('Recommendations loaded:', recommendations.length);
+                    }
+                } catch (err) {
+                    console.warn("Failed to load recommendations:", err);
+                }
+
+                // Load main games
+                await getJson();
+                
                 if (!data || !data.length) {
                     console.warn("No games data found");
                     return;
                 }
-                data.forEach(app => {
+
+                // Combine recommendations at the top, then regular games
+                const allGames = [...recommendations, ...data];
+                
+                allGames.forEach(app => {
                     const appDiv = document.createElement('div');
                     appDiv.classList.add('app');
 
@@ -412,14 +347,13 @@
 
                     acont.appendChild(appDiv);
                 });
-            }).catch(err => {
+            } catch (err) {
                 console.error("Error loading apps:", err);
                 // Show error message to user
                 acont.innerHTML = '<p style="color: red; text-align: center;">Failed to load games. Check console for details.</p>';
-            });
+            }
         }
 
-        loadRecommendations()
         loadApps()
 
         function searchApps(q) {

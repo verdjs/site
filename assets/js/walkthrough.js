@@ -458,7 +458,7 @@ const VerdisWalkthrough = (() => {
             welcomeScreen.style.transition = 'opacity 0.4s ease';
             setTimeout(() => {
                 welcomeScreen.remove();
-                completeWalkthrough(true);
+                completeWalkthrough(true, { reload: true });
             }, 400);
         });
 

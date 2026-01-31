@@ -184,7 +184,6 @@
     // Select location (school or home)
     function selectLocation(location) {
       locationModal.classList.add('hidden');
-      localStorage.setItem('clash_royale_location', location);
       
       if (location === 'school') {
         loadWithProxy();
@@ -260,21 +259,14 @@
     
     // Check location preference and show appropriate modal
     function init() {
-      const savedLocation = localStorage.getItem('clash_royale_location');
-      
       // Don't show location modal on Mac
       if (isMac()) {
         loadNormally();
         return;
       }
       
-      // If location is already saved, use it
-      if (savedLocation) {
-        selectLocation(savedLocation);
-      } else {
-        // Show location selection modal
-        locationModal.classList.remove('hidden');
-      }
+      // Always show location selection modal
+      locationModal.classList.remove('hidden');
     }
     
     // Start initialization

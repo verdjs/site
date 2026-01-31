@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roblox</title>
-  <script src="/uv/uv.bundle.js"></script>
-  <script src="/uv/uv.config.js"></script>
   <style>
     :root {
       color-scheme: dark;
@@ -37,245 +35,29 @@
       letter-spacing: 0.3px;
       background: radial-gradient(circle at 20% 20%, rgba(78,133,255,0.15), transparent 45%), radial-gradient(circle at 80% 30%, rgba(151,71,255,0.12), transparent 40%), #0b0f1a;
     }
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(11, 15, 26, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      backdrop-filter: blur(4px);
-    }
-    .modal.hidden {
-      display: none;
-    }
-    .modal-content {
-      background: linear-gradient(135deg, #1a1f35 0%, #0f1323 100%);
-      border: 2px solid rgba(78, 133, 255, 0.3);
-      border-radius: 16px;
-      padding: 32px;
-      max-width: 500px;
-      margin: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    }
-    .modal-title {
-      color: #4e85ff;
-      font-size: 24px;
-      font-weight: 600;
-      margin: 0 0 16px 0;
-      letter-spacing: 0.5px;
-    }
-    .modal-text {
-      color: #bcd0ff;
-      font-size: 16px;
-      line-height: 1.6;
-      margin: 12px 0;
-    }
-    .modal-text strong {
-      color: #7da3ff;
-    }
-    .modal-button {
-      background: linear-gradient(135deg, #4e85ff 0%, #3a6edf 100%);
-      border: none;
-      border-radius: 8px;
-      color: white;
-      padding: 12px 32px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 24px;
-      width: 100%;
-      transition: all 0.3s ease;
-    }
-    .modal-button:hover {
-      background: linear-gradient(135deg, #3a6edf 0%, #2a5ecf 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(78, 133, 255, 0.4);
-    }
-    .modal-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-    }
-    .modal-button-half {
-      background: linear-gradient(135deg, #4e85ff 0%, #3a6edf 100%);
-      border: none;
-      border-radius: 8px;
-      color: white;
-      padding: 12px 32px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      flex: 1;
-      transition: all 0.3s ease;
-    }
-    .modal-button-half:hover {
-      background: linear-gradient(135deg, #3a6edf 0%, #2a5ecf 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(78, 133, 255, 0.4);
-    }
-    .error-message {
-      position: fixed;
-      inset: 0;
-      background: rgba(11, 15, 26, 0.98);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      padding: 40px;
-      text-align: center;
-    }
-    .error-message.hidden {
-      display: none;
-    }
-    .error-icon {
-      font-size: 64px;
-      margin-bottom: 24px;
-    }
-    .error-title {
-      color: #4e85ff;
-      font-size: 32px;
-      font-weight: 600;
-      margin: 0 0 16px 0;
-    }
-    .error-text {
-      color: #bcd0ff;
-      font-size: 18px;
-      line-height: 1.6;
-      max-width: 600px;
-      margin: 12px 0;
-    }
   </style>
 </head>
 <body>
-  <div id="locationModal" class="modal hidden">
-    <div class="modal-content">
-      <h2 class="modal-title">🏫 Where are you playing from?</h2>
-      <p class="modal-text">
-        Select your location to optimize your experience:
-      </p>
-      <div class="modal-buttons">
-        <button class="modal-button-half" onclick="selectLocation('home')">🏠 Home</button>
-        <button class="modal-button-half" onclick="selectLocation('school')">🏫 School</button>
-      </div>
-    </div>
-  </div>
-  <div id="schoolErrorMessage" class="error-message hidden">
-    <div class="error-icon">🚧</div>
-    <h1 class="error-title">Roblox at School - Coming Soon</h1>
-    <p class="error-text">
-      <strong>twin roblox doesnt work at school im tryna fix it</strong>
-    </p>
-    <p class="error-text">
-      Please check back later or try accessing from home.
-    </p>
-    <button class="modal-button" onclick="location.reload()" style="max-width: 300px; margin-top: 32px;">
-      ← Go Back
-    </button>
-  </div>
-  <div id="firstTimeModal" class="modal hidden">
-    <div class="modal-content">
-      <h2 class="modal-title">⚠️ Important: Account Information</h2>
-      <p class="modal-text">
-        When you start the game, it will ask if you have an account.
-      </p>
-      <p class="modal-text">
-        <strong>If you don't have an account:</strong> Type <strong>'n'</strong> to create a new one.
-      </p>
-      <p class="modal-text">
-        <strong>⚠️ IMPORTANT:</strong> Make sure to write down your username and password somewhere safe! If the game resets, you will lose all your progress without this information.
-      </p>
-      <button class="modal-button" id="firstTimeButton">Got it, let's play!</button>
-    </div>
-  </div>
   <iframe
     class="frame"
-    src=""
+    src="https://idk.verdi.qzz.io/embed/roblox?web-socket-enabled=false"
     allow="fullscreen; autoplay; clipboard-read; clipboard-write"
     sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock"
     referrerpolicy="no-referrer"
     loading="eager"
+    title="Roblox Emulator"
   ></iframe>
   <div class="fallback" aria-hidden="true">
     Loading Roblox...
   </div>
   <script>
-    // ========================================================================
-    // Location Selection Logic
-    // ========================================================================
-    const locationModal = document.getElementById('locationModal');
-    const schoolErrorMessage = document.getElementById('schoolErrorMessage');
+    const frame = document.querySelector('.frame');
+    const fallback = document.querySelector('.fallback');
     
-    // Detect if user is on Mac
-    function isMac() {
-      return /Mac|iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
-    }
-    
-    // Select location (school or home)
-    function selectLocation(location) {
-      locationModal.classList.add('hidden');
-      
-      if (location === 'school') {
-        showSchoolError();
-      } else {
-        loadNormally();
-      }
-    }
-    
-    // Show school error message
-    function showSchoolError() {
-      schoolErrorMessage.classList.remove('hidden');
-    }
-    
-    // Load normally (home mode)
-    function loadNormally() {
-      const frame = document.querySelector('.frame');
-      const fallback = document.querySelector('.fallback');
-      const modal = document.getElementById('firstTimeModal');
-      const firstTimeButton = document.getElementById('firstTimeButton');
-      
-      // Set iframe src
-      frame.src = 'https://idk.verdi.qzz.io/embed/roblox';
-      
-      // Check if user has played Roblox before
-      function checkFirstTime() {
-        const hasPlayedBefore = localStorage.getItem('roblox_played');
-        if (!hasPlayedBefore) {
-          modal.classList.remove('hidden');
-        }
-      }
-      
-      // Close modal and mark as played
-      function closeModal() {
-        modal.classList.add('hidden');
-        localStorage.setItem('roblox_played', 'true');
-      }
-      
-      // Add event listener for first time button
-      firstTimeButton.addEventListener('click', closeModal);
-      
-      // Show modal on first visit
-      checkFirstTime();
-      
-      frame.addEventListener('load', () => fallback.style.display = 'none');
-    }
-    
-    // Check location preference and show appropriate modal
-    function initLocationCheck() {
-      // Don't show location modal on Mac
-      if (isMac()) {
-        loadNormally();
-        return;
-      }
-      
-      // Always show location selection modal
-      locationModal.classList.remove('hidden');
-    }
-    
-    // Start initialization
-    initLocationCheck();
+    // Hide fallback when loaded
+    frame.addEventListener('load', () => {
+      fallback.style.display = 'none';
+    });
   </script>
 </body>
 </html>

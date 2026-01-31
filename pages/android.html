@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Android Phone</title>
+  <script src="/baremux/index.js"></script>
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
   <style>
     :root {
       color-scheme: dark;
@@ -35,126 +38,15 @@
       letter-spacing: 0.3px;
       background: radial-gradient(circle at 20% 20%, rgba(78,133,255,0.15), transparent 45%), radial-gradient(circle at 80% 30%, rgba(151,71,255,0.12), transparent 40%), #0b0f1a;
     }
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(11, 15, 26, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      backdrop-filter: blur(4px);
-    }
-    .modal.hidden {
-      display: none;
-    }
-    .modal-content {
-      background: linear-gradient(135deg, #1a1f35 0%, #0f1323 100%);
-      border: 2px solid rgba(78, 133, 255, 0.3);
-      border-radius: 16px;
-      padding: 32px;
-      max-width: 500px;
-      margin: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    .modal-title {
-      color: #4e85ff;
-      font-size: 24px;
-      font-weight: 600;
-      margin: 0 0 16px 0;
-      letter-spacing: 0.5px;
-    }
-    .modal-text {
-      color: #bcd0ff;
-      font-size: 16px;
-      line-height: 1.6;
-      margin: 12px 0;
-    }
-    .modal-text strong {
-      color: #7da3ff;
-    }
-    .modal-button {
-      background: linear-gradient(135deg, #4e85ff 0%, #3a6edf 100%);
-      border: none;
-      border-radius: 8px;
-      color: white;
-      padding: 12px 32px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 24px;
-      width: 100%;
-      transition: all 0.3s ease;
-    }
-    .modal-button:disabled {
-      background: linear-gradient(135deg, #666 0%, #555 100%);
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-    .modal-button:hover:not(:disabled) {
-      background: linear-gradient(135deg, #3a6edf 0%, #2a5ecf 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(78, 133, 255, 0.4);
-    }
-    .top-message {
-      position: fixed;
-      top: 20px;
-      right: 40px;
-      background: linear-gradient(135deg, #1a1f35 0%, #0f1323 100%);
-      border: 2px solid rgba(78, 133, 255, 0.3);
-      border-radius: 12px;
-      padding: 16px 24px;
-      color: #bcd0ff;
-      font-size: 14px;
-      z-index: 999;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-      max-width: 300px;
-      line-height: 1.5;
-    }
-    .top-message.hidden {
-      display: none;
-    }
-    .top-message strong {
-      color: #7da3ff;
-    }
   </style>
 </head>
 <body>
-  <div id="firstTimeModal" class="modal hidden">
-    <div class="modal-content">
-      <h2 class="modal-title">📱 Welcome to Android Phone!</h2>
-      <p class="modal-text">
-        <strong>First time setup:</strong>
-      </p>
-      <p class="modal-text">
-        1. On your first visit, <strong>sign up for an account</strong>
-      </p>
-      <p class="modal-text">
-        2. When it asks you to select a server, <strong>select Asia</strong>
-      </p>
-      <p class="modal-text">
-        3. If the game is <strong>sideways/cut off</strong>, press the <strong>blue emoji thing</strong> and then press <strong>"rotate game"</strong>
-      </p>
-      <button id="modalButton" class="modal-button" onclick="closeModal()" disabled>Wait 10s...</button>
-    </div>
-  </div>
-  
-  <div id="topMessage" class="top-message hidden">
-    <strong>Remember:</strong> Select the Asia server!
-  </div>
-  
-  <div id="rotateMessage" class="top-message hidden">
-    If the game is sideways/cut off, press the blue emoji and then press "rotate game"
-  </div>
-  
   <iframe
     class="frame"
     id="androidFrame"
-    src="https://idk.verdi.qzz.io"
+    src=""
     allow="fullscreen; autoplay; clipboard-read; clipboard-write"
-    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox"
+    sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock"
     referrerpolicy="no-referrer"
     loading="eager"
     title="Android Phone Emulator"
@@ -163,332 +55,80 @@
     Loading Android Phone...
   </div>
   <script>
-    // ========================================================================
-    // TRIPLE VALIDATION: Ensure iframe is NOT using proxy
-    // ========================================================================
-    (function validateIframeNotProxied() {
-      const frame = document.querySelector('.frame');
-      const frameSrc = frame.getAttribute('src');
-      
-      console.log('=== IFRAME PROXY VALIDATION (TRIPLE CHECK) ===');
-      
-      // CHECK 1: Verify src does NOT contain proxy path
-      const check1_notProxied = !frameSrc.includes('/uv/service/');
-      console.log('✓ Check 1 - NOT using UV proxy:', check1_notProxied, `(src: ${frameSrc})`);
-      
-      // CHECK 2: Verify src is the expected direct URL
-      const expectedUrl = 'https://idk.verdi.qzz.io';
-      const check2_directUrl = frameSrc.startsWith(expectedUrl);
-      console.log('✓ Check 2 - Using direct URL:', check2_directUrl, `(expected: ${expectedUrl})`);
-      
-      // CHECK 3: Verify NO proxy indicators anywhere
-      const check3_noProxyIndicators = !frameSrc.includes('uv') && 
-                                        !frameSrc.includes('service') && 
-                                        !frameSrc.includes('hvtrs8');
-      console.log('✓ Check 3 - No proxy indicators:', check3_noProxyIndicators);
-      
-      // Final validation
-      const allChecksPassed = check1_notProxied && check2_directUrl && check3_noProxyIndicators;
-      
-      if (allChecksPassed) {
-        console.log('✅ VALIDATION PASSED: Iframe is loading directly (not proxied)');
-        console.log('✅ Safe to enable same-origin popups');
-      } else {
-        console.error('❌ VALIDATION FAILED: Iframe may be proxied!');
-        console.error('Check 1 (not proxied):', check1_notProxied);
-        console.error('Check 2 (direct URL):', check2_directUrl);
-        console.error('Check 3 (no indicators):', check3_noProxyIndicators);
-      }
-      
-      console.log('=== END VALIDATION ===');
-    })();
-    
-    // ========================================================================
-    // Main Script
-    // ========================================================================
-    const frame = document.querySelector('.frame');
-    const fallback = document.querySelector('.fallback');
-    const modal = document.getElementById('firstTimeModal');
-    const modalButton = document.getElementById('modalButton');
-    const topMessage = document.getElementById('topMessage');
-    const rotateMessage = document.getElementById('rotateMessage');
-    
-    let countdownInterval = null;
-    let urlCheckInterval = null;
-    let popupMonitorInterval = null;
-    let openedWindows = [];
-    let rotateMessageTimer = null; // Timer for auto-hiding rotate message
-    let rotateMessageShown = false; // Track if rotate message has been shown
-    
-    // Constants for popup monitoring
-    const POPUP_CHECK_INTERVAL_MS = 150;
-    const POPUP_ACCESS_TIMEOUT_MS = 3000;
-    const ROTATE_MESSAGE_TIMEOUT_MS = 10000; // 10 seconds
-    
-    // Monitor for popups and handle same-domain navigation
-    function monitorPopups() {
-      // Use WeakMap to track metadata for windows without polluting the window object
-      const windowMetadata = new WeakMap();
-      
-      // Check for new windows periodically
-      // Note: We can't directly detect popups from cross-origin iframes
-      // but we can monitor any popups that do get opened
-      popupMonitorInterval = setInterval(() => {
-        // Check if any windows in our tracking list are still open
-        openedWindows = openedWindows.filter(win => {
-          if (!win || win.closed) {
-            return false;
-          }
-          
-          try {
-            // Try to access the window's location
-            const url = win.location.href;
-            
-            // Skip about:blank or empty URLs - popup hasn't navigated yet
-            if (!url || url === '' || url === 'about:blank' || url.startsWith('chrome-error://')) {
-              return true; // Keep monitoring
-            }
-            
-            // Check if it's from the same domain using proper URL parsing
-            try {
-              const urlObj = new URL(url);
-              
-              // Skip if hostname is empty (still loading)
-              if (!urlObj.hostname) {
-                return true; // Keep monitoring
-              }
-              
-              if (urlObj.hostname === 'idk.verdi.qzz.io') {
-                console.log('Same-domain popup detected:', url);
-                // Navigate iframe to this URL
-                frame.src = url;
-                // Hide the loading fallback since we're navigating
-                fallback.style.display = 'none';
-                // Close the popup
-                win.close();
-                return false;
-              } else {
-                // Different domain - close it (block ad)
-                console.log('Blocking popup from different domain:', urlObj.hostname);
-                win.close();
-                return false;
-              }
-            } catch (urlError) {
-              // Invalid URL - close it
-              console.log('Invalid URL in popup, closing');
-              win.close();
-              return false;
-            }
-          } catch (e) {
-            // Cross-origin - can't access location yet
-            // Keep it in the list and try again next time
-            // But if it's been too long, close it to be safe
-            
-            let metadata = windowMetadata.get(win);
-            if (!metadata) {
-              metadata = { openTime: Date.now() };
-              windowMetadata.set(win, metadata);
-            } else if (Date.now() - metadata.openTime > POPUP_ACCESS_TIMEOUT_MS) {
-              // If we can't access it after timeout, likely a cross-origin ad
-              console.log('Closing inaccessible popup after', POPUP_ACCESS_TIMEOUT_MS, 'ms');
-              try {
-                win.close();
-              } catch (closeError) {
-                // Can't close it
-              }
-              return false;
-            }
-            return true; // Keep monitoring
-          }
-        });
-      }, POPUP_CHECK_INTERVAL_MS);
-      
-      // Intercept window.open calls at the parent level
-      // Note: This won't catch calls from within the iframe due to cross-origin
-      // But we keep it for any parent-level popups
-      const originalOpen = window.open;
-      window.open = function(url, target, features) {
-        console.log('window.open intercepted at parent level:', url);
-        
-        // Let the window open normally
-        const newWindow = originalOpen.call(window, url, target, features);
-        
-        // Track it for monitoring if it opened successfully
-        if (newWindow) {
-          openedWindows.push(newWindow);
-          console.log('Tracking popup for monitoring');
-        }
-        
-        return newWindow;
-      };
-    }
-    
-    // Check if user has visited Android Phone before
-    function checkFirstTime() {
-      const hasVisitedBefore = localStorage.getItem('android_visited');
-      if (!hasVisitedBefore) {
-        // First time: show modal with countdown
-        modal.classList.remove('hidden');
-        startCountdown();
-      } else {
-        // Subsequent visits: check iframe URL and show rotate message if on main site
-        checkIframeURL();
+    // Initialize service worker for UV proxy
+    async function initServiceWorker() {
+      try {
+        await navigator.serviceWorker.register('/uv/sw.js');
+        console.log('Service worker registered');
+      } catch (e) {
+        console.error('Service worker registration failed:', e);
       }
     }
     
-    // Countdown timer for first-time modal
-    function startCountdown() {
-      let timeLeft = 10;
-      modalButton.disabled = true;
-      modalButton.textContent = `Wait ${timeLeft}s...`;
-      
-      countdownInterval = setInterval(() => {
-        timeLeft--;
-        if (timeLeft > 0) {
-          modalButton.textContent = `Wait ${timeLeft}s...`;
-        } else {
-          modalButton.textContent = 'Got it!';
-          modalButton.disabled = false;
-          clearInterval(countdownInterval);
-          countdownInterval = null;
-        }
-      }, 1000);
-    }
-    
-    // Close modal and show top message (first visit only)
-    function closeModal() {
-      if (modalButton.disabled) return; // Prevent closing if still counting down
-      
-      if (countdownInterval) {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-      }
-      
-      modal.classList.add('hidden');
-      localStorage.setItem('android_visited', 'true');
-      // Show the Asia server message after closing modal (first visit only)
-      topMessage.classList.remove('hidden');
-      // Auto-hide the top message after 10 seconds
-      setTimeout(() => {
-        topMessage.classList.add('hidden');
-        // Check iframe URL and show rotate message if on main site
-        checkIframeURL();
-      }, 10000);
-    }
-    
-    // Helper function to show rotate message with auto-hide after 10 seconds
-    function showRotateMessage() {
-      // Only show if not already shown (prevent refreshing from URL monitoring)
-      if (rotateMessageShown) {
+    // Load with UV proxy (school mode) - auto-load
+    async function loadWithProxy() {
+      // Validate UV config is loaded
+      if (typeof __uv$config === 'undefined' || typeof __uv$config.encodeUrl !== 'function') {
+        console.error('UV config not loaded properly');
+        alert('Proxy configuration error. Please refresh the page.');
         return;
       }
       
-      // Mark as shown
-      rotateMessageShown = true;
+      // Initialize BareMux connection
+      const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://mexicoon.top/";
+      const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
       
-      // Show the message
-      rotateMessage.classList.remove('hidden');
-      
-      // Auto-hide after 10 seconds
-      rotateMessageTimer = setTimeout(() => {
-        rotateMessage.classList.add('hidden');
-        rotateMessageTimer = null;
-      }, ROTATE_MESSAGE_TIMEOUT_MS);
-    }
-    
-    // Check iframe URL and show/hide rotate message accordingly
-    // Note: The iframe itself allows navigation to any path
-    // We only hide the rotate message when NOT on the main site
-    function checkIframeURL() {
+      // Set up transport for bare-mux with delay to ensure wasm is ready
       try {
-        // Try to access iframe's location
-        const iframeURL = frame.contentWindow.location.href;
-        const url = new URL(iframeURL);
-        
-        // Show rotate message ONLY if on main site (root path "/" or empty)
-        // Hide the message when on any subpath like /games, /settings, etc.
-        if (url.pathname === '/' || url.pathname === '') {
-          showRotateMessage();
-        } else {
-          // User navigated to a subpath - hide the rotate message
-          rotateMessage.classList.add('hidden');
-          // Clear any pending timer and reset the shown flag
-          if (rotateMessageTimer) {
-            clearTimeout(rotateMessageTimer);
-            rotateMessageTimer = null;
-          }
-          rotateMessageShown = false;
-        }
+        // Wait a bit for libcurl wasm to be ready
+        await new Promise(resolve => setTimeout(resolve, 100));
+        await connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
+        console.log('BareMux transport initialized');
       } catch (e) {
-        // Cross-origin restriction - can't access iframe URL
-        // Fallback: show the message by default for returning visitors
-        // (this is a limitation of cross-origin iframe security)
-        const hasVisitedBefore = localStorage.getItem('android_visited');
-        if (hasVisitedBefore) {
-          showRotateMessage();
-        }
-      }
-    }
-    
-    // Monitor iframe URL changes with reduced frequency (every 2 seconds)
-    // Note: This won't work for cross-origin iframes due to security restrictions
-    function startURLMonitoring() {
-      urlCheckInterval = setInterval(() => {
-        checkIframeURL();
-      }, 2000); // Check every 2 seconds instead of 1 for better performance
-    }
-    
-    // Listen for iframe load events
-    frame.addEventListener('load', () => {
-      fallback.style.display = 'none';
-      checkIframeURL();
-    });
-    
-    // Also hide fallback on error
-    frame.addEventListener('error', () => {
-      fallback.style.display = 'none';
-      console.error('Iframe failed to load');
-    });
-    
-    // Safety timeout: hide fallback after 5 seconds regardless
-    setTimeout(() => {
-      fallback.style.display = 'none';
-    }, 5000);
-    
-    // Clean up intervals when page unloads
-    window.addEventListener('beforeunload', () => {
-      if (countdownInterval) {
-        clearInterval(countdownInterval);
-      }
-      if (urlCheckInterval) {
-        clearInterval(urlCheckInterval);
-      }
-      if (popupMonitorInterval) {
-        clearInterval(popupMonitorInterval);
-      }
-      if (rotateMessageTimer) {
-        clearTimeout(rotateMessageTimer);
-      }
-      // Close any tracked windows
-      openedWindows.forEach(win => {
+        console.error('Failed to set transport:', e);
+        // Retry once after a longer delay
         try {
-          win.close();
-        } catch (e) {
-          // Ignore errors
+          await new Promise(resolve => setTimeout(resolve, 500));
+          await connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
+          console.log('BareMux transport initialized on retry');
+        } catch (retryError) {
+          console.error('Failed to set transport on retry:', retryError);
         }
-      });
-    });
-    
-    // Show appropriate messages on load
-    checkFirstTime();
-    
-    // Start URL monitoring for subsequent visits
-    if (localStorage.getItem('android_visited')) {
-      startURLMonitoring();
+      }
+      
+      // Initialize and wait for service worker
+      await initServiceWorker();
+      
+      // Wait for service worker to be active
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.ready;
+        console.log('Service worker ready');
+      }
+      
+      // Encode the URL with UV
+      const targetUrl = 'https://idk.verdi.qzz.io';
+      const proxiedUrl = '/uv/service/' + __uv$config.encodeUrl(targetUrl);
+      
+      // Load in iframe (no fullscreen, just full browser tab)
+      const frame = document.querySelector('.frame');
+      const fallback = document.querySelector('.fallback');
+      
+      // Remove popup permissions from iframe sandbox in school mode
+      frame.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock');
+      console.log('SCHOOL MODE: Removed popup permissions from iframe sandbox');
+      
+      frame.src = proxiedUrl;
+      
+      // Hide fallback when loaded
+      frame.addEventListener('load', () => {
+        fallback.style.display = 'none';
+      }, { once: true });
     }
     
-    // Start monitoring for popups
-    monitorPopups();
+    // Auto-load with proxy on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadWithProxy();
+    });
   </script>
 </body>
 </html>

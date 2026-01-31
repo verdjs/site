@@ -275,7 +275,7 @@
         const gameurl = urlParams.get('launch');
 
         // Use Scramjet for proxying games
-        const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://swordartii.online/";
+        const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://mexicoon.top/";
         const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
         // Initialize Scramjet
@@ -314,10 +314,25 @@
 
         if (gameurl) {
             const decodedUrl = decodeURIComponent(gameurl);
+            const embedParam = urlParams.get('embed');
 
-            // Load ALL games directly without proxying
-            gameframe.src = decodedUrl;
-            gameframe.focus();
+            // Check if this game should be embedded through the proxy
+            if (embedParam === 'true') {
+                // Use proxy for games with embed=true
+                getProxiedUrl(decodedUrl).then(proxiedUrl => {
+                    gameframe.src = proxiedUrl;
+                    gameframe.focus();
+                }).catch(err => {
+                    console.error('Failed to get proxied URL:', err);
+                    // Fallback to direct load if proxy fails
+                    gameframe.src = decodedUrl;
+                    gameframe.focus();
+                });
+            } else {
+                // Load games directly without proxying
+                gameframe.src = decodedUrl;
+                gameframe.focus();
+            }
         }
 
         gameframe.onload = () => {

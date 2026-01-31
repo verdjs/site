@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Clash Royale</title>
+  <script src="/baremux/index.js"></script>
   <script src="/uv/uv.bundle.js"></script>
   <script src="/uv/uv.config.js"></script>
   <style>
@@ -199,6 +200,18 @@
         console.error('UV config not loaded properly');
         alert('Proxy configuration error. Please refresh the page.');
         return;
+      }
+      
+      // Initialize BareMux connection
+      const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://mexicoon.top/";
+      const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+      
+      // Set up transport for bare-mux
+      try {
+        await connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
+        console.log('BareMux transport initialized');
+      } catch (e) {
+        console.error('Failed to set transport:', e);
       }
       
       // Initialize and wait for service worker

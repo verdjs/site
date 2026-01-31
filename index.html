@@ -678,135 +678,122 @@
                 box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
             }
             
-            .ai-finder-modal {
+            #aiFinderInterface {
                 display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.8);
-                z-index: 10000;
-                justify-content: center;
-                align-items: center;
-            }
-            
-            .ai-finder-modal.active {
-                display: flex;
-            }
-            
-            .ai-finder-content {
-                background: var(--bg-2);
-                border-radius: 20px;
-                padding: 30px;
+                position: absolute;
+                top: 150px;
+                left: 50%;
+                transform: translateX(-50%);
                 width: 90%;
-                max-width: 600px;
-                max-height: 80vh;
-                overflow-y: auto;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+                max-width: 800px;
+                padding: 30px;
+                background: var(--bg-2);
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             }
             
             .ai-finder-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 20px;
+                margin-bottom: 25px;
             }
             
             .ai-finder-header h2 {
                 color: var(--bright-text);
                 font-size: 24px;
                 margin: 0;
-            }
-            
-            .ai-finder-close {
-                background: none;
-                border: none;
-                color: var(--text);
-                font-size: 28px;
-                cursor: pointer;
-                padding: 0;
-                width: 30px;
-                height: 30px;
                 display: flex;
                 align-items: center;
-                justify-content: center;
-            }
-            
-            .ai-chat-container {
-                background: var(--bg);
-                border-radius: 15px;
-                padding: 15px;
-                max-height: 300px;
-                overflow-y: auto;
-                margin-bottom: 20px;
-                min-height: 100px;
-            }
-            
-            .ai-chat-message {
-                margin-bottom: 12px;
-                padding: 10px 15px;
-                border-radius: 12px;
-                max-width: 80%;
-            }
-            
-            .ai-chat-message.user {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                margin-left: auto;
-                text-align: right;
-            }
-            
-            .ai-chat-message.ai {
-                background: var(--bg-3);
-                color: var(--text);
-            }
-            
-            .ai-chat-loading {
-                color: var(--text);
-                font-style: italic;
-                opacity: 0.7;
-            }
-            
-            .ai-finder-input-group {
-                display: flex;
                 gap: 10px;
             }
             
-            .ai-finder-input {
-                flex: 1;
-                padding: 12px 16px;
-                background: var(--bg);
-                border: 2px solid var(--bg-3);
-                border-radius: 12px;
-                color: var(--text);
+            .back-to-games-btn {
+                background: var(--bg-3);
+                color: var(--text-color);
+                border: none;
+                padding: 8px 16px;
+                border-radius: 8px;
+                cursor: pointer;
                 font-size: 14px;
+                transition: all 0.3s ease;
             }
             
-            .ai-finder-input:focus {
+            .back-to-games-btn:hover {
+                background: var(--bg);
+                transform: scale(1.05);
+            }
+            
+            .ai-input-section {
+                margin-bottom: 25px;
+            }
+            
+            .ai-input-section label {
+                display: block;
+                color: var(--text-color);
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+            
+            .ai-textarea {
+                width: 100%;
+                padding: 12px;
+                background: var(--bg);
+                border: 2px solid var(--bg-3);
+                border-radius: 10px;
+                color: var(--text-color);
+                font-size: 14px;
+                font-family: inherit;
+                resize: vertical;
+                min-height: 80px;
+            }
+            
+            .ai-textarea:focus {
                 outline: none;
                 border-color: #667eea;
             }
             
-            .ai-finder-send-btn {
+            .ai-submit-btn {
+                width: 100%;
                 padding: 12px 24px;
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 color: white;
                 border: none;
-                border-radius: 12px;
+                border-radius: 10px;
                 cursor: pointer;
                 font-weight: 600;
+                font-size: 16px;
                 transition: all 0.3s ease;
             }
             
-            .ai-finder-send-btn:hover {
-                transform: scale(1.05);
+            .ai-submit-btn:hover {
+                transform: translateY(-2px);
                 box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
             }
             
-            .ai-finder-send-btn:disabled {
+            .ai-submit-btn:disabled {
                 opacity: 0.5;
                 cursor: not-allowed;
+            }
+            
+            .ai-results-section {
+                margin-top: 25px;
+            }
+            
+            .ai-response-text {
+                color: var(--text-color);
+                padding: 15px;
+                background: var(--bg);
+                border-radius: 10px;
+                margin-bottom: 20px;
+                line-height: 1.6;
+            }
+            
+            .ai-loading {
+                text-align: center;
+                color: var(--text-color);
+                padding: 20px;
+                font-style: italic;
             }
             
             .find-more-btn {
@@ -829,7 +816,7 @@
             }
             
             .ai-results-info {
-                color: var(--text);
+                color: var(--text-color);
                 text-align: center;
                 padding: 15px;
                 background: var(--bg-3);
@@ -838,28 +825,28 @@
             }
         </style>
         
-        <!-- AI Game Finder Modal -->
-        <div id="ai-game-finder-modal" class="ai-finder-modal">
-            <div class="ai-finder-content">
-                <div class="ai-finder-header">
-                    <h2><i class="ri-sparkling-line"></i> AI Game Finder</h2>
-                    <button class="ai-finder-close" onclick="closeAIGameFinder()">×</button>
-                </div>
-                
-                <div class="ai-chat-container" id="ai-chat-container">
-                    <div class="ai-chat-message ai">
-                        Hi! Describe the type of game you're looking for, and I'll find the best matches from our collection. 🎮
-                    </div>
-                </div>
-                
-                <div class="ai-finder-input-group">
-                    <input type="text" id="ai-game-description" class="ai-finder-input" 
-                        placeholder="e.g., I want a fast-paced action game..."
-                        onkeypress="if(event.key==='Enter') findGamesWithAI()">
-                    <button class="ai-finder-send-btn" onclick="findGamesWithAI()" id="ai-send-btn">
-                        <i class="ri-send-plane-fill"></i> Send
-                    </button>
-                </div>
+        <!-- AI Game Finder Interface (Integrated) -->
+        <div id="aiFinderInterface">
+            <div class="ai-finder-header">
+                <h2><i class="ri-sparkling-line"></i> AI Game Finder (Beta)</h2>
+                <button class="back-to-games-btn" onclick="backToGames()">
+                    <i class="ri-arrow-left-line"></i> Back to Games
+                </button>
+            </div>
+            
+            <div class="ai-input-section">
+                <label for="ai-game-description">Describe the game you want to play:</label>
+                <textarea id="ai-game-description" class="ai-textarea" 
+                    placeholder="e.g., I want a fast-paced action game with shooting..."
+                    rows="3"></textarea>
+                <br><br>
+                <button class="ai-submit-btn" onclick="findGamesWithAI()" id="ai-submit-btn">
+                    <i class="ri-sparkling-fill"></i> Get Recommendations
+                </button>
+            </div>
+            
+            <div class="ai-results-section" id="ai-results-section" style="display: none;">
+                <div id="ai-response-container"></div>
             </div>
         </div>
         
@@ -1750,19 +1737,18 @@
         let aiFinderMode = false;
         
         function openAIGameFinder() {
-            const modal = document.getElementById('ai-game-finder-modal');
-            modal.classList.add('active');
+            // Hide games button and container
+            document.getElementById('ai-game-finder-btn').style.display = 'none';
+            document.querySelector('.games-container').style.display = 'none';
+            document.getElementById('apps-search').style.display = 'none';
             
-            // Reset chat
-            const chatContainer = document.getElementById('ai-chat-container');
-            chatContainer.innerHTML = `
-                <div class="ai-chat-message ai">
-                    Hi! Describe the type of game you're looking for, and I'll find the best matches from our collection. 🎮
-                </div>
-            `;
+            // Show AI finder interface
+            document.getElementById('aiFinderInterface').style.display = 'block';
             
-            // Clear input
+            // Clear previous input and results
             document.getElementById('ai-game-description').value = '';
+            document.getElementById('ai-results-section').style.display = 'none';
+            document.getElementById('ai-response-container').innerHTML = '';
             
             // Load all games if not already loaded
             if (allGamesList.length === 0) {
@@ -1770,9 +1756,14 @@
             }
         }
         
-        function closeAIGameFinder() {
-            const modal = document.getElementById('ai-game-finder-modal');
-            modal.classList.remove('active');
+        function backToGames() {
+            // Show games button and container
+            document.getElementById('ai-game-finder-btn').style.display = 'block';
+            document.querySelector('.games-container').style.display = 'grid';
+            document.getElementById('apps-search').style.display = 'block';
+            
+            // Hide AI finder interface
+            document.getElementById('aiFinderInterface').style.display = 'none';
             
             // Reset AI mode if active
             if (aiFinderMode) {
@@ -1813,30 +1804,19 @@
         }
         
         async function findGamesWithAI() {
-            const input = document.getElementById('ai-game-description');
-            const userPrompt = input.value.trim();
+            const textarea = document.getElementById('ai-game-description');
+            const userPrompt = textarea.value.trim();
             
             if (!userPrompt) return;
             
-            const chatContainer = document.getElementById('ai-chat-container');
-            const sendBtn = document.getElementById('ai-send-btn');
+            const submitBtn = document.getElementById('ai-submit-btn');
+            const resultsSection = document.getElementById('ai-results-section');
+            const responseContainer = document.getElementById('ai-response-container');
             
-            // Add user message
-            const userMsg = document.createElement('div');
-            userMsg.className = 'ai-chat-message user';
-            userMsg.textContent = userPrompt;
-            chatContainer.appendChild(userMsg);
-            
-            // Clear input and disable button
-            input.value = '';
-            sendBtn.disabled = true;
-            
-            // Add loading message
-            const loadingMsg = document.createElement('div');
-            loadingMsg.className = 'ai-chat-message ai ai-chat-loading';
-            loadingMsg.textContent = 'Thinking... 🤔';
-            chatContainer.appendChild(loadingMsg);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            resultsSection.style.display = 'block';
+            responseContainer.innerHTML = '<div class="ai-loading">🤔 Analyzing your request and finding the best games...</div>';
             
             currentUserPrompt = userPrompt;
             
@@ -1889,15 +1869,13 @@ Respond ONLY with game names separated by commas.`;
                     }
                 });
                 
-                // Remove loading message
-                loadingMsg.remove();
-                
-                // Add AI response
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'ai-chat-message ai';
-                aiMsg.textContent = `Found ${recommendedGames.length} games that match your description! Check them out below. 🎮`;
-                chatContainer.appendChild(aiMsg);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                // Show AI response
+                responseContainer.innerHTML = `
+                    <div class="ai-response-text">
+                        ✨ Found ${recommendedGames.length} games that match your description! 
+                        Scroll down to see the recommendations.
+                    </div>
+                `;
                 
                 // Display recommended games
                 displayAIRecommendedGames(recommendedGames);
@@ -1905,21 +1883,15 @@ Respond ONLY with game names separated by commas.`;
                 // Update shown games list
                 shownGames.push(...recommendedGames.map(g => g.name));
                 
-                // Close modal after showing results
-                setTimeout(() => {
-                    closeAIGameFinder();
-                }, 1500);
-                
             } catch (err) {
                 console.error('AI finder error:', err);
-                loadingMsg.remove();
-                
-                const errorMsg = document.createElement('div');
-                errorMsg.className = 'ai-chat-message ai';
-                errorMsg.textContent = 'Sorry, something went wrong. Please try again.';
-                chatContainer.appendChild(errorMsg);
+                responseContainer.innerHTML = `
+                    <div class="ai-response-text" style="color: #ff6b6b;">
+                        ❌ Sorry, something went wrong. Please try again.
+                    </div>
+                `;
             } finally {
-                sendBtn.disabled = false;
+                submitBtn.disabled = false;
             }
         }
         

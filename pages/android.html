@@ -215,7 +215,7 @@
     // Initialize service worker for UV proxy
     async function initServiceWorker() {
       try {
-        await navigator.serviceWorker.register('/sw.js');
+        await navigator.serviceWorker.register('/uv/sw.js');
         console.log('Service worker registered');
       } catch (e) {
         console.error('Service worker registration failed:', e);

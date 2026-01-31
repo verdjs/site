@@ -2564,12 +2564,6 @@
     "embed": true
   },
   {
-    "name": "Hollow Knight",
-    "img": "/assets/img/games/gn-math/468.png",
-    "url": "https://hklol.pages.dev/",
-    "embed": true
-  },
-  {
     "name": "Clash Royale",
     "img": "/assets/img/apps/clash-royale.jpeg",
     "url": "/pages/clash-royale.html"

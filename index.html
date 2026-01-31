@@ -643,6 +643,226 @@
             placeholder="search through the games..." id="apps-search"
             class="h-fit p-4 px-5 w-[975px] bg-[var(--bg-2)] border-none absolute left-1/2 translate-x-[-50%] rounded-2xl transition-all focus:bg-[var(--bg-3)] focus:outline-none ">
         <br><br><br>
+        
+        <!-- AI Game Finder Button -->
+        <button id="ai-game-finder-btn" onclick="openAIGameFinder()" 
+            style="position: absolute; left: 50%; transform: translateX(-50%); top: 80px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; border: none; padding: 12px 24px; border-radius: 25px; 
+            font-size: 16px; font-weight: 600; cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); 
+            transition: all 0.3s ease; z-index: 10;">
+            <i class="ri-sparkling-line" style="margin-right: 8px;"></i>
+            Find me a game (beta)
+        </button>
+        
+        <style>
+            @keyframes pulse {
+                0%, 100% {
+                    transform: translateX(-50%) scale(1);
+                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                }
+                50% {
+                    transform: translateX(-50%) scale(1.05);
+                    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+                }
+            }
+            
+            #ai-game-finder-btn {
+                animation: pulse 2s ease-in-out infinite;
+            }
+            
+            #ai-game-finder-btn:hover {
+                animation: none;
+                transform: translateX(-50%) scale(1.05);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            }
+            
+            .ai-finder-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 10000;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .ai-finder-modal.active {
+                display: flex;
+            }
+            
+            .ai-finder-content {
+                background: var(--bg-2);
+                border-radius: 20px;
+                padding: 30px;
+                width: 90%;
+                max-width: 600px;
+                max-height: 80vh;
+                overflow-y: auto;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            }
+            
+            .ai-finder-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            
+            .ai-finder-header h2 {
+                color: var(--bright-text);
+                font-size: 24px;
+                margin: 0;
+            }
+            
+            .ai-finder-close {
+                background: none;
+                border: none;
+                color: var(--text);
+                font-size: 28px;
+                cursor: pointer;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .ai-chat-container {
+                background: var(--bg);
+                border-radius: 15px;
+                padding: 15px;
+                max-height: 300px;
+                overflow-y: auto;
+                margin-bottom: 20px;
+                min-height: 100px;
+            }
+            
+            .ai-chat-message {
+                margin-bottom: 12px;
+                padding: 10px 15px;
+                border-radius: 12px;
+                max-width: 80%;
+            }
+            
+            .ai-chat-message.user {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                margin-left: auto;
+                text-align: right;
+            }
+            
+            .ai-chat-message.ai {
+                background: var(--bg-3);
+                color: var(--text);
+            }
+            
+            .ai-chat-loading {
+                color: var(--text);
+                font-style: italic;
+                opacity: 0.7;
+            }
+            
+            .ai-finder-input-group {
+                display: flex;
+                gap: 10px;
+            }
+            
+            .ai-finder-input {
+                flex: 1;
+                padding: 12px 16px;
+                background: var(--bg);
+                border: 2px solid var(--bg-3);
+                border-radius: 12px;
+                color: var(--text);
+                font-size: 14px;
+            }
+            
+            .ai-finder-input:focus {
+                outline: none;
+                border-color: #667eea;
+            }
+            
+            .ai-finder-send-btn {
+                padding: 12px 24px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+            
+            .ai-finder-send-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            }
+            
+            .ai-finder-send-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+            
+            .find-more-btn {
+                width: 100%;
+                padding: 15px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                margin-top: 20px;
+                transition: all 0.3s ease;
+            }
+            
+            .find-more-btn:hover {
+                transform: scale(1.02);
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            }
+            
+            .ai-results-info {
+                color: var(--text);
+                text-align: center;
+                padding: 15px;
+                background: var(--bg-3);
+                border-radius: 12px;
+                margin-bottom: 15px;
+            }
+        </style>
+        
+        <!-- AI Game Finder Modal -->
+        <div id="ai-game-finder-modal" class="ai-finder-modal">
+            <div class="ai-finder-content">
+                <div class="ai-finder-header">
+                    <h2><i class="ri-sparkling-line"></i> AI Game Finder</h2>
+                    <button class="ai-finder-close" onclick="closeAIGameFinder()">×</button>
+                </div>
+                
+                <div class="ai-chat-container" id="ai-chat-container">
+                    <div class="ai-chat-message ai">
+                        Hi! Describe the type of game you're looking for, and I'll find the best matches from our collection. 🎮
+                    </div>
+                </div>
+                
+                <div class="ai-finder-input-group">
+                    <input type="text" id="ai-game-description" class="ai-finder-input" 
+                        placeholder="e.g., I want a fast-paced action game..."
+                        onkeypress="if(event.key==='Enter') findGamesWithAI()">
+                    <button class="ai-finder-send-btn" onclick="findGamesWithAI()" id="ai-send-btn">
+                        <i class="ri-send-plane-fill"></i> Send
+                    </button>
+                </div>
+            </div>
+        </div>
+        
         <div
             class="games-container h-[83%] overflow-y-scroll w-[475px] flex flex-wrap w-7/8 absolute left-1/2 translate-x-[-50%] justify-center">
             <br>
@@ -1521,6 +1741,251 @@
             newTab()
             nav(url)
             switchTab(aTab)
+        }
+        
+        // AI Game Finder Functions
+        let allGamesList = [];
+        let shownGames = [];
+        let currentUserPrompt = '';
+        let aiFinderMode = false;
+        
+        function openAIGameFinder() {
+            const modal = document.getElementById('ai-game-finder-modal');
+            modal.classList.add('active');
+            
+            // Reset chat
+            const chatContainer = document.getElementById('ai-chat-container');
+            chatContainer.innerHTML = `
+                <div class="ai-chat-message ai">
+                    Hi! Describe the type of game you're looking for, and I'll find the best matches from our collection. 🎮
+                </div>
+            `;
+            
+            // Clear input
+            document.getElementById('ai-game-description').value = '';
+            
+            // Load all games if not already loaded
+            if (allGamesList.length === 0) {
+                loadAllGamesForAI();
+            }
+        }
+        
+        function closeAIGameFinder() {
+            const modal = document.getElementById('ai-game-finder-modal');
+            modal.classList.remove('active');
+            
+            // Reset AI mode if active
+            if (aiFinderMode) {
+                aiFinderMode = false;
+                shownGames = [];
+                currentUserPrompt = '';
+                
+                // Reload normal games
+                const container = document.querySelector('.games-container');
+                container.innerHTML = '<br>';
+                load(selectedStore.toLowerCase(), "games", "Games", "navTo", "play.html?launch=");
+                
+                // Remove find more button if exists
+                const findMoreBtn = document.getElementById('find-more-games-btn');
+                if (findMoreBtn) findMoreBtn.remove();
+                
+                const resultsInfo = document.querySelector('.ai-results-info');
+                if (resultsInfo) resultsInfo.remove();
+            }
+        }
+        
+        async function loadAllGamesForAI() {
+            try {
+                // Load recommendations
+                const recRes = await fetch('/assets/json/recommendations.json');
+                const recommendations = await recRes.json();
+                
+                // Load main games based on current store
+                const storeRes = await fetch(`/assets/json/${selectedStore.toLowerCase()}.json`);
+                const storeGames = await storeRes.json();
+                
+                // Combine all games
+                allGamesList = [...recommendations, ...storeGames];
+                console.log('Loaded games for AI:', allGamesList.length);
+            } catch (err) {
+                console.error('Failed to load games for AI:', err);
+            }
+        }
+        
+        async function findGamesWithAI() {
+            const input = document.getElementById('ai-game-description');
+            const userPrompt = input.value.trim();
+            
+            if (!userPrompt) return;
+            
+            const chatContainer = document.getElementById('ai-chat-container');
+            const sendBtn = document.getElementById('ai-send-btn');
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'ai-chat-message user';
+            userMsg.textContent = userPrompt;
+            chatContainer.appendChild(userMsg);
+            
+            // Clear input and disable button
+            input.value = '';
+            sendBtn.disabled = true;
+            
+            // Add loading message
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'ai-chat-message ai ai-chat-loading';
+            loadingMsg.textContent = 'Thinking... 🤔';
+            chatContainer.appendChild(loadingMsg);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            currentUserPrompt = userPrompt;
+            
+            try {
+                // Create game names list excluding already shown games
+                const availableGames = allGamesList.filter(game => 
+                    !shownGames.includes(game.name)
+                );
+                
+                const gameNames = availableGames.map(g => g.name).join(', ');
+                
+                // Create AI prompt
+                const aiPrompt = `You are a game recommendation assistant. Based on this description: "${userPrompt}", select exactly 30 games from this list that best match the description. Only respond with the game names separated by commas, nothing else. If there are fewer than 30 games that match, list all matching games.
+
+Available games: ${gameNames}
+
+Respond ONLY with game names separated by commas.`;
+                
+                // Call Pollinations AI API
+                const response = await fetch('https://text.pollinations.ai/' + encodeURIComponent(aiPrompt), {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'text/plain'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('AI API request failed');
+                }
+                
+                const aiResponse = await response.text();
+                console.log('AI Response:', aiResponse);
+                
+                // Parse AI response to get game names
+                const recommendedNames = aiResponse
+                    .split(',')
+                    .map(name => name.trim())
+                    .filter(name => name.length > 0);
+                
+                // Find matching games
+                const recommendedGames = [];
+                recommendedNames.forEach(aiName => {
+                    const match = availableGames.find(game => 
+                        game.name.toLowerCase() === aiName.toLowerCase() ||
+                        game.name.toLowerCase().includes(aiName.toLowerCase()) ||
+                        aiName.toLowerCase().includes(game.name.toLowerCase())
+                    );
+                    if (match && !recommendedGames.includes(match)) {
+                        recommendedGames.push(match);
+                    }
+                });
+                
+                // Remove loading message
+                loadingMsg.remove();
+                
+                // Add AI response
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'ai-chat-message ai';
+                aiMsg.textContent = `Found ${recommendedGames.length} games that match your description! Check them out below. 🎮`;
+                chatContainer.appendChild(aiMsg);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Display recommended games
+                displayAIRecommendedGames(recommendedGames);
+                
+                // Update shown games list
+                shownGames.push(...recommendedGames.map(g => g.name));
+                
+                // Close modal after showing results
+                setTimeout(() => {
+                    closeAIGameFinder();
+                }, 1500);
+                
+            } catch (err) {
+                console.error('AI finder error:', err);
+                loadingMsg.remove();
+                
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'ai-chat-message ai';
+                errorMsg.textContent = 'Sorry, something went wrong. Please try again.';
+                chatContainer.appendChild(errorMsg);
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+        
+        function displayAIRecommendedGames(games) {
+            aiFinderMode = true;
+            const container = document.querySelector('.games-container');
+            
+            // Clear container
+            container.innerHTML = '';
+            
+            // Add info message
+            const info = document.createElement('div');
+            info.className = 'ai-results-info';
+            info.innerHTML = `<strong>AI Recommendations</strong><br>Showing ${games.length} games based on your description`;
+            container.appendChild(info);
+            
+            // Render games
+            games.forEach(item => {
+                const newAppContainer = document.createElement("div")
+                newAppContainer.classList.add("app")
+                newAppContainer.setAttribute("data-name", item.name)
+                newAppContainer.setAttribute("data-type", "games")
+                newAppContainer.setAttribute("data-url", item.url)
+                newAppContainer.setAttribute("data-img", item.img)
+
+                const isFav = typeof VerdiFavorites !== 'undefined' ? VerdiFavorites.isFavorite('games', item.name) : false;
+
+                const clickHandler = `
+                    if(typeof VerdisBackend !== 'undefined') {
+                        VerdisBackend.trackPlay('${slugify(item.name)}', '${item.name.replace(/'/g, "\\'")}');
+                    }
+                    console.log("Launching game: ${item.name.replace(/'/g, "\\'")}");
+                    toggleGames();
+                    navTo('play.html?launch=' + encodeURIComponent('${item.url}') + '${item.embed ? '&embed=true' : ''}', '${item.name.replace(/'/g, "\\'")}');
+                `.replace(/\s+/g, ' ');
+
+                newAppContainer.setAttribute("onclick", clickHandler)
+
+                newAppContainer.innerHTML = `
+                    <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavoriteCard(this, 'games', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                        <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                    </button>
+                    <button class="info-btn" onclick="event.stopPropagation(); openGameDetails('games', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="bg-img" data-bg="${item.img}"></div>
+                    <div class="app-title-cont">
+                        <h2 class="app-title-h2">${item.name}</h2>
+                    </div>
+                `
+
+                container.appendChild(newAppContainer)
+            });
+            
+            // Add "Find More" button at the end
+            const findMoreBtn = document.createElement('button');
+            findMoreBtn.id = 'find-more-games-btn';
+            findMoreBtn.className = 'find-more-btn';
+            findMoreBtn.innerHTML = '<i class="ri-sparkling-line"></i> Find More Games';
+            findMoreBtn.onclick = () => openAIGameFinder();
+            container.appendChild(findMoreBtn);
+            
+            // Trigger observer to load background images
+            if (typeof observe === 'function') {
+                observe();
+            }
         }
     </script>
     <script defer>

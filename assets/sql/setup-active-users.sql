@@ -1,8 +1,20 @@
 -- =====================================================
 -- Verdis Active Users Tracking - Supabase Setup
 -- =====================================================
--- This SQL script sets up real-time active user tracking
--- Run this in your Supabase SQL Editor
+-- 
+-- ⚠️ IMPORTANT: YOU MUST RUN THIS SQL SCRIPT! ⚠️
+-- 
+-- Without this, the active users counter will only show "1" (fallback).
+-- With this setup, you'll get real-time tracking of all active users.
+-- 
+-- HOW TO RUN:
+-- 1. Copy this ENTIRE file
+-- 2. Go to Supabase Dashboard → SQL Editor
+-- 3. Paste and click RUN
+-- 4. Then enable Realtime: Database → Replication → Toggle ON for 'active_users'
+-- 
+-- See: SQL-SETUP-REQUIRED.md for detailed instructions
+-- =====================================================
 
 -- 1. Create the active_users table for presence tracking
 CREATE TABLE IF NOT EXISTS public.active_users (

@@ -69,20 +69,20 @@ Simply deploy your updated site, and the active users counter should start worki
 
 1. **On Page Load**: Each visitor gets a unique session ID
 2. **Registration**: Session is registered in the `active_users` table
-3. **Heartbeat**: Every 20 seconds, the session updates its `last_seen` timestamp
-4. **Cleanup**: Sessions older than 1 minute are automatically removed
-5. **Real-time Updates**: The counter updates instantly when users join/leave
+3. **Heartbeat**: Every 10 seconds, the session updates its `last_seen` timestamp
+4. **Cleanup**: Sessions older than 2 minutes are automatically removed
+5. **Real-time Updates**: The counter updates instantly when users join/leave (with debouncing to prevent race conditions)
 
 ### Session Lifecycle
 
 ```
 User arrives → Generate session_id → Insert into active_users
      ↓
-Every 20s → Update last_seen timestamp
+Every 10s → Update last_seen timestamp
      ↓
 User leaves → Delete session from active_users
      ↓
-(or session expires after 60s of inactivity)
+(or session expires after 120s of inactivity)
 ```
 
 ### Realtime Subscription
@@ -99,8 +99,8 @@ The site subscribes to changes on the `active_users` table:
 To change how long before a session is considered inactive, edit the SQL:
 
 ```sql
--- In setup-active-users.sql, line 65
-WHERE last_seen < NOW() - INTERVAL '1 minute';  -- Change '1 minute' to your preference
+-- In setup-active-users.sql, line 68
+WHERE last_seen < NOW() - INTERVAL '2 minutes';  -- Change '2 minutes' to your preference
 ```
 
 ### Adjust Heartbeat Interval
@@ -108,8 +108,8 @@ WHERE last_seen < NOW() - INTERVAL '1 minute';  -- Change '1 minute' to your pre
 To change how often sessions update, edit the JavaScript:
 
 ```javascript
-// In active-users.js, line 42
-heartbeatInterval = setInterval(() => updateHeartbeat(client), 20000); // 20000ms = 20s
+// In active-users.js, line 57
+heartbeatInterval = setInterval(() => updateHeartbeat(client), 10000); // 10000ms = 10s
 ```
 
 **Note**: Keep heartbeat interval < session timeout for accurate tracking.

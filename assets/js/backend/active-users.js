@@ -18,11 +18,11 @@ const VerdisActiveUsers = (() => {
     async function init() {
         if (!VerdisBackend || !VerdisBackend.isConfigured()) {
             console.warn('VerdisBackend not configured. Active users tracking disabled.');
-            console.warn('Showing fallback count of 1 (current user only)');
-            // Set counter to 1 as fallback (current user)
+            console.warn('Showing fallback count of 0');
+            // Set counter to 0 as fallback
             const userCountEl = document.getElementById('user-count');
             if (userCountEl) {
-                userCountEl.textContent = '1';
+                userCountEl.textContent = '0';
             }
             return;
         }
@@ -40,10 +40,10 @@ const VerdisActiveUsers = (() => {
             const client = VerdisBackend.getClient();
             if (!client) {
                 console.error('Failed to get Supabase client - client is null');
-                // Set counter to 1 as fallback
+                // Set counter to 0 as fallback
                 const userCountEl = document.getElementById('user-count');
                 if (userCountEl) {
-                    userCountEl.textContent = '1';
+                    userCountEl.textContent = '0';
                 }
                 return;
             }
@@ -72,10 +72,10 @@ const VerdisActiveUsers = (() => {
         } catch (error) {
             console.error('Error initializing active users:', error);
             console.error('Error details:', error.message, error.stack);
-            // Set counter to 1 as fallback on error
+            // Set counter to 0 as fallback on error
             const userCountEl = document.getElementById('user-count');
             if (userCountEl) {
-                userCountEl.textContent = '1';
+                userCountEl.textContent = '0';
             }
         }
     }
@@ -164,10 +164,10 @@ const VerdisActiveUsers = (() => {
             if (error) {
                 console.error('Error getting user count:', error);
                 console.error('Error details:', error.message, error.hint, error.details);
-                // Fallback to showing just current user on error
+                // Fallback to showing 0 on error
                 const userCountEl = document.getElementById('user-count');
                 if (userCountEl) {
-                    userCountEl.textContent = '1';
+                    userCountEl.textContent = '0';
                 }
                 return;
             }
@@ -175,20 +175,19 @@ const VerdisActiveUsers = (() => {
             const count = data || 0;
             console.log('Active users count from database:', count);
 
-            // Update the UI - add 1 to include the current user in the display
+            // Update the UI with the database count
             const userCountEl = document.getElementById('user-count');
             if (userCountEl) {
-                const displayCount = count + 1;
-                userCountEl.textContent = displayCount;
-                console.log('Displaying count:', displayCount);
+                userCountEl.textContent = count;
+                console.log('Displaying count:', count);
             }
 
         } catch (error) {
             console.error('Error updating user count:', error);
-            // Fallback to showing just current user on exception
+            // Fallback to showing 0 on exception
             const userCountEl = document.getElementById('user-count');
             if (userCountEl) {
-                userCountEl.textContent = '1';
+                userCountEl.textContent = '0';
             }
         }
     }

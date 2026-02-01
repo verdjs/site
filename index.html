@@ -54,6 +54,7 @@
 
     <script src="/assets/js/backend/reviews.js"></script>
     <script src="/assets/js/backend/leaderboard.js"></script>
+    <script src="/assets/js/backend/active-users.js"></script>
     <script src="/assets/js/carousel.js"></script>
     <script src="/assets/js/lib/particles.js"></script>
     <meta name="title" content="IXL | Maths, English and Science Practice">
@@ -1026,9 +1027,8 @@
                     // Init Umami now that proxy is ready
                     initUmami();
 
-                    // Start User Count (safe now)
-                    getActiveUsers();
-                    setInterval(() => getActiveUsers(), 30000);
+                    // Active user count is now handled by VerdisActiveUsers module
+                    // which uses Supabase Realtime instead of the broken external API
 
                     document.querySelector(".loading").style.opacity = 0
                     document.querySelector(".loading").style.pointerEvents = "none"
@@ -1064,20 +1064,8 @@
             document.head.appendChild(uScript);
         }
 
-        async function getActiveUsers() {
-            try {
-                let endpoint = "https://api.x8r.dev/api/umami"
-                if (typeof __uv$config !== 'undefined') {
-                    endpoint = __uv$config.prefix + __uv$config.encodeUrl(endpoint);
-                }
-                const res = await fetch(endpoint)
-                if (!res.ok) throw new Error("Fetch failed");
-                const data = await res.json()
-                console.log("CURRENT VISITORS:" + data.visitors)
-                const userCountEl = document.getElementById("user-count")
-                if (userCountEl) userCountEl.textContent = data.visitors
-            } catch (e) { console.error("Visitors fetch error", e); }
-        }
+        // Old getActiveUsers function removed - now handled by VerdisActiveUsers module
+        // which uses Supabase Realtime for real-time updates
 
         window.addEventListener("load", () => {
             registerSW();

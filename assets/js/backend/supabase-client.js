@@ -23,6 +23,11 @@ const VerdisBackend = (() => {
         }
         _client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         console.log('Verdis Backend Initialized');
+        
+        // Dispatch event to notify other modules that backend is ready
+        setTimeout(() => {
+            document.dispatchEvent(new CustomEvent('VerdisBackendReady'));
+        }, 100);
     }
 
     // --- REVIEWS API ---
@@ -128,7 +133,8 @@ const VerdisBackend = (() => {
         submitReview,
         trackPlay,
         getMostPlayed,
-        isConfigured: () => _client !== null
+        isConfigured: () => _client !== null,
+        getClient: () => _client
     };
 })();
 

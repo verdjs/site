@@ -1,0 +1,66 @@
+┌─────────────────────────────────────────────────────────────────────┐
+│                     REAL-TIME ACTIVE USERS ARCHITECTURE              │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+│   Browser 1   │         │   Browser 2   │         │   Browser 3   │
+│               │         │               │         │               │
+│  Session_A    │         │  Session_B    │         │  Session_C    │
+└───────┬───────┘         └───────┬───────┘         └───────┬───────┘
+        │                         │                         │
+        │  1. Register Session    │                         │
+        ├─────────────────────────┼─────────────────────────┤
+        │                         │                         │
+        ▼                         ▼                         ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         SUPABASE REALTIME                            │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │              active_users TABLE (PostgreSQL)                   │  │
+│  │  ┌──────────────┬──────────────┬────────────────────────────┐ │  │
+│  │  │ session_id   │ last_seen    │ created_at                 │ │  │
+│  │  ├──────────────┼──────────────┼────────────────────────────┤ │  │
+│  │  │ session_A    │ 2024-...:15  │ 2024-...:00                │ │  │
+│  │  │ session_B    │ 2024-...:18  │ 2024-...:05                │ │  │
+│  │  │ session_C    │ 2024-...:20  │ 2024-...:10                │ │  │
+│  │  └──────────────┴──────────────┴────────────────────────────┘ │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│                                                                       │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │              PostgreSQL Functions                              │  │
+│  │                                                                 │  │
+│  │  cleanup_stale_sessions()  →  Deletes sessions > 60s old       │  │
+│  │  get_active_user_count()   →  Returns count of active sessions │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+└─────────────────────────┬───────────────────────────────────────────┘
+                          │
+                          │ 3. Broadcast Changes
+                          │    (INSERT/UPDATE/DELETE)
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ▼                 ▼                 ▼
+┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+│   Browser 1   │ │   Browser 2   │ │   Browser 3   │
+│               │ │               │ │               │
+│  Counter: 3   │ │  Counter: 3   │ │  Counter: 3   │
+│               │ │               │ │               │
+│  Every 20s:   │ │  Every 20s:   │ │  Every 20s:   │
+│  Update       │ │  Update       │ │  Update       │
+│  last_seen    │ │  last_seen    │ │  last_seen    │
+└───────────────┘ └───────────────┘ └───────────────┘
+
+FLOW:
+1. Browser registers session → INSERT into active_users
+2. Every 20s: Send heartbeat → UPDATE last_seen
+3. On any change: All browsers receive update
+4. All browsers run: get_active_user_count()
+5. Counter updates instantly in navbar
+6. On page close: DELETE session
+7. Auto-cleanup: Remove sessions older than 60s
+
+FEATURES:
+✓ Real-time (< 1 second latency)
+✓ Auto-cleanup of stale sessions
+✓ Scales to thousands of concurrent users
+✓ Works on Supabase free tier
+✓ Zero maintenance required

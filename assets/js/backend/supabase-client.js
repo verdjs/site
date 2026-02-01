@@ -128,7 +128,8 @@ const VerdisBackend = (() => {
         submitReview,
         trackPlay,
         getMostPlayed,
-        isConfigured: () => _client !== null
+        isConfigured: () => _client !== null,
+        getClient: () => _client
     };
 })();
 

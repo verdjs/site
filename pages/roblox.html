@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roblox</title>
+  <script src="/baremux/index.js"></script>
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
   <style>
     :root {
       color-scheme: dark;
@@ -40,7 +43,7 @@
 <body>
   <iframe
     class="frame"
-    src="https://idk.verdi.qzz.io/embed/roblox?web-socket-enabled=false"
+    src=""
     allow="fullscreen; autoplay; clipboard-read; clipboard-write"
     sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-pointer-lock"
     referrerpolicy="no-referrer"
@@ -54,9 +57,94 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     
-    // Hide fallback when loaded
-    frame.addEventListener('load', () => {
-      fallback.style.display = 'none';
+    // Detect if user is on Mac
+    function isMac() {
+      return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    }
+    
+    // Initialize service worker for UV proxy
+    async function initServiceWorker() {
+      try {
+        await navigator.serviceWorker.register('/uv/sw.js');
+        console.log('Service worker registered');
+      } catch (e) {
+        console.error('Service worker registration failed:', e);
+      }
+    }
+    
+    // Load directly without proxy (Mac mode)
+    function loadDirect() {
+      const targetUrl = 'https://idk.verdi.qzz.io/embed/roblox?web-socket-enabled=false';
+      frame.src = targetUrl;
+      
+      // Hide fallback when loaded
+      frame.addEventListener('load', () => {
+        fallback.style.display = 'none';
+      }, { once: true });
+    }
+    
+    // Load with UV proxy (non-Mac mode)
+    async function loadWithProxy() {
+      // Validate UV config is loaded
+      if (typeof __uv$config === 'undefined' || typeof __uv$config.encodeUrl !== 'function') {
+        console.error('UV config not loaded properly');
+        alert('Proxy configuration error. Please refresh the page.');
+        return;
+      }
+      
+      // Initialize BareMux connection
+      const wispUrl = localStorage.getItem("verdis_wispUrl") || "wss://mexicoon.top/";
+      const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+      
+      // Set up transport for bare-mux with delay to ensure wasm is ready
+      try {
+        // Wait a bit for libcurl wasm to be ready
+        await new Promise(resolve => setTimeout(resolve, 100));
+        await connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
+        console.log('BareMux transport initialized');
+      } catch (e) {
+        console.error('Failed to set transport:', e);
+        // Retry once after a longer delay
+        try {
+          await new Promise(resolve => setTimeout(resolve, 500));
+          await connection.setTransport("/libcurl/index.mjs", [{ websocket: wispUrl }]);
+          console.log('BareMux transport initialized on retry');
+        } catch (retryError) {
+          console.error('Failed to set transport on retry:', retryError);
+        }
+      }
+      
+      // Initialize and wait for service worker
+      await initServiceWorker();
+      
+      // Wait for service worker to be active
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.ready;
+        console.log('Service worker ready');
+      }
+      
+      // Encode the URL with UV
+      const targetUrl = 'https://idk.verdi.qzz.io/embed/roblox?web-socket-enabled=false';
+      const proxiedUrl = '/uv/service/' + __uv$config.encodeUrl(targetUrl);
+      
+      // Load in iframe
+      frame.src = proxiedUrl;
+      
+      // Hide fallback when loaded
+      frame.addEventListener('load', () => {
+        fallback.style.display = 'none';
+      }, { once: true });
+    }
+    
+    // Auto-load based on platform
+    window.addEventListener('DOMContentLoaded', () => {
+      if (isMac()) {
+        console.log('Mac detected - loading without proxy');
+        loadDirect();
+      } else {
+        console.log('Non-Mac detected - loading with proxy');
+        loadWithProxy();
+      }
     });
   </script>
 </body>

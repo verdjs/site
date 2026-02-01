@@ -62,7 +62,8 @@
     
     // Detect if user is on Mac
     function isMac() {
-      return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      // Use modern API if available, fallback to navigator.platform for compatibility
+      return navigator.userAgentData?.platform === 'macOS' || navigator.platform.toUpperCase().indexOf('MAC') >= 0;
     }
     
     // Initialize service worker for UV proxy

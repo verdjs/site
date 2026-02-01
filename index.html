@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://swordartii.online">
+    <link rel="preconnect" href="https://mexicoon.top">
     <link rel="icon" href="images/ixl-favicon.png">
     <title>IXL | Maths, English and Science Practice</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -643,6 +643,9 @@
             placeholder="search through the games..." id="apps-search"
             class="h-fit p-4 px-5 w-[975px] bg-[var(--bg-2)] border-none absolute left-1/2 translate-x-[-50%] rounded-2xl transition-all focus:bg-[var(--bg-3)] focus:outline-none ">
         <br><br><br>
+        
+        <!-- AI Game Finder Button -->
+        
         <div
             class="games-container h-[83%] overflow-y-scroll w-[475px] flex flex-wrap w-7/8 absolute left-1/2 translate-x-[-50%] justify-center">
             <br>
@@ -714,7 +717,61 @@
                 .replace(/-+$/, '');
         }
 
-        function load(file, type, functionName, toRun, additions) {
+        async function load(file, type, functionName, toRun, additions) {
+            // For games, first load recommendations
+            if (type === 'games') {
+                try {
+                    const recRes = await fetch('/assets/json/recommendations.json');
+                    if (recRes.ok) {
+                        const recommendations = await recRes.json();
+                        console.log('Recommendations loaded:', recommendations.length);
+                        
+                        // Render recommendations first
+                        recommendations.forEach(item => {
+                            const aCont = document.querySelector(`.${type}-container`)
+                            const newAppContainer = document.createElement("div")
+
+                            newAppContainer.classList.add("app")
+                            newAppContainer.setAttribute("data-name", item.name)
+                            newAppContainer.setAttribute("data-type", type)
+                            newAppContainer.setAttribute("data-url", item.url)
+                            newAppContainer.setAttribute("data-img", item.img)
+
+                            const isFav = VerdiFavorites.isFavorite(type, item.name)
+
+                            const clickHandler = `
+                                if(typeof VerdisBackend !== 'undefined') {
+                                    VerdisBackend.trackPlay('${slugify(item.name)}', '${item.name.replace(/'/g, "\\'")}');
+                                }
+                                console.log("Launching game: ${item.name.replace(/'/g, "\\'")}");
+                                toggleGames();
+                                navTo('play.html?launch=' + encodeURIComponent('${item.url}') + '${item.embed ? '&embed=true' : ''}', '${item.name.replace(/'/g, "\\'")}');
+                            `.replace(/\s+/g, ' ');
+
+                            newAppContainer.setAttribute("onclick", clickHandler)
+
+                            newAppContainer.innerHTML = `
+                                <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavoriteCard(this, '${type}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                                    <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                                </button>
+                                <button class="info-btn" onclick="event.stopPropagation(); openGameDetails('${type}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <div class="bg-img" style="background-image: url('${item.img}')"></div>
+                                <div class="app-title-cont">
+                                    <h2 class="app-title-h2">${item.name}</h2>
+                                </div>
+                            `
+
+                            aCont.appendChild(newAppContainer)
+                        });
+                    }
+                } catch (err) {
+                    console.warn("Failed to load recommendations:", err);
+                }
+            }
+
+            // Then load the main content
             gj(file).then(() => {
                 console.log(
                     "%cverdis" + "%c recieved json data!",
@@ -774,7 +831,7 @@
                         <button class="info-btn" onclick="event.stopPropagation(); openGameDetails('${type}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
                             <i class="fas fa-info-circle"></i>
                         </button>
-                        <div class="bg-img" data-bg="${item.img}"></div>
+                        <div class="bg-img" style="background-image: url('${item.img}')"></div>
                         <div class="app-title-cont">
                             <h2 class="app-title-h2">${item.name}</h2>
                         </div>
@@ -782,8 +839,6 @@
 
                     aCont.appendChild(newAppContainer)
                 })
-            }).then(() => {
-                observe()
             })
         }
 
@@ -872,21 +927,6 @@
                     btn.querySelector('i').classList.replace('fas', 'far')
                 }
             }
-        }
-
-        const bgO = new IntersectionObserver(cards => {
-            cards.forEach(c => {
-                if (c.isIntersecting) {
-                    const el = c.target
-                    el.style.backgroundImage = `url('${el.dataset.bg}')`
-                    bgO.unobserve(el)
-                }
-            })
-        })
-
-
-        function observe() {
-            document.querySelectorAll(".bg-img[data-bg]").forEach(el => bgO.observe(el))
         }
 
         // Moved load() calls to after SW registration to ensure proxy is ready
@@ -981,7 +1021,6 @@
                     load("apps", "apps", "Apps", "rSearch", "")
                     load(selectedStore.toLowerCase(), "games", "Games", "navTo", "play.html?launch=")
 
-                    observe()
                     setTimeout(renderQuickAccess, 100)
 
                     // Init Umami now that proxy is ready
@@ -1468,6 +1507,8 @@
             nav(url)
             switchTab(aTab)
         }
+        
+        // AI Game Finder Functions
     </script>
     <script defer>
         window.addEventListener("DOMContentLoaded", () => {

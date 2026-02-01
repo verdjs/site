@@ -2564,9 +2564,14 @@
     "embed": true
   },
   {
-    "name": "Hollow Knight",
-    "img": "/assets/img/games/gn-math/468.png",
-    "url": "/stores/gn-math/622.html"
+    "name": "Clash Royale",
+    "img": "/assets/img/apps/clash-royale.jpeg",
+    "url": "/pages/clash-royale.html"
+  },
+  {
+    "name": "Roblox",
+    "img": "/assets/img/apps/roblox.webp",
+    "url": "/pages/roblox.html"
   },
   {
     "name": "REPO",

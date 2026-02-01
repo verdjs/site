@@ -1,0 +1,54 @@
+[
+  {
+    "name": "OvO 3 Dimensions",
+    "img": "/assets/img/games/gn-math/3.png",
+    "url": "/stores/gn-math/3.html"
+  },
+  {
+    "name": "Android",
+    "img": "/assets/img/apps/android.png",
+    "url": "/pages/android.html"
+  },
+  {
+    "name": "Roblox",
+    "img": "/assets/img/apps/roblox.webp",
+    "url": "/pages/roblox.html"
+  },
+  {
+    "name": "Clash Royale",
+    "img": "/assets/img/apps/clash-royale.jpeg",
+    "url": "/pages/clash-royale.html"
+  },
+  {
+    "name": "Geometry Dash Lite",
+    "img": "/assets/img/games/gn-math/27.png",
+    "url": "https://verdjs.github.io/seraph/games/gdlite/index.html",
+    "embed": true
+  },
+  {
+    "name": "Tomb Of The Mask",
+    "img": "/assets/img/games/gn-math/109.png",
+    "url": "/stores/gn-math/109.html"
+  },
+  {
+    "name": "Hollow Knight",
+    "img": "/assets/img/games/gn-math/468.png",
+    "url": "https://hklol.pages.dev/"
+  },
+  {
+    "name": "Line Rider",
+    "img": "/assets/img/games/gn-math/95.png",
+    "url": "https://verdjs.github.io/seraph/games/linerider/index.html",
+    "embed": true
+  },
+  {
+    "name": "Poly Track",
+    "img": "/assets/img/games/gn-math/123.png",
+    "url": "/stores/gn-math/123.html"
+  },
+  {
+    "name": "Space Waves",
+    "img": "/assets/img/games/gn-math/117.png",
+    "url": "/stores/gn-math/117.html"
+  }
+]

@@ -8,6 +8,7 @@ const VerdisActiveUsers = (() => {
     let heartbeatInterval = null;
     let realtimeChannel = null;
     let isInitialized = false;
+    let updateCountDebounceTimer = null;
 
     // Generate a unique session ID for this browser session
     function generateSessionId() {
@@ -53,8 +54,8 @@ const VerdisActiveUsers = (() => {
             // Register this session
             await registerSession(client);
 
-            // Set up heartbeat to keep session alive (every 20 seconds)
-            heartbeatInterval = setInterval(() => updateHeartbeat(client), 20000);
+            // Set up heartbeat to keep session alive (every 10 seconds)
+            heartbeatInterval = setInterval(() => updateHeartbeat(client), 10000);
 
             // Subscribe to realtime changes
             subscribeToActiveUsers(client);
@@ -142,8 +143,8 @@ const VerdisActiveUsers = (() => {
                     },
                     (payload) => {
                         console.log('Active users change detected:', payload);
-                        // Update count whenever there's a change
-                        updateUserCount(client);
+                        // Debounce count updates to prevent race conditions
+                        debouncedUpdateUserCount(client);
                     }
                 )
                 .subscribe((status) => {
@@ -153,6 +154,20 @@ const VerdisActiveUsers = (() => {
         } catch (error) {
             console.error('Error subscribing to realtime:', error);
         }
+    }
+
+    // Debounced version of updateUserCount to prevent race conditions
+    function debouncedUpdateUserCount(client) {
+        // Clear any pending update
+        if (updateCountDebounceTimer) {
+            clearTimeout(updateCountDebounceTimer);
+        }
+        
+        // Schedule new update after 500ms of inactivity
+        updateCountDebounceTimer = setTimeout(() => {
+            updateUserCount(client);
+            updateCountDebounceTimer = null;
+        }, 500);
     }
 
     // Update the user count display

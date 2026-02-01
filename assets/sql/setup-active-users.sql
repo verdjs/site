@@ -57,7 +57,7 @@ CREATE POLICY "Anyone can read active users"
     TO anon, authenticated
     USING (true);
 
--- 4. Create a function to clean up stale sessions (older than 1 minute)
+-- 4. Create a function to clean up stale sessions (older than 2 minutes)
 CREATE OR REPLACE FUNCTION public.cleanup_stale_sessions()
 RETURNS void
 LANGUAGE plpgsql
@@ -65,7 +65,7 @@ SECURITY DEFINER
 AS $$
 BEGIN
     DELETE FROM public.active_users
-    WHERE last_seen < NOW() - INTERVAL '1 minute';
+    WHERE last_seen < NOW() - INTERVAL '2 minutes';
 END;
 $$;
 
@@ -84,7 +84,7 @@ BEGIN
     -- Then count active users
     SELECT COUNT(*) INTO user_count
     FROM public.active_users
-    WHERE last_seen > NOW() - INTERVAL '1 minute';
+    WHERE last_seen > NOW() - INTERVAL '2 minutes';
     
     RETURN user_count;
 END;

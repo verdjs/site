@@ -60,6 +60,12 @@
     const frame = document.querySelector('.frame');
     const fallback = document.querySelector('.fallback');
     
+    // Detect if user is on Mac
+    function isMac() {
+      // Use modern API if available, fallback to navigator.platform for compatibility
+      return navigator.userAgentData?.platform === 'macOS' || navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    }
+    
     // Initialize service worker for UV proxy
     async function initServiceWorker() {
       try {
@@ -68,6 +74,17 @@
       } catch (e) {
         console.error('Service worker registration failed:', e);
       }
+    }
+    
+    // Load directly without proxy (Mac mode)
+    function loadDirect() {
+      const targetUrl = 'https://idk.verdi.qzz.io/embed/clash-royale';
+      frame.src = targetUrl;
+      
+      // Hide fallback when loaded
+      frame.addEventListener('load', () => {
+        fallback.style.display = 'none';
+      }, { once: true });
     }
     
     // Load with UV proxy (school mode) - auto-load
@@ -123,9 +140,15 @@
       }, { once: true });
     }
     
-    // Auto-load with proxy on page load
+    // Auto-load based on platform
     window.addEventListener('DOMContentLoaded', () => {
-      loadWithProxy();
+      if (isMac()) {
+        console.log('Mac detected - loading without proxy');
+        loadDirect();
+      } else {
+        console.log('Non-Mac detected - loading with proxy');
+        loadWithProxy();
+      }
     });
   </script>
 </body>

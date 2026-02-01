@@ -33,9 +33,11 @@ const VerdisActiveUsers = (() => {
             // Get Supabase client from VerdisBackend
             const client = VerdisBackend.getClient();
             if (!client) {
-                console.error('Failed to get Supabase client');
+                console.error('Failed to get Supabase client - client is null');
                 return;
             }
+
+            console.log('Supabase client obtained successfully');
 
             // Register this session
             await registerSession(client);
@@ -58,13 +60,16 @@ const VerdisActiveUsers = (() => {
 
         } catch (error) {
             console.error('Error initializing active users:', error);
+            console.error('Error details:', error.message, error.stack);
+        }
         }
     }
 
     // Register this session in the database
     async function registerSession(client) {
         try {
-            const { error } = await client
+            console.log('Registering session:', sessionId);
+            const { data, error } = await client
                 .from('active_users')
                 .upsert({
                     session_id: sessionId,
@@ -75,10 +80,16 @@ const VerdisActiveUsers = (() => {
 
             if (error) {
                 console.error('Error registering session:', error);
+                console.error('Error message:', error.message);
+                console.error('Error details:', error.details);
+                console.error('Error hint:', error.hint);
+                throw error;
             } else {
                 console.log('Session registered successfully');
             }
         } catch (error) {
+            console.error('Exception in registerSession:', error);
+            throw error;
             console.error('Error in registerSession:', error);
         }
     }
@@ -191,11 +202,18 @@ const VerdisActiveUsers = (() => {
 })();
 
 // Initialize when DOM is ready and backend is configured
+// Listen for a custom event from VerdisBackend when it's ready
+document.addEventListener('VerdisBackendReady', () => {
+    console.log('VerdisBackend ready, initializing active users tracking');
+    VerdisActiveUsers.init();
+});
+
+// Fallback: Also try after a delay in case the event was missed
 document.addEventListener('DOMContentLoaded', () => {
-    // Wait a bit for VerdisBackend to initialize
     setTimeout(() => {
-        if (VerdisBackend && VerdisBackend.isConfigured()) {
+        if (VerdisBackend && VerdisBackend.isConfigured() && !VerdisActiveUsers.isInitialized()) {
+            console.log('Fallback: Initializing active users tracking');
             VerdisActiveUsers.init();
         }
-    }, 1500);
+    }, 2000);
 });

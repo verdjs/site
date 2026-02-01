@@ -2,6 +2,32 @@
 
 ## Common Errors and Solutions
 
+### Counter Showing Zero (FIXED)
+
+**Issue:** Counter shows "0" instead of at least "1"
+
+**Solution:** This has been fixed! The counter now:
+- Defaults to "1" in HTML (shows current user)
+- Falls back to "1" if Supabase not configured
+- Falls back to "1" if database not set up
+- Falls back to "1" on any error
+
+**What to check:**
+1. Open browser console (F12)
+2. Look for one of these messages:
+   - ✅ "Displaying count: X" → Working correctly with database
+   - ⚠️ "Showing fallback count of 1" → Working in fallback mode
+   - ⚠️ "VerdisBackend not configured" → Supabase needs setup
+
+**Counter should NEVER show "0"**. If it does:
+1. Hard refresh (Ctrl+Shift+R)
+2. Check if JavaScript is enabled
+3. Check browser console for errors
+
+For more details, see: `FIX-ZERO-COUNTER.md`
+
+---
+
 ### Error: "No API key found in request"
 
 **Full error:**

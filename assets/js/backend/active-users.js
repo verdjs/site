@@ -18,6 +18,12 @@ const VerdisActiveUsers = (() => {
     async function init() {
         if (!VerdisBackend || !VerdisBackend.isConfigured()) {
             console.warn('VerdisBackend not configured. Active users tracking disabled.');
+            console.warn('Showing fallback count of 1 (current user only)');
+            // Set counter to 1 as fallback (current user)
+            const userCountEl = document.getElementById('user-count');
+            if (userCountEl) {
+                userCountEl.textContent = '1';
+            }
             return;
         }
 
@@ -34,6 +40,11 @@ const VerdisActiveUsers = (() => {
             const client = VerdisBackend.getClient();
             if (!client) {
                 console.error('Failed to get Supabase client - client is null');
+                // Set counter to 1 as fallback
+                const userCountEl = document.getElementById('user-count');
+                if (userCountEl) {
+                    userCountEl.textContent = '1';
+                }
                 return;
             }
 
@@ -61,7 +72,11 @@ const VerdisActiveUsers = (() => {
         } catch (error) {
             console.error('Error initializing active users:', error);
             console.error('Error details:', error.message, error.stack);
-        }
+            // Set counter to 1 as fallback on error
+            const userCountEl = document.getElementById('user-count');
+            if (userCountEl) {
+                userCountEl.textContent = '1';
+            }
         }
     }
 
@@ -148,20 +163,33 @@ const VerdisActiveUsers = (() => {
 
             if (error) {
                 console.error('Error getting user count:', error);
+                console.error('Error details:', error.message, error.hint, error.details);
+                // Fallback to showing just current user on error
+                const userCountEl = document.getElementById('user-count');
+                if (userCountEl) {
+                    userCountEl.textContent = '1';
+                }
                 return;
             }
 
             const count = data || 0;
-            console.log('Active users count:', count);
+            console.log('Active users count from database:', count);
 
             // Update the UI - add 1 to include the current user in the display
             const userCountEl = document.getElementById('user-count');
             if (userCountEl) {
-                userCountEl.textContent = count + 1;
+                const displayCount = count + 1;
+                userCountEl.textContent = displayCount;
+                console.log('Displaying count:', displayCount);
             }
 
         } catch (error) {
             console.error('Error updating user count:', error);
+            // Fallback to showing just current user on exception
+            const userCountEl = document.getElementById('user-count');
+            if (userCountEl) {
+                userCountEl.textContent = '1';
+            }
         }
     }
 
@@ -211,8 +239,8 @@ document.addEventListener('VerdisBackendReady', () => {
 // Fallback: Also try after a delay in case the event was missed
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
-        if (VerdisBackend && VerdisBackend.isConfigured() && !VerdisActiveUsers.isInitialized()) {
-            console.log('Fallback: Initializing active users tracking');
+        if (!VerdisActiveUsers.isInitialized()) {
+            console.log('Fallback: Attempting to initialize active users tracking');
             VerdisActiveUsers.init();
         }
     }, 2000);

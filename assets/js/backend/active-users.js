@@ -154,10 +154,10 @@ const VerdisActiveUsers = (() => {
             const count = data || 0;
             console.log('Active users count:', count);
 
-            // Update the UI
+            // Update the UI - add 1 to include the current user in the display
             const userCountEl = document.getElementById('user-count');
             if (userCountEl) {
-                userCountEl.textContent = count;
+                userCountEl.textContent = count + 1;
             }
 
         } catch (error) {

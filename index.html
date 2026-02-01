@@ -931,6 +931,7 @@
             }
         }
 
+        // Load images aggressively with large rootMargin to preload offscreen images
         const bgO = new IntersectionObserver(cards => {
             cards.forEach(c => {
                 if (c.isIntersecting) {
@@ -939,6 +940,8 @@
                     bgO.unobserve(el)
                 }
             })
+        }, {
+            rootMargin: '2000px' // Load images 2000px before they enter viewport
         })
 
 

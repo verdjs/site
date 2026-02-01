@@ -831,7 +831,7 @@
                         <button class="info-btn" onclick="event.stopPropagation(); openGameDetails('${type}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
                             <i class="fas fa-info-circle"></i>
                         </button>
-                        <div class="bg-img" data-bg="${item.img}"></div>
+                        <div class="bg-img" style="background-image: url('${item.img}')"></div>
                         <div class="app-title-cont">
                             <h2 class="app-title-h2">${item.name}</h2>
                         </div>
@@ -839,8 +839,6 @@
 
                     aCont.appendChild(newAppContainer)
                 })
-            }).then(() => {
-                observe()
             })
         }
 
@@ -929,24 +927,6 @@
                     btn.querySelector('i').classList.replace('fas', 'far')
                 }
             }
-        }
-
-        // Load images aggressively with large rootMargin to preload offscreen images
-        const bgO = new IntersectionObserver(cards => {
-            cards.forEach(c => {
-                if (c.isIntersecting) {
-                    const el = c.target
-                    el.style.backgroundImage = `url('${el.dataset.bg}')`
-                    bgO.unobserve(el)
-                }
-            })
-        }, {
-            rootMargin: '2000px' // Load images 2000px before they enter viewport
-        })
-
-
-        function observe() {
-            document.querySelectorAll(".bg-img[data-bg]").forEach(el => bgO.observe(el))
         }
 
         // Moved load() calls to after SW registration to ensure proxy is ready

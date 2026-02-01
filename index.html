@@ -757,7 +757,7 @@
                                 <button class="info-btn" onclick="event.stopPropagation(); openGameDetails('${type}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
                                     <i class="fas fa-info-circle"></i>
                                 </button>
-                                <div class="bg-img" data-bg="${item.img}"></div>
+                                <div class="bg-img" style="background-image: url('${item.img}')"></div>
                                 <div class="app-title-cont">
                                     <h2 class="app-title-h2">${item.name}</h2>
                                 </div>
@@ -1021,7 +1021,6 @@
                     load("apps", "apps", "Apps", "rSearch", "")
                     load(selectedStore.toLowerCase(), "games", "Games", "navTo", "play.html?launch=")
 
-                    observe()
                     setTimeout(renderQuickAccess, 100)
 
                     // Init Umami now that proxy is ready
